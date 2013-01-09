@@ -1,6 +1,6 @@
 # Data Structures and Algorithms ##
 ### CS 201, Spring 2013, Duke University ###
-### Instructor:  ###
+### Instructor: Tabitha Peck ###
 ### Notes by MCD ###
 
 [Course site](http://www.cs.duke.edu/courses/spring13/compsci201)
