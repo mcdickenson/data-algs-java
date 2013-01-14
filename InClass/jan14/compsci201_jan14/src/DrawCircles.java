@@ -34,13 +34,11 @@ public class DrawCircles extends JFrame{
 	public Circle[] buildCircles(int numCircles){
 		Color[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE, Color.YELLOW, Color.CYAN};
 		//x location, y location, color, diameter
-		Circle c1 = new Circle(20, 20, colors[0], 30);
+		Circle[] c = new Circle[numCircles];
 		
-		Circle c2 = new Circle(50, 50, colors[3], 30);
-		
-		Circle c3 = new Circle(80, 80, colors[4], 30);
-	
-		Circle[] c = {c1, c2, c3};
+		for(int i=0; i<c.length; i++){
+			c[i] = new Circle(i*(500/c.length), i*(500/c.length), colors[i%colors.length], 30); 
+		}
 		
 		return c;	
 	}
@@ -48,6 +46,15 @@ public class DrawCircles extends JFrame{
 	public void countColors(Circle[] circles){
 		for(Circle c: circles){
 			Color circleColor = c.getColor();
+			if(aMap.containsKey(circleColor)){
+//				int tmp = aMap.get(circleColor);
+//				tmp += 1; 
+//				aMap.put(circleColor, tmp);
+				aMap.put(circleColor, aMap.get(circleColor)+1);
+			}
+			else{
+				aMap.put(circleColor, 1);
+			}
 		}
 		
 		for(Color c: aMap.keySet()){

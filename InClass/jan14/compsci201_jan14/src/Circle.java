@@ -9,7 +9,7 @@ public class Circle {
 	Color myColor;
 	int myDiameter;
 	
-	Circle(int x, int y, Color c, int d) // Constructor method
+	Circle(int x, int y, Color c, int d)
 	{
 		myXLocation = x;
 		myYLocation = y;
@@ -36,6 +36,10 @@ public class Circle {
 	public int getDiameter()
 	{
 		return myDiameter;
+	}
+	
+	public String toString(){
+		return "Circle (" + myXLocation + "," + myYLocation + "," + myColor +")";
 	}
 	
 	
