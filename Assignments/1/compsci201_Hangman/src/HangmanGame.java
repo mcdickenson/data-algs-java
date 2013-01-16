@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 /**
@@ -6,7 +8,7 @@ import java.util.Scanner;
  * Some sample code provided at the start. You'll probably remove almost 
  * all of it (readString might stick around).
  * 
- * @author YOUR NAME HERE
+ * @author Matt Dickenson
  */
 
 public class HangmanGame {
@@ -28,9 +30,26 @@ public class HangmanGame {
 	 * @return entire line entered by the user
 	 */
 	public String readString(String prompt) {
-		System.out.printf("%s ", prompt);
+		System.out.printf("%s > ", prompt);
 		String entered = myInput.nextLine();
 		return entered;
+	}
+	
+	public int getGuessCount(){
+		String guesses = readString("How many guesses?");
+		// TODO: ensure valid input 0<guesses<99
+		int count = Integer.parseInt(guesses);
+		return count; 
+	}
+	
+	public String getWord(){
+		HangmanFileLoader data = new HangmanFileLoader();
+		data.readFile("lowerwords.txt");
+		String letters = readString("How many letters in guess word?");
+		// TODO: ensure valid input 0<length<20
+		int length = Integer.parseInt(letters);
+		String word = data.getRandomWord(length);
+		return word; 
 	}
 	
 	/**
@@ -40,34 +59,56 @@ public class HangmanGame {
 	 * The existing code may provide some helpful examples.
 	 */
 	public void play() {
-		
-		 HangmanFileLoader data = new HangmanFileLoader();
-		 data.readFile("lowerwords.txt");
 		 
-		 String input = readString("How many guesses?");
-		 int guessCount = Integer.parseInt(input);
+		 int guessCount = getGuessCount();
 		 
-		 String secretWord = data.getRandomWord(4);
+		 String secretWord = getWord();
+		 char[] correctGuessArray = new char[secretWord.length()];
+		 for(int i = 0; i < secretWord.length(); i++){
+			 correctGuessArray[i] = '_'; 
+		 }
 		 
-		 System.out.println("4 letter secret word is " + secretWord);
-		 System.out.println("6 letter secret word is " + data.getRandomWord(6));
-		 System.out.println("10 letter secret word is " + data.getRandomWord(10));
+		 ArrayList<Character> incorrectGuesses = new ArrayList<Character>();
 		 
 		 boolean gameWon = false;
-		 for (int k = 0; k < guessCount; k += 1) {
-			 String guess = readString("What's the secret word:");
-			 if(guess.equals(secretWord)) {
+		 while (!gameWon && guessCount>0){
+			 String guess = readString("Guess a letter");
+			 char guessedLetter = guess.charAt(0); //TODO: make lower case
+			 
+			 // replace spots where guessedLetter occurs in guessArray
+			 // TODO: make this repeat 
+			 int spot = secretWord.indexOf(guessedLetter);
+			 if (spot >= 0){
+				 correctGuessArray[spot] = secretWord.charAt(spot); 
+				 spot = secretWord.indexOf(guessedLetter);
+			 }
+			 else {
+				 incorrectGuesses.add(guessedLetter); 
+				 
+				 guessCount -= 1; 
+			 }
+			 
+			 String currentWord = new String(correctGuessArray); 
+			 
+			 if(currentWord.equals(secretWord)) {
 				 System.out.println("You guessed my word!");
 				 gameWon = true;
 				 break;
-			 } else {
-				 // Note the difference between "print" and "println"!
-				 System.out.print("Nope, ");
 			 }
+
+			 System.out.println(); 
+			 System.out.print("Guesses so far: ");
+			 for(char j : incorrectGuesses){
+				 System.out.print(j); 
+			 }
+			 System.out.println(); 
+			 System.out.printf("%d guesses remaining.\n", guessCount); 
+			 System.out.println(currentWord);
+			 
 		 }
-		 
+
 		 if (!gameWon) {
-			 System.out.println("you lost, secret word was " + secretWord);
+			 System.out.println("You lost, the secret word was " + secretWord);
 		 }	 
 	}
 }
