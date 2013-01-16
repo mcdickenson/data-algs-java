@@ -65,6 +65,8 @@ Style tips:
 
 **[Assignment due Friday](http://www.cs.duke.edu/courses/spring13/compsci201/Recitations/recitation1.html)**: set up Eclipse, write a basic program
 
+**Reading:** Weiss Sections 1.1-1.2.4 (pp. 1-6) 
+
 ## Arrays - 1.11.13 ##
 
 **array** - collection of items selected by *index*
@@ -143,6 +145,79 @@ Let's play around with HashMaps now.
 Go back to `DrawCircles.java`. On line 8 we define a HashMap named `aMap`. Notice how we define the object types for both the keys and the values--you cannot use a primitive here. On the right side of the `=` we *declare* the HashMap with the keyword `new` and `()`. 
 
 Can you make the function `countColors` iterate over all of our circles and count how many times each color appears? Once you have written such a function, can you make it shorter (fewer lines of code)?
+
+## Lists and Sets - 1.16.13 ##
+
+We have already talked about both of these data types, but you have not yet seen them in code. Today we will try to understand them better and discuss the trade-offs between them. Knowing the trade-offs and when to choose one data structure over another is an important part of software development. 
+
+Here are the data structures we have gone over so far:
+
+- `Array` - fixed size
+- `ArrayList` - dynamic size
+- `Set` - only unique elements
+- `Map` - key/value pairs (also known as a dictionary)
+
+### Lists ###
+
+Lists have certain properties, some of which are nice and some of which you have to be careful about:
+
+- add elements with `.add`
+- query with `.contains`
+- cannot store primitives!
+- can store objects
+
+You declare a list with:
+`ArrayList<String> list = new ArrayList<String>();`
+
+To add:
+`boolean canAdd = list.add("hello");`
+
+And to check if an element is in the ArrayList:
+`boolean inList = list.contains("hello");`
+
+Notice that here we are creating boolean values to catch the return statement of the method to tell us whether it was successful. You don't necessarily have to capture this information, but sometimes it's helpful for detecting errors. 
+
+### Sets ###
+
+Sets have many of the same properties as lists, and one important additional property:
+
+- add elements with `.add`
+- query with `.contains`
+- cannot store primitives!
+- can store objects
+- *does not allow duplicates*
+
+You declare a set with:
+`HashSet<String> set = new HashSet<String>();`
+
+To add:
+`boolean canAdd = set.add("hello");`
+If you try to add a duplicate to the hash set, this method will return false. 
+
+And to check if an element is in the HashSet:
+`boolean inList = set.contains("hello");`
+
+### Hangman assignment ###
+
+Here is the data you need to keep track of:
+
+1. Secret word (blanks and correct guesses) (`char[]`)
+1. Number of misses left until hanging occurs (`int`)
+1. Letters that have been guessed incorrectly (`Set`)
+
+### Code Example: `SimpleWords.java` ###
+
+Look over the code and then take the online quiz. 
+
+### Trade-Offs ###
+
+So is it best to use an Array, ArrayList, or HashSet? As with many things, the answer is not that simple. It is a trade-off between *memory* and *speed*. 
+
+To measure the *speed* of an algorithm, we will use "big-O" notation. You can get an intro to this notation in the reading assignment. 
+
+**No prep work for recitation. No class on Monday!**
+
+**Reading:** Weiss book Sections 2.1 - 2.4.2 (pp. 29-37) 
 
 
 
