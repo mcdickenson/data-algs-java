@@ -1,0 +1,10 @@
+.DS_Store
+*.pdf
+APTs/bin/*
+Recitations/bin/*
+.classpath
+Assignments/*/*.aux
+Assignments/*/*.fdb_latexmk
+Assignments/*/*.log
+Assignments/*/*.out
+Assignments/*/*.synctex.gz

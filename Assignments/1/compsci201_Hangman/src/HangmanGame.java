@@ -37,8 +37,11 @@ public class HangmanGame {
 	
 	public int getGuessCount(){
 		String guesses = readString("How many guesses?");
-		// TODO: ensure valid input 0<guesses<99
 		int count = Integer.parseInt(guesses);
+		if(count>99 || count<1){
+			System.out.println("Please enter a number between 1 and 99.");
+			count = getGuessCount(); 
+		}
 		return count; 
 	}
 	
@@ -46,10 +49,26 @@ public class HangmanGame {
 		HangmanFileLoader data = new HangmanFileLoader();
 		data.readFile("lowerwords.txt");
 		String letters = readString("How many letters in guess word?");
-		// TODO: ensure valid input 0<length<20
+		// TODO: ensure valid input 1<length<20
 		int length = Integer.parseInt(letters);
 		String word = data.getRandomWord(length);
+		if(length<2 || length>20){
+			System.out.println("Please enter word length between 2 and 20."); 
+			word = getWord(); 
+		}
 		return word; 
+	}
+	
+	public void nextTurn(ArrayList<Character> incorrectGuesses, int missCount, String currentWord){
+		System.out.println(); 
+		System.out.print("Incorrect guesses so far: ");
+		for(char j : incorrectGuesses){
+			System.out.print(j); 
+		}
+		System.out.println(); 
+		System.out.printf("%d misses remaining.\n", missCount); 
+		System.out.println(currentWord);
+		
 	}
 	
 	/**
@@ -60,7 +79,7 @@ public class HangmanGame {
 	 */
 	public void play() {
 		 
-		 int guessCount = getGuessCount();
+		 int missCount = getGuessCount();
 		 
 		 String secretWord = getWord();
 		 char[] correctGuessArray = new char[secretWord.length()];
@@ -71,9 +90,10 @@ public class HangmanGame {
 		 ArrayList<Character> incorrectGuesses = new ArrayList<Character>();
 		 
 		 boolean gameWon = false;
-		 while (!gameWon && guessCount>0){
+		 
+		 while (!gameWon && missCount>0){
 			 String guess = readString("Guess a letter");
-			 char guessedLetter = guess.charAt(0); //TODO: make lower case
+			 char guessedLetter = Character.toLowerCase(guess.charAt(0)); 
 			 
 			 // replace spots where guessedLetter occurs in guessArray
 			 // TODO: make this repeat 
@@ -84,8 +104,7 @@ public class HangmanGame {
 			 }
 			 else {
 				 incorrectGuesses.add(guessedLetter); 
-				 
-				 guessCount -= 1; 
+				 missCount -= 1; 
 			 }
 			 
 			 String currentWord = new String(correctGuessArray); 
@@ -95,20 +114,11 @@ public class HangmanGame {
 				 gameWon = true;
 				 break;
 			 }
-
-			 System.out.println(); 
-			 System.out.print("Guesses so far: ");
-			 for(char j : incorrectGuesses){
-				 System.out.print(j); 
-			 }
-			 System.out.println(); 
-			 System.out.printf("%d guesses remaining.\n", guessCount); 
-			 System.out.println(currentWord);
-			 
+			 nextTurn(incorrectGuesses, missCount, currentWord); 
 		 }
 
 		 if (!gameWon) {
-			 System.out.println("You lost, the secret word was " + secretWord);
+			 System.out.println("You lost, the secret word was '" + secretWord + "'");
 		 }	 
 	}
 }
