@@ -35,6 +35,7 @@ public class HangmanGame {
 		return entered;
 	}
 	
+	// prompt user for a guess count between 1 and 99
 	public int getGuessCount(){
 		String guesses = readString("How many guesses?");
 		int count = Integer.parseInt(guesses);
@@ -45,11 +46,11 @@ public class HangmanGame {
 		return count; 
 	}
 	
+	// get a word from our text file with a length between 2 and 20 
 	public String getWord(){
 		HangmanFileLoader data = new HangmanFileLoader();
 		data.readFile("lowerwords.txt");
 		String letters = readString("How many letters in guess word?");
-		// TODO: ensure valid input 1<length<20
 		int length = Integer.parseInt(letters);
 		String word = data.getRandomWord(length);
 		if(length<2 || length>20){
@@ -59,7 +60,17 @@ public class HangmanGame {
 		return word; 
 	}
 	
-	public void nextTurn(ArrayList<Character> incorrectGuesses, int missCount, String currentWord){
+	// make an array of dashes to hold the user's correct guesses
+	public char[] makeDashArray(int size){
+		char[] array = new char[size];
+		for(int i = 0; i < size; i++){
+			array[i] = '_';
+		}
+		return array; 
+	}
+	
+	// give user information about the state of the game for their next turn 
+	public void nextTurn(HashSet<Character> incorrectGuesses, int missCount, String currentWord){
 		System.out.println(); 
 		System.out.print("Incorrect guesses so far: ");
 		for(char j : incorrectGuesses){
@@ -68,8 +79,8 @@ public class HangmanGame {
 		System.out.println(); 
 		System.out.printf("%d misses remaining.\n", missCount); 
 		System.out.println(currentWord);
-		
 	}
+	
 	
 	/**
 	 * Play one game of Hangman. This should prompt
@@ -79,42 +90,37 @@ public class HangmanGame {
 	 */
 	public void play() {
 		 
-		 int missCount = getGuessCount();
-		 
+		 int remainingMisses = getGuessCount();
 		 String secretWord = getWord();
-		 char[] correctGuessArray = new char[secretWord.length()];
-		 for(int i = 0; i < secretWord.length(); i++){
-			 correctGuessArray[i] = '_'; 
-		 }
-		 
-		 ArrayList<Character> incorrectGuesses = new ArrayList<Character>();
-		 
+		 char[] correctGuessArray = makeDashArray(secretWord.length());
+		 HashSet<Character> incorrectGuesses = new HashSet<Character>();
 		 boolean gameWon = false;
 		 
-		 while (!gameWon && missCount>0){
+		 while (!gameWon && remainingMisses>0){
 			 String guess = readString("Guess a letter");
 			 char guessedLetter = Character.toLowerCase(guess.charAt(0)); 
 			 
 			 // replace spots where guessedLetter occurs in guessArray
-			 // TODO: make this repeat 
 			 int spot = secretWord.indexOf(guessedLetter);
 			 if (spot >= 0){
-				 correctGuessArray[spot] = secretWord.charAt(spot); 
-				 spot = secretWord.indexOf(guessedLetter);
+				 while (spot >= 0){
+					 correctGuessArray[spot] = secretWord.charAt(spot); 
+					 spot = secretWord.indexOf(guessedLetter, spot+1);
+				 }
 			 }
 			 else {
-				 incorrectGuesses.add(guessedLetter); 
-				 missCount -= 1; 
+				 boolean newIncorrect = incorrectGuesses.add(guessedLetter); 
+				 if(newIncorrect){ remainingMisses -= 1; }
 			 }
 			 
 			 String currentWord = new String(correctGuessArray); 
 			 
 			 if(currentWord.equals(secretWord)) {
-				 System.out.println("You guessed my word!");
+				 System.out.println("You guessed my word! '" + secretWord + "'");
 				 gameWon = true;
 				 break;
 			 }
-			 nextTurn(incorrectGuesses, missCount, currentWord); 
+			 nextTurn(incorrectGuesses, remainingMisses, currentWord); 
 		 }
 
 		 if (!gameWon) {
