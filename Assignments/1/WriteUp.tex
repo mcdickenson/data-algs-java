@@ -93,6 +93,17 @@ filecolor=black,%
 linkcolor=black,%
 urlcolor=RoyalBlue4}
 
+\lstset{
+    basicstyle=\ttfamily,
+    upquote=true,
+    breaklines=true,
+    tabsize=2,
+    postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookrightarrow}},
+    breakatwhitespace=true,
+    numbers=left,
+    showstringspaces=false
+}
+
 % -------------------------------------------------- %
 
 
@@ -118,9 +129,90 @@ urlcolor=RoyalBlue4}
 \line
 \leftright{\today}{Matt Dickenson} %-- left and right positions in the header
 
-\paragraph{1a)} In part 1a I conducted a statistical analysis of words in the \texttt{lowerwords.txt} file to determine their empirical distribution.
+\paragraph{1A)} For this part of the analysis I conducted a statistical analysis of words in the \texttt{lowerwords.txt} file to determine the empirical distribution of their length. To accomplish this I iterated through a loop 10,000 times, each time sampling a random word at each length 4-20. If the word had not been sampled yet, it was added to a \texttt{HashSet}. Otherwise, it was not added. By this method we are able to approximate the number of unique words of each length. The results are displayed graphically in Figure \ref{fig1a}, and exact results are given in Table \ref{table1a}. Code used to obtain these results is given in the appendix. 
 
-\paragraph{1b)} What is the highest value word that we could make with seven letters, using the Scrabble scoring system? Quizzes is worth 34 points. Quizzed is worth 35. 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{plot1a.pdf}
+\parbox{4in}{\caption{Frequency of word lengths in the \texttt{lowerwords.txt} file. This plot was produced in $\mathcal{R}$.} \label{fig1a} } 
+\end{center}
+\end{figure}
+
+\begin{table}[h]
+\begin{center}
+\caption{Word Length Frequency from Sample of $n=10,000$}
+\label{table1a}
+\begin{tabular}{lr}
+\toprule 
+Length & Frequency \\
+\midrule 
+4 & 2208 \\
+5 & 3798 \\
+6 & 4931 \\ 
+7 & 5505 \\
+8 & 5377 \\
+9 & 4898 \\
+10 & 4054 \\
+11 & 2972 \\
+12 & 1869 \\
+13 & 1137 \\
+14 & 545 \\
+15 & 278 \\
+16 & 103 \\
+17 & 57 \\
+18 & 23 \\
+19 & 3 \\
+20 & 3 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\paragraph{1B)} What is the highest value word that we could make with seven letters, using the Scrabble scoring system? To answer this question, I wrote code in Java that first picks a random word length (between 4 and 20, inclusive) and then finds the word of that length in the sample of \texttt{lowerwords.txt} (conducted in part 1A) that would earn the most Scrabble points. The values of each letter in Scrabble were obtained from \url{http://homepages.shu.ac.uk/~acsdry/quizes/scrabble.htm}. 
+
+The results after repeated trials are given in Table \ref{table1b}. Surprisingly, some relatively short words are worth more points than words that are slightly longer. For instance, jazzy is worth 33 points but buzzed and fizzle are worth only 27. Nebuchadnezzar, the highest-scoring word in the sample, comes in at 40 points beating out words several letters longer. 
+
+\begin{table}[h]
+\begin{center}
+\caption{Highest-Scoring Scrabble Words by Length in \texttt{lowerwords.txt}} 
+\label{table1b}
+\begin{tabular}{llr}
+\toprule 
+Length & Word & Score \\
+\midrule 
+4 & jazz & 29 \\
+5 & jazzy & 33 \\
+6 & buzzed, fizzle & 27 \\ 
+7 & quizzed & 35 \\
+8 & quizzing & 36 \\
+9 & quizzical & 38 \\
+10 & belshazzar, dazzlingly & 33  \\
+11 & byzantinize, brazzaville & 34 \\
+12 & czechization & 37 \\
+13 & NA \\
+14 & nebuchadnezzar & 40 \\
+15 & elizabethanizes & 38 \\
+16 & jonathanizations & 35 \\
+17 & lexicographically & 37 \\
+18 & mohammedanizations & 37 \\
+19 & anthropomorphically & 36 \\
+20 &  mediterraneanization & 32 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+Other questions that we could ask with this data include:
+\begin{enumerate}
+ \item Given a set of $k$ letters (e.g. $k=7$), what is the highest value Scrabble word we could create from them?
+ \item Given a list of words already played in a Scrabble game and a set of letters, what letters on the board could we combine with the letters in our hand to create a high-scoring word?
+ \item Given a word length $k$ from a crossword puzzle and some number of known letters $j<k$, what words in the \texttt{lowerwords.txt} file are possible solutions to the clue? 
+ \end{enumerate} 
+
+\pagebreak
+\section*{Appendix}
+
+\lstinputlisting[language=Java, caption=Code for Parts 1A and 1B]{./compsci201_Hangman/src/HangmanStats.java}
 
 
 \end{document}
