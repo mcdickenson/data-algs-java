@@ -1,5 +1,9 @@
 This README contains information for Assignment 1 (Hangman) code submitted by Matt Dickenson for Duke CS 201, Spring 2013, taught by Tabitha Peck.
 
+This project was begun on January 15, 2013, and completed on January 19, 2013. I spent approximately 15 hours on the assignment.
+
+No other students were consulted during the course of this project. The only online resource consulted was http://homepages.shu.ac.uk/~acsdry/quizes/scrabble.htm for Scrabble values.
+
 The code consists of 4 files in 2 main parts.
 
 The first part of the project encompasses HangmanFileLoader.java and HangmanStats.java.
