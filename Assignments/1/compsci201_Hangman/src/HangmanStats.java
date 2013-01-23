@@ -1,12 +1,6 @@
 import java.util.*;
 
-/**
- * This is a skeleton program. You'll
- * need to modify it, either by adding code in main
- * or in methods called from main.
- * @author Matt Dickenson
- *
- */
+//  @author Matt Dickenson
 
 public class HangmanStats {
 	public static void main(String[] args) {
@@ -29,20 +23,20 @@ public class HangmanStats {
 		}
 		
 		
-//		1b: get highest-value scrabble word from those of length 7 
+//		1b: get highest-value scrabble word of a random length
 		int maxVal = 0; 
 		String bestWord = ""; 
-		int val = scrabbleVals('p');
-		for(String word : myList.get(3) ){
+		int length = (int)(Math.random() * 17);
+		for(String word : myList.get(length) ){
 			int tmpVal = 0; 
 			for(int m=0; m<word.length(); m++){
 				char letter = word.charAt(m);
 				tmpVal += scrabbleVals(letter);
 			}
-			if(tmpVal>=maxVal){ maxVal = tmpVal; bestWord = word;}
+			if(tmpVal>maxVal){ maxVal = tmpVal; bestWord = word;}
 		}
-		System.out.printf("best word of length 7 is %s for %d points\n", 
-				bestWord, maxVal); 
+		System.out.printf("best word of length %d is %s for %d points\n", 
+				(length+4), bestWord, maxVal); 
 	}
 	
 	public static int scrabbleVals(char letter){
