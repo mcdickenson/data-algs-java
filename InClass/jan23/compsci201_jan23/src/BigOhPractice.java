@@ -44,7 +44,7 @@ public class BigOhPractice {
 		return answer;
 	}
 
-	public int numberSeven(int n){
+	public int numberSeven(int n){ // O(N)
 		if(numberTwo(n) > 10000){
 			return n;
 		}
