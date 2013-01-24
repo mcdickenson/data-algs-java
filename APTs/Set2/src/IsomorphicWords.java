@@ -8,8 +8,6 @@ public class IsomorphicWords {
          for(int i=0; i<words.length-1; i++){
         	 String word1 = words[i];
         	 
-        	 
-        	 
         	 for(int j=i+1; j<words.length; j++){
         		 String word2 = words[j];
         		 
@@ -18,14 +16,15 @@ public class IsomorphicWords {
         		 for(int k=0; k<word1.length(); k++){
         			
         			boolean already_has_value = map1to2.containsValue(word2.charAt(k) );
-        			boolean doesnt_have_key = !(map1to2.containsKey(word1.charAt(k) ));
+        			boolean has_key = map1to2.containsKey(word1.charAt(k));
+        			boolean doesnt_have_key = !has_key;
         			if( already_has_value && doesnt_have_key ){
         				map1to2.put( word1.charAt(k), ' '); 
         			}
+        			else if (already_has_value && has_key){;}
         			else{
         				map1to2.put( word1.charAt(k), word2.charAt(k) );
         			}
-        			
         		 }
         		 
 //        		 System.out.println(map1to2);
@@ -61,10 +60,8 @@ public class IsomorphicWords {
 //    	  
 //    	  String[] list2 = {"aa", "ab", "bb", "cc", "cd"};
 //    	  System.out.println(iso.countPairs(list2)); // 4
+//    	  
+//    	  String[] list3 = {"aaa", "baa", "cdd", "ddd"};
+//    	  System.out.println(iso.countPairs(list3)); // 2
 //      }
 }
-
-//for(int j=0; j<message.length(); j++){
-//	   array[j] =  (Character) lettersCoded.get(message.charAt(j)); 
-//}
-//String output = new String(array); 
