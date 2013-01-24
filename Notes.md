@@ -219,6 +219,100 @@ To measure the *speed* of an algorithm, we will use "big-O" notation. You can ge
 
 **Reading:** Weiss book Sections 2.1 - 2.4.2 (pp. 29-37) 
 
+## Big-O Notation - 1.23.13
+
+Big-O notation allows us to *estimate* the time required for a program. However, it does not use actual units of time! Rather, it is a count of the number of operations as a function of the input size. That's because two different computers run the same function in different amounts of time. Furthermore, my own computer may run the same function faster or slower depending on whether I'm checking email at the time (or doing a number of other things). As in many other areas, computer scientists are lazy here so they take shortcuts. 
+
+### How to calculate Big-O
+
+1. Assign costs to operations
+    - declarations cost 0 units (`double d;`)
+    - operations cost 1 unit (`d = 4.56`, `d*5`, etc.)
+2. Write the total cost in Big-O notation as a function of input size *N*  (e.g. O(5))
+3. Simplify
+    - Remove constants: 
+        - O(4N) -> O(N)
+        - O(3N^2 + 5) -> O(N^2)
+    - Remove lower order terms:
+        - O(N^2 + N) -> O(N^2)  
+
+Note that none of these methods are language-specific. For example, when you declare a variable in Java it is assigned a default value, but we still treat it as 0 units.
+
+### Examples
+
+(Examples given here with discussion of what the Big-O notation would be.)
+
+```java
+public static int sum(int n) // 0
+{ // 0
+  int partialSum; // 0
+  partialSum = 0; // 1
+  for(int i=1; i<=n; i++){ // n+1
+    partialSum += i*i*i // 4
+  } 
+  return partialSum; // 1
+} // 0
+```
+
+So the function above is O(4N) which reduces to O(N).
+
+### Comparing running time
+
+<table>
+    <tr>
+        <td>FUNCTION</td>
+        <td>NAME</td>
+    </tr>
+    <tr>
+        <td>c</td>
+        <td>constant</td>
+    </tr>
+    <tr>
+        <td>log N</td>
+        <td>logarithmic</td>
+    </tr>
+    <tr>
+        <td>log^2 N</td>
+        <td>log-squared</td>
+    </tr>
+    <tr>
+        <td>N</td>
+        <td>linear</td>
+    </tr>
+    <tr>
+        <td>N log N</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>N^2</td>
+        <td>quadratic</td>
+    </tr>
+    <tr>
+        <td>N^3</td>
+        <td>cubic</td>
+    </tr>
+    <tr>
+        <td>2^N</td>
+        <td>exponential</td>
+    </tr>
+</table>
+
+### Rules for Big-O
+
+- For-loops are multiplicative: (#statements in loop)*iterations
+- Nested for loops should be calculated from innermost loop outward
+- Consecutive statments should be added
+- If/else: calculate time for the test and add it to the maximum running time of any one branch the code might follow
+- While loops: calculate the worst-case scenario (if the loop never ends, you're in trouble because the running time is infinite)
+
+Practice these rules with `BigOhPractice.java`.
+
+### Announcements :
+
+- Hangman due tomorrow
+- APT Set 2 due January 29
+- No recitation prep for Friday, but bring textbook 
+
 
 
 
