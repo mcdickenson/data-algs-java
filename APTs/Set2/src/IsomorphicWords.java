@@ -8,14 +8,24 @@ public class IsomorphicWords {
          for(int i=0; i<words.length-1; i++){
         	 String word1 = words[i];
         	 
+        	 
+        	 
         	 for(int j=i+1; j<words.length; j++){
         		 String word2 = words[j];
         		 
         		 // map letters
         		 HashMap<Character, Character> map1to2 = new HashMap<Character, Character>();
-        		 
         		 for(int k=0; k<word1.length(); k++){
-        			map1to2.put( word1.charAt(k), word2.charAt(k) );
+        			
+        			boolean already_has_value = map1to2.containsValue(word2.charAt(k) );
+        			boolean doesnt_have_key = !(map1to2.containsKey(word1.charAt(k) ));
+        			if( already_has_value && doesnt_have_key ){
+        				map1to2.put( word1.charAt(k), ' '); 
+        			}
+        			else{
+        				map1to2.put( word1.charAt(k), word2.charAt(k) );
+        			}
+        			
         		 }
         		 
 //        		 System.out.println(map1to2);
@@ -30,10 +40,10 @@ public class IsomorphicWords {
         		 
         		 if (word2.equals(compareString)){
         			 isomorphs += 1;
-//        			 System.out.printf("%s matches %s%n", word1, compareString);
+//        			 System.out.printf("%s matches %s%n", word1, word2);
         		 }
         		 else{
-//        			 System.out.printf("%s doesn't match %s%n", word1, compareString);
+//        			 System.out.printf("%s doesn't match %s%n", word1, word2);
         		 }
         	 }
          }
@@ -42,12 +52,16 @@ public class IsomorphicWords {
          
       }
       
-      public static void main(String[] args){
-    	  IsomorphicWords iso = new IsomorphicWords(); 
-    	  String[] list1 = {"abca", "zbxz", "opqr"};
-    	  int test1 = iso.countPairs(list1);
-    	  System.out.println(test1); // 1
-      }
+//      public static void main(String[] args){
+//    	  IsomorphicWords iso = new IsomorphicWords(); 
+//    	  
+//    	  String[] list1 = {"abca", "zbxz", "opqr"};
+//    	  int test1 = iso.countPairs(list1);
+//    	  System.out.println(test1); // 1
+//    	  
+//    	  String[] list2 = {"aa", "ab", "bb", "cc", "cd"};
+//    	  System.out.println(iso.countPairs(list2)); // 4
+//      }
 }
 
 //for(int j=0; j<message.length(); j++){
