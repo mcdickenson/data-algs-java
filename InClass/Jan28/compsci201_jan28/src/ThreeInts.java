@@ -48,9 +48,14 @@ public class ThreeInts implements Comparable<ThreeInts>{
         }
 
         ThreeInts temp = (ThreeInts) obj; //cast object to ThreeInts type
-        //your code goes here
         
-        return false;
+        //your code goes here
+        if( (this.myOne == temp.myOne) &&
+        		(this.myOne == temp.myTwo) && 
+        		(this.myThree == temp.myThree) )
+        	return true; 
+        else     
+        	return false;
 	}
 	
 	public int compareTo(ThreeInts arg0) {
