@@ -313,7 +313,30 @@ Practice these rules with `BigOhPractice.java`.
 - APT Set 2 due January 29
 - No recitation prep for Friday, but bring textbook 
 
+## Interfaces & Performance - 1.28.13  ##
 
+### Comparing Objects
 
+- Are they the same? `.equals()`
+- Do they have same order? `.compareTo()`
+- Same *values*? `==` DO NOT USE THIS FOR OBJECTS! (including Strings) 
+
+The reason that we cannot use `==` is because objects are saved as *reference values*. For instance, the value `s` "points" to another value `"hello"` somewhere in memory. 
+
+The reason that `.equals()` works is that it is a defined method for the Java class `Object`, which all objects inherit. There are many other defined methods. You can get a sense of them by creating an object in Java with the Eclipse editor, then on a newline typing the object name followed by `.`. 
+
+For a fun example of two objects that are the same in popular culture, read up on the [Utah teapot](http://en.wikipedia.org/wiki/Utah_teapot).   
+
+To play around with equality, check out today's code: `ThreeInts.java`. This code demonstrates that `.equals()` does not work for comparing lists. It also introduces use of `this` in a method definition. 
+
+How do we assign a notion of equality to *ordering*? With numbers it's pretty intuitive. With words or letters we tend to go alphabetically. But for other objects (say, sports teams) we have to choose a method since one is not readily apparent. In Java we do this with `implements Comparable`, which is called an *interface*. `Comparable` is what gets used when we call `.compareTo`. When we implement `compareTo` in our `ThreeInts` code, notice how it automatically affects the behavior of `Collections.sort(list);`. That's because `.sort()` uses the objects' built-in comparison function, which we modified in `compareTo`. 
+
+### Practice
+
+Now create a class `ComplexNumber`, using `ThreeInts` as a guid. `ComplexNumber` objects should have only two instance variables: `myR` and `myI`. You define the `.equals()` and `.compareTo()` methods using the magnitudes (i.e. the square root of the sum of squared r and i variables). 
+
+### Announcements:
+
+- Jotto assignment online, due Feb. 5 (start before Friday)
 
 
