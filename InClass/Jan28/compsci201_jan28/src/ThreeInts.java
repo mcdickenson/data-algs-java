@@ -59,7 +59,9 @@ public class ThreeInts implements Comparable<ThreeInts>{
 	}
 	
 	public int compareTo(ThreeInts arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+		int sum1 = this.myOne + this.myTwo + this.myThree;
+		int sum2 = arg0.myOne + arg0.myTwo + arg0.myThree; 
+		
+		return (sum1 - sum2); 
 	}
 }
