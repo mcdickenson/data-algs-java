@@ -313,7 +313,7 @@ Practice these rules with `BigOhPractice.java`.
 - APT Set 2 due January 29
 - No recitation prep for Friday, but bring textbook 
 
-## Interfaces & Performance - 1.28.13  ##
+## Interfaces - 1.28.13  ##
 
 ### Comparing Objects
 
@@ -339,4 +339,37 @@ Now create a class `ComplexNumber`, using `ThreeInts` as a guid. `ComplexNumber`
 
 - Jotto assignment online, due Feb. 5 (start before Friday)
 
+## More on Interfaces - 1.30.13  ##
 
+Today we'll discuss
+
+- `extends` - when some things are prewritten for you
+- `abstract` - some methods implemented for you, some required but not implemented
+- `Object` - the superclass for everything
+- `implements` - to define some methods
+- `interface` - when *no* methods are implemented for you 
+
+### Extends
+
+We use `extends` when we want to add additional functionality to a basic class. For example, we could create a class `Robot` that has a method `useElectricity`. We could create more specialized classes `BendingRobot` with method `doBending` and `ClampingRobot` with method `doClamping` *both of which* also `useElectricity`. The most efficient way of doing this is to have our two specialized classes *extend* the Robot class. We could also give the Robot class any other methods that we want all our robots to have. With `extends` we avoid copy-pasting. We can even build up more and more specialized classes such as `SuperBendingRobot` that `extends` `BendingRobot`. It's like a family tree. 
+
+In the example above, `Robot` is the *superclass* of `BendingRobot` and `SuperBendingRobot` is the *subclass* of `BendingRobot`. Subclasses inherit from their superclass. Subclasses can also "override" functions in their superclass, which we'll discuss momentarily. You should always use the most general type possible for your function inputs and outuputs since subclasses can be used anywhere their superclass can. 
+
+### Abstract
+
+Continuing with our robot example, what if we wanted our robots `useElectricity()` in different ways? In that case we would call it an `abstract` method, which means that robots are required to have a useElectricity() method, but we don't define it. That puts the burden on future coders implementing robots to define the way in which that robot will useElectricity(). 
+
+When you extend a superclass with abstract methods, you *must* implement those abstract methods. Notice that this means you cannot use `new` to create an object of an abstract superclass, since `new` doesn't allow you to define methods on the same line. You *can* use new with the subclass once the abstract methods are implemented in that subclass. 
+
+### Implements
+
+You *implement* an interface in the same way you *extend* a superclass. In your `class ...` line, `extends` *must* come before `implements`. 
+
+Most of the APTs in Set 3 will use the interface `Comparable`. Let's try this with ClientList.java. 
+
+
+### Announcements:
+
+- Jotto (still) due Feb. 5
+- APT Set 3 due Feb. 12
+- Midterm Feb. 15
