@@ -58,6 +58,12 @@ public class ComplexNumber implements Comparable<ComplexNumber>{
 		double magnitude1 = Math.sqrt(Math.pow(this.myR, 2) + Math.pow(this.myI, 2) ); 
 		double magnitude2 = Math.sqrt(Math.pow(arg0.myR, 2) + Math.pow(arg0.myI, 2) ); 
 		
-		return ((int)(magnitude1 - magnitude2)); 
+		double sum = magnitude1 - magnitude2;
+		if(sum==0)
+			return 0;
+		else if(sum>0)
+			return 1;
+		else
+			return -1; 
 	}
 }
