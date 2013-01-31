@@ -53,6 +53,8 @@ public class JottoModel {
      * (which generates Random numbers). See PopularityContest.java for
      * an example of using a Random object. 
      */
+    Random rand = new Random();
+    String guess = new String(); 
     
     /**
      * Initialize the model appropriately. This is going to include 
