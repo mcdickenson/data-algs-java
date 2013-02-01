@@ -1,3 +1,5 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -8,7 +10,7 @@ import java.util.*;
  * 
  * This is the base class for a Jotto model. The idea is that you (the 
  * student) will implement the stub methods that are currently marked 
- * TODO to create a program that plays Jotto. You'll likely need to add 
+ * todo to create a program that plays Jotto. You'll likely need to add 
  * instance variables, and (probably) helper methods as well.
  * 
  ************************************************
@@ -31,8 +33,7 @@ import java.util.*;
  * which is in this file. There are several methods provided that deal
  * with interacting with the view; those you won't need to modify.
  * 
- * There are also several methods that you will need to modify. They are 
- * marked with a TODO below.
+ * 
  * 
  * You may want to implement some private, helper methods that are called
  * in the code below to avoid duplicate code, that will depend on what 
@@ -48,24 +49,35 @@ public class JottoModel {
     private ArrayList<String> myWordList;
     
     /*
-     * TODO: Add any instance variables you need. I recommend storing
-     * the guess you just made, and probably a Random object 
-     * (which generates Random numbers). See PopularityContest.java for
-     * an example of using a Random object. 
+     * TADA: Add any instance variables you need. 
      */
-    Random rand = new Random();
-    String guess = new String(); 
+    private Random rand = new Random();
+    private String guess = new String(); 
     
     /**
      * Initialize the model appropriately. This is going to include 
      * initializing myWordList (which is the list of possible words), 
      * plus any instance variables you choose to add.
      * 
-     * TODO: Add any necessary code to this method.
+     * TADA: Add any necessary code to this method.
      */
     public JottoModel() {
     		// We do the variable we already have.
         myWordList = new ArrayList<String>();
+//        Scanner scan = new Scanner(this.getClass().getResourceAsStream("kwords5.txt"));
+//        String file = "kwords5.txt";
+//        Scanner s;
+//		try {
+//			s = new Scanner(new FileInputStream(file));
+//			initialize(s);
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//        myView = addView(viewer);
+        // need to initialize myWordList
+        rand = new Random();
+        guess = new String(); 
+//        newGame(); // fills word list
     }
 
     /**
@@ -203,11 +215,13 @@ public class JottoModel {
      * Start a new game -- set up whatever state you want, and generate
      * the first guess made by the computer.
      */
-    public void newGame() {
-    		// TODO: Implement this.
-        doGuess("bagel");
+    public void newGame(){
+    		// TADA: Implement this.
+    	guess = getRandomWord();
+    	doGuess(guess);
     }
     
+
     /**
      * Extra credit! If the player selects the "Smarter AI" choice from 
      * the menu, the view calls this method. This method should set some 
@@ -215,7 +229,7 @@ public class JottoModel {
      * job of guessing.
      */
     public void playSmarter() {
-    		// TODO: extra credit
+    		// todo: extra credit
     	doGuess("smart");
     }
     
@@ -223,7 +237,7 @@ public class JottoModel {
      * Returns number of letters in common to a and b, ensuring
      * each common letter only counts once in total returned.
      * 
-     * TODO: Implement this method! You're going to need it to actually
+     * TADA: Implement this method! You're going to need it to actually
      * implement Jotto.
      * 
      * NOTE: This is the trickiest algorithmic part of this assignment.
@@ -233,43 +247,37 @@ public class JottoModel {
      * @return number of letters in common to a and b
      */
     private int commonCount(String a, String b) {
-    	    // TODO: Implement this method!
-    		
-    		/*
-    		 * Some thoughts:
-    		 * We suggest an algorithm kind of 
-    		 * like this:
-    		 * for each character in String a:
-    		 *   if that character occurs in String b:
-    		 *     remove that character from both a and b.
-    		 *     increment a counter of matches.
-    		 *     
-    		 * Implementing that algorithm verbatim is tricky, for a 
-    		 * couple of reasons, mostly having to do with your variables 
-    		 * changing length while you iterate over them.
-    		 * 
-    		 * Here's a variation that will make things easier:
-    		 * Construct two HashMap<Character, Integer> objects, one for 
-    		 * each String, that store how many times each character appears.
-    		 * Recall that Character is the "key type", and Integer is the 
-    		 * "value type": that is, the .get method on the map takes in a 
-    		 * character, and tells you the associated Integer. Recall also 
-    		 * that Strings have a .charAt method that works like [] works on 
-    		 * arrays, or .get works on ArrayLists. 
-    		 * 
-    		 * Suppose your maps are called map1 and map2. Then, your
-    		 * algorithm will look something like this:
-    		 * for (Character c : map1.keySet()) {
-    		 *   if (map2.containsKey(c)) { 
-    		 *     // An overlap! Maybe even a multiple overlap...
-    		 *   } 
-    		 * } 
-    		 * 
-    		 * Done this way, you won't even need to remove anything from 
-    		 * your maps.
-    		 */
-    		// 0 is left in just so the code will compile. It's not the right
-    	    // answer most of the time...
-    		return 0;
+    	HashMap<Character, Integer> letters1 = countLetters(a);
+   	 	HashMap<Character, Integer> letters2 = countLetters(b);
+   	 	int common = 0;
+   	 	for (Character letter : letters1.keySet()) 
+   	        if(letters2.containsKey(letter))
+   	        	 common += Math.min(letters1.get(letter), letters2.get(letter));
+   	 			
+   	 
+   	 	return common; 
+    }
+    
+    public HashMap<Character, Integer> countLetters(String a){
+   	 HashMap<Character, Integer> letters = new HashMap<Character, Integer>();
+   	 for(int i=0; i<a.length(); i++){
+   		 char letter = a.charAt(i);
+   		 if(letters.containsKey(letter)){
+   			 int tmp = letters.get(letter);
+   			 tmp += 1;
+   			 letters.put(letter, tmp);
+   		 }
+   		 else{
+   			 letters.put(letter, 1);
+   		 }
+   	 }
+   	 return letters; 
+    }
+    
+    
+    public String getRandomWord(){
+    	int index = rand.nextInt(myWordList.size());
+    	String word = myWordList.get(index);
+    	return word; 
     }
 }
