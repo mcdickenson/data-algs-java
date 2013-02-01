@@ -206,17 +206,34 @@ public class JottoModel {
      * last computer-generated guess
      */
     public void processResponse(int n) {
-    		// TODO: Make this actually play Jotto.
-        doGuess("bagel");
+    		// TADA: Make this actually play Jotto.
+    	refineList(n);
+    	guess = getRandomWord();
+        doGuess(guess);
     }
     
+    public void refineList(int n){
+    	if(n==6){
+    		stopGame(); // TODO: make it quit if the person one or reached max guesses
+    	}
+    	else{
+	    	ArrayList<String> temp = new ArrayList<String>();
+			for(int i=0; i<myWordList.size(); i++){
+				String word = myWordList.get(i);
+				int common = commonCount(word, guess);
+				if(common == n)
+					temp.add(word);
+			}
+			myWordList = temp;
+    	}
+    }
     
+        
     /**
      * Start a new game -- set up whatever state you want, and generate
      * the first guess made by the computer.
      */
-    public void newGame(){
-    		// TADA: Implement this.
+    public void newGame(){ // TADA: Implement this.
     	guess = getRandomWord();
     	doGuess(guess);
     }
@@ -239,9 +256,6 @@ public class JottoModel {
      * 
      * TADA: Implement this method! You're going to need it to actually
      * implement Jotto.
-     * 
-     * NOTE: This is the trickiest algorithmic part of this assignment.
-     * 
      * @param a is one string being compared
      * @param b is other string being compared
      * @return number of letters in common to a and b
@@ -253,8 +267,6 @@ public class JottoModel {
    	 	for (Character letter : letters1.keySet()) 
    	        if(letters2.containsKey(letter))
    	        	 common += Math.min(letters1.get(letter), letters2.get(letter));
-   	 			
-   	 
    	 	return common; 
     }
     
@@ -273,7 +285,6 @@ public class JottoModel {
    	 }
    	 return letters; 
     }
-    
     
     public String getRandomWord(){
     	int index = rand.nextInt(myWordList.size());
