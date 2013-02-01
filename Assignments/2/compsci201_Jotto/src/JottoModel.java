@@ -47,12 +47,14 @@ public class JottoModel {
     
     // The list of legal words.
     private ArrayList<String> myWordList;
+    private ArrayList<String> fullWordList;
     
     /*
      * TADA: Add any instance variables you need. 
      */
     private Random rand = new Random();
     private String guess = new String(); 
+    private int guessesRemaining = new Integer(15);
     
     /**
      * Initialize the model appropriately. This is going to include 
@@ -62,22 +64,11 @@ public class JottoModel {
      * TADA: Add any necessary code to this method.
      */
     public JottoModel() {
-    		// We do the variable we already have.
         myWordList = new ArrayList<String>();
-//        Scanner scan = new Scanner(this.getClass().getResourceAsStream("kwords5.txt"));
-//        String file = "kwords5.txt";
-//        Scanner s;
-//		try {
-//			s = new Scanner(new FileInputStream(file));
-//			initialize(s);
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//        myView = addView(viewer);
-        // need to initialize myWordList
+        fullWordList = new ArrayList<String>();
         rand = new Random();
         guess = new String(); 
-//        newGame(); // fills word list
+        guessesRemaining = 15;
     }
 
     /**
@@ -146,6 +137,7 @@ public class JottoModel {
         while (s.hasNext()) {
             myWordList.add(s.next());
         }
+        fullWordList = myWordList;
         messageViews("Choose \"New Game\" from the menubar.");
     }
 
@@ -207,25 +199,38 @@ public class JottoModel {
      */
     public void processResponse(int n) {
     		// TADA: Make this actually play Jotto.
-    	refineList(n);
-    	guess = getRandomWord();
-        doGuess(guess);
-    }
-    
-    public void refineList(int n){
-    	if(n==6){
-    		stopGame(); // TODO: make it quit if the person one or reached max guesses
+    	if(guessesRemaining==0 && n!= 6){
+    		showModalMessage("I am out of guesses :(");
+    		stopGame(); 
+    	}
+    	else if(n==6 && guessesRemaining>0){
+    		showModalMessage("Great! I guessed your word."); // alert
+    		stopGame();
     	}
     	else{
-	    	ArrayList<String> temp = new ArrayList<String>();
-			for(int i=0; i<myWordList.size(); i++){
-				String word = myWordList.get(i);
-				int common = commonCount(word, guess);
-				if(common == n)
-					temp.add(word);
+    		refineList(n);
+    		if (myWordList.size()==0){
+    			showModalMessage("I give up, either I don't know the word or you entered conflicting common counts.");
+    			stopGame(); 
 			}
-			myWordList = temp;
+    		else{
+	    		guess = getRandomWord();
+	        	guessesRemaining -= 1;
+	        	messageViews(guessesRemaining + " guesses left.");
+	            doGuess(guess);
+    		}
     	}
+    }
+    
+    public void refineList(int n){  
+    	ArrayList<String> temp = new ArrayList<String>();
+		for(int i=0; i<myWordList.size(); i++){
+			String word = myWordList.get(i);
+			int common = commonCount(word, guess);
+			if(common == n)
+				temp.add(word);
+		}
+		myWordList = temp;
     }
     
         
@@ -233,7 +238,10 @@ public class JottoModel {
      * Start a new game -- set up whatever state you want, and generate
      * the first guess made by the computer.
      */
-    public void newGame(){ // TADA: Implement this.
+    public void newGame(){ // TODO: Implement this for a second game.
+//    	myWordList = new ArrayList<String>();
+    	myWordList = fullWordList;
+        guessesRemaining = 15;
     	guess = getRandomWord();
     	doGuess(guess);
     }
