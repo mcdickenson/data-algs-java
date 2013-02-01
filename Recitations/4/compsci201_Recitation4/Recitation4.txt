@@ -1,0 +1,2 @@
+The reason that ListRemove does not work with fruit2.txt is that apricot occurs right after apple in fruit2.
+When removeFromList() iterates over the words in list, it has no way of going back to index 0 in the list after removing apple, so it misses the occurrence of apricot. 
