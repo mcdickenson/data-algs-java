@@ -373,3 +373,17 @@ Most of the APTs in Set 3 will use the interface `Comparable`. Let's try this wi
 - Jotto (still) due Feb. 5
 - APT Set 3 due Feb. 12
 - Midterm Feb. 15
+
+## Jotto Recitation - 2.1.13
+
+### IsomorphicWords
+
+This APT assignment will be helpful as you work on Jotto. Tip: any time you're working with boolean values, do as little as possible. It is better not to compare two booleans. 
+
+### Common
+
+Implementing the instructions in this APT will get you ready to turn in Jotto. 
+
+### Iterators
+
+Iterators are very nice because you know exactly what they will do, and you don't have to worry about adding any bugs of your own to the process. Another advantage is that an iterator works for lots of different types of input, so you don't have to worry about whether you're dealing with an ArrayList or a List, for example. One thing to be careful about: if you're using an iterator, don't change the object that the iterator is working on without using the iterator. For example `iterator.remove()` is much better than `list.remove()` if you're iterating over the list. 
