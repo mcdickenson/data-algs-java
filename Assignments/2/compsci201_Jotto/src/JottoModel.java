@@ -242,6 +242,7 @@ public class JottoModel {
 //    	myWordList = new ArrayList<String>();
     	myWordList = fullWordList;
         guessesRemaining = 15;
+        messageViews(guessesRemaining + " guesses left.");
     	guess = getRandomWord();
     	doGuess(guess);
     }
