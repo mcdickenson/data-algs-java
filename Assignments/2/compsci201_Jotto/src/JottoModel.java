@@ -199,7 +199,10 @@ public class JottoModel {
      */
     public void processResponse(int n) {
     		// TADA: Make this actually play Jotto.
-    	if(guessesRemaining==0 && n!= 6){
+    	if(n>6 || n <0){
+    		showModalMessage("Please enter a count between 0 and 6.");
+    	}
+    	else if(guessesRemaining==0 && n != 6){
     		showModalMessage("I am out of guesses :(");
     		stopGame(); 
     	}
@@ -238,8 +241,7 @@ public class JottoModel {
      * Start a new game -- set up whatever state you want, and generate
      * the first guess made by the computer.
      */
-    public void newGame(){ // TODO: Implement this for a second game.
-//    	myWordList = new ArrayList<String>();
+    public void newGame(){ 
     	myWordList = fullWordList;
         guessesRemaining = 15;
         messageViews(guessesRemaining + " guesses left.");
