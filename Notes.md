@@ -387,3 +387,89 @@ Implementing the instructions in this APT will get you ready to turn in Jotto.
 ### Iterators
 
 Iterators are very nice because you know exactly what they will do, and you don't have to worry about adding any bugs of your own to the process. Another advantage is that an iterator works for lots of different types of input, so you don't have to worry about whether you're dealing with an ArrayList or a List, for example. One thing to be careful about: if you're using an iterator, don't change the object that the iterator is working on without using the iterator. For example `iterator.remove()` is much better than `list.remove()` if you're iterating over the list. 
+
+## Linked Lists - 2.4.13
+
+Today we discuss several related data structures:
+
+- Linked lists
+- Queues 
+- Stacks
+
+### Linked lists
+
+In Java, we have already worked with lists in the form of an `ArrayList`. In general, a `List` is just an ordered collection of values. Now that we know about *interfaces*, we can mention several of the list interfaces given in Java:
+
+- `add(E element)`
+- `add(int index, E element)`
+- `contains(Object o)`
+- and many more! 
+
+An `Array` is a data structure in which elements may be located by index. In Java, `ArrayList implements List`, which as you know means that `ArrayList` implements all of the methods from `List` using an array. That's why we can do things like `ArrayList<String> array = new ArrayList<String>();` OR `List<String> array = new ArrayList<String>();`. 
+
+What kind of advantages do we get from this kind of arrangement? A number of operations that run in constant time *O(1):* `size, isEmpty, get, set, add` (add is *approximately* constant time). Everything else in an `ArrayList` runs in linear time *O(N)*. 
+
+There is another type of list implementation called `LinkedList`, which has many of the same interface operations as `ArrayList`, but with different implementations. A `LinkedList` has a *head* and a *tail*. Each element in the list is referred to as a *node* which has *data* and a *pointer* to the next node. The `LinkedList` object is a pointer to the beginning and (sometimes) the end of the list. 
+
+Say we have a linked list with data (ordered from head to tail) `[h, e, l, o]` and we want to insert another "l" after the "e". First we have to find the "e" starting at "h" (where our list object points). This takes two operations. Then we create a new node with an "l", update its pointer to the existing "l", and replace "e's" pointer to the new "l". 
+
+Here's how the running time of operations compares with different list implementations:
+<table>
+    <tr>
+        <td>Operation</td>
+        <td>LinkedList</td>
+        <td>ArrayList</td>
+    </tr>
+    <tr>
+        <td>get</td>
+        <td>O(n)</td>
+        <td>O(1)</td>
+    </tr>
+    <tr>
+        <td>add</td>
+        <td>O(1)</td>
+        <td>O(1) amortized, O(n) worst case</td>
+    </tr>
+    <tr>
+        <td>remove</td>
+        <td>O(n)</td>
+        <td>O(n)</td>
+    </tr>
+</table>
+
+You can have two types of `LinkedList`--singly linked, like we have already discussed, and doubly linked, where each node points to the node after it and the one before it (the latter is the default in Java).
+
+### Queue
+
+A `Queue` works in a First-In-First-Out (FIFO) manner. Here's how we'd make one using a linked list:
+
+```
+Queue<String> q = new LinkedList<String>():
+  q.add("comp ");
+  q.add("sci ");
+  q.add("is ");
+  q.add("great!");
+  while(!q.isEmpty())
+    System.out.print(q.remove());
+```
+This will print "comp sci is great!"
+### Stack
+
+In contrast to a `Queue`, a `Stack` works in a Last-In-First-Out (LIFO) manner.
+
+```
+Stack<String> q = new Stack<String>():
+  q.push("comp ");
+  q.push("sci ");
+  q.push("is ");
+  q.push("great! ");
+  while(!q.isEmpty())
+    System.out.print(q.pop());
+```
+This will print "great! is sci comp "
+
+### Announcements 
+
+- Jotto due tomorrow
+- APT Set 3 due Feb 12
+- Exam 1 on Feb 15 
