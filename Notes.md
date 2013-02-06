@@ -473,3 +473,131 @@ This will print "great! is sci comp "
 - Jotto due tomorrow
 - APT Set 3 due Feb 12
 - Exam 1 on Feb 15 
+
+## Sets and Maps - 2.6.13
+
+Last time we talked about ArrayLists and LinkedLists. Today we'll talk about Sets, Maps, hasing, and Markov Models (which will be useful for the next assignment). 
+
+### Sets
+
+A `Set` is an unordered collection of unique values. The Set interface in Java comes with several methods you already know:
+
+- `Set<E>`
+- `add(Element e)`
+- `clear()`
+- `contains(Object o)`
+- `equals(Object o)`
+- `hashCode()` - returns hash code value for this set
+
+We have already seen two implementations of Set: HashSet and TreeSet. Today we'll focus on Hash and after the exam we'll learn more about Tree. Here are the Big-Oh runtimes for some common Set operations: 
+
+<table>
+    <tr>
+        <td>Operation</td>
+        <td>HashSet/HashMap</td>
+        <td>TreeSet/TreeMap</td>
+    </tr>
+    <tr>
+        <td>Get element with key</td>
+        <td>O(1)*</td>
+        <td>O(logN)</td>
+    </tr>
+    <tr>
+        <td>Set element with key</td>
+        <td>O(1)&</td>
+        <td>O(logN)</td>
+    </tr>
+    <tr>
+        <td>Check if key exists</td>
+        <td>O(1)</td>
+        <td>O(logN)</td>
+    </tr>
+</table>
+
+### Maps 
+
+A `Map` is a collection of values mapped to keys. A common example is a dictionary: words (keys) are mapped to values (definitions). The Map interface has many of the same methods as Set does, plus a few more:
+
+- `clear()`
+- `containsKey(Object key)`
+- `containsValue(Object value)`
+- `entrySet()` - returns Set of mappings
+- `equals(Object O)`
+- `get(Object key)`
+- `hashCode()` - returns hash code value for this map
+
+### Hashing
+
+We saw above how fast Hashing is relative to a Tree implementation of Sets or Maps. Let's talk about how it works. 
+
+A `HashTable` is an array of fixed size with a key to each location. Each key is mapped to an index in the table. The Hash function itself is relatively simple to compute, and is used to ensure that two distinct keys get different cells in the table. Two equal objects should hash to the same place (i.e. have the same key):
+
+```
+if a.equals(b)
+  a.hashCode() == b.hashCode()
+```
+
+Checking equality is relatively straightforward. But how do we **ensure** that distinct keys get different cells? The solution we use is called *separate chaining*, which means making the table into linked lists. 
+
+For code practice today, open your code from Jan. 28 and practice with Hashing. Here are the constraints to keep in mind:
+
+- every object should have a hash code
+- hashCode should not change unless the value changes
+- two equal objects should hash to the same place 
+
+### Markov Models
+
+You may have heard the "infinite monkey theorem": that an infinite number of monkeys with infinite time and infinite keyboards would eventually type out the complete work of Shakespeare. With a Markov model, we could learn how to reduce the running time of this "algorithm" by studying existing text and looking at which letters commonly follow each other.
+
+For example, we could take a *training text* (e.g. *Huckleberry Finn*), build a map from the text ('e' is followed by 'a' 30% of the time, 'a' is followed by 't' 20% of the time) and use the map to generate random text. 
+
+Another trick is to use [n-grams](http://books.google.com/ngrams) instead of individual letters. For example, the string "abcdeabcdf" contains the following tri-grams (n=3):
+
+- abc
+- bcd
+- cde
+- dea
+- eab
+- cdf
+
+From this example, we compare what tri-grams are likely to follow one another:
+
+<table>
+    <tr>
+        <td><b>abc</b></td>
+        <td>bcd</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><b>bcd</b></td>
+        <td>cde</td>
+        <td>cdf</td>
+    </tr>
+    <tr>
+        <td><b>cde</b></td>
+        <td>dea</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><b>dea</b></td>
+        <td>eab</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><b>eab</b></td>
+        <td>abc</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><b>cdf</b></td>
+        <td>dfa</td>
+        <td></td>
+    </tr>
+</table>
+
+The only really interesting part of this is the row **bcd**: this tri-gram is followed by "cde" 50% of the time and "cdf" 50% of the time. Obviously in a longer corpus of text this kind of model gets more interesting and complex. 
+
+### Announcements
+
+- Exam 1 on Feb 15
+- Markov Models assignment due Feb. 19--start early!!!
