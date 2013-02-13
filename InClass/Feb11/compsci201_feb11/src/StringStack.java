@@ -1,30 +1,28 @@
+import java.util.*;
 
 public class StringStack {
-	private String myString;
+	private List<String> myStrings = new ArrayList<String>();
 	
 	public StringStack(){
-		myString = "";
 	}
 	
 	public String pop(){
-		int length = myString.length(); 
-		String last = myString.substring(length-1);
-		if(length>1){ myString = myString.substring(0, length-1); }
-		else{ myString = ""; }
+		int length = myStrings.size();
+		String last = myStrings.remove(length-1);
 		return last; 
 	}
 	
-	public void push(String letter){
-		myString += letter;
+	public void push(String s){
+		this.myStrings.add(s);
 	}
 	
 	public boolean isEmpty(){
-		boolean empty = myString.length()==0;
+		boolean empty = myStrings.size()==0;
 		return empty; 
 	}
 	
 	public int length(){
-		return myString.length(); 
+		return myStrings.size(); 
 	}
 	
 }

@@ -27,14 +27,13 @@ public class CalcStack {
 		else{
 			String last = myCharStack.pop();
 			int priorityLast = special.indexOf(last);
-			if (priority >= priorityLast){
-				char op = data.charAt(0);
-				performOp(op);
-				myCharStack.push(last);
-			}
-			else{
+			if (priority<=priorityLast){
 				char op = last.charAt(0);
 				performOp(op);
+				myCharStack.push(data);
+			}
+			else{
+				myCharStack.push(last);
 				myCharStack.push(data);
 			}
 		}
@@ -62,7 +61,6 @@ public class CalcStack {
 		String equation = "5+7*3-2";
 
 		for(int i=0; i < equation.length(); i++){
-			System.out.println(i);
 			stack.compute(equation.substring(i,i+1));
 		}
 		stack.finishCompute();
