@@ -16,11 +16,6 @@ public class CalcStack {
 		}
 		else{
 			myNumStack.push(data);
-			if(myNumStack.length()>1){
-				String last = myCharStack.pop();
-				char op = last.charAt(0);
-				performOp(op);
-			}
 		}
 	}
 	
@@ -33,9 +28,13 @@ public class CalcStack {
 			String last = myCharStack.pop();
 			int priorityLast = special.indexOf(last);
 			if (priority >= priorityLast){
+				char op = data.charAt(0);
+				performOp(op);
 				myCharStack.push(last);
 			}
 			else{
+				char op = last.charAt(0);
+				performOp(op);
 				myCharStack.push(data);
 			}
 		}
