@@ -3,6 +3,11 @@
 APTs/bin/*
 Recitations/bin/*
 .classpath
+*.project
+*.aux
+*.fdb_latexmk
+*.log
+*.out
 Assignments/*/*.aux
 Assignments/*/*.fdb_latexmk
 Assignments/*/*.log
