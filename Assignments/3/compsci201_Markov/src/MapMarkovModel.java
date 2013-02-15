@@ -1,17 +1,17 @@
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 
-public class MapMarkovModel {
+public class MapMarkovModel extends AbstractModel {
 	
 	private String myString;
     private Random myRandom;
+    private HashMap<String, ArrayList<String>> myMap; 
     public static final int DEFAULT_COUNT = 100; // default # random letters generated
 
     public MapMarkovModel() {
        
         myRandom = new Random(1234);
+        myMap = new HashMap<String, ArrayList<String>>(); 
     }
 
     /**
@@ -49,8 +49,52 @@ public class MapMarkovModel {
         }
         smart(k, numLetters);
     }
+  
     
     public void smart(int k, int numLetters) {
-    	// TODO: use a map to generate the markov string
+    	
+    	// check whether size of first key == k (if no: need new map)
+    	List<String> keys = new ArrayList<String>(myMap.keySet());
+    	String first = keys.get(0);
+    	if (myMap.size() ==0 || first.length()!=k){
+    		myMap = buildMap(k);
+    	}
+    	
+    	// use a map to generate the markov string
+    	int start = myRandom.nextInt(myString.length() - k + 1);
+    	String str = myString.substring(start, start + k);
+    	StringBuilder build = new StringBuilder();
+    	
+    	double stime = System.currentTimeMillis();
+    	for(int i=0; i<numLetters; i+=k){
+    		ArrayList<String> list = myMap.get(str);
+    		int pick = myRandom.nextInt(list.size());
+    		String next = list.get(pick);
+    		build.append(next);
+    		str = next;
+    	}
+    	double etime = System.currentTimeMillis();
+        double time = (etime - stime) / 1000.0;
+        this.messageViews("Time to generate: " + time);
+    	this.notifyViews(build.toString());
     } 
+    
+    public HashMap<String, ArrayList<String>> buildMap(int k){
+    	HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+    	
+    	String wrapAroundString = myString + myString.substring(0,k); 
+    	
+    	for (int i = 0; i < myString.length(); i++) {
+    		ArrayList<String> list = new ArrayList<String>();
+    		String kchar = wrapAroundString.substring(i, i+k);
+    		String next = wrapAroundString.substring(i+1, k+1);
+    		if(map.containsKey(kchar)){
+    			list = map.get(kchar);
+    			
+    		}
+    		list.add(next);
+			map.put(kchar, list);
+    	}
+    	return new HashMap<String, ArrayList<String>>(); 
+    }
 }
