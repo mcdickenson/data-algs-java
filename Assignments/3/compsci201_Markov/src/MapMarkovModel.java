@@ -1,5 +1,8 @@
 import java.util.*;
 
+/*
+ * @author Matt Dickenson
+ */
 
 public class MapMarkovModel extends AbstractModel {
 	

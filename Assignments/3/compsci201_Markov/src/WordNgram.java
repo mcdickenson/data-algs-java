@@ -3,7 +3,7 @@
  * group of N words can be treated as a key in a map or an
  * element in a set, or an item to be searched for in an array.
  * <P>
- * @author YOU,COMPSCI 201 STUDENT
+ * @author Matt Dickenson
  */
 
 public class WordNgram implements Comparable<WordNgram>{
@@ -28,7 +28,13 @@ public class WordNgram implements Comparable<WordNgram>{
      * @return appropriate value less than zero, zero, or greater than zero
      */
     public int compareTo(WordNgram wg) {
-        // TODO  implement this method
+        int size = this.myWords.length;
+        for(int i=0; i<size; i++){
+        	String thisWord = this.myWords[i];
+        	String thatWord = wg.myWords[i];
+        	int compare = thisWord.compareTo(thatWord);
+        	if(compare!=0){return compare;}
+        }
         return 0;
     }
     
@@ -39,8 +45,8 @@ public class WordNgram implements Comparable<WordNgram>{
      */
     public boolean equals(Object o){
         WordNgram wg = (WordNgram) o;
-        // TODO return correct value
-      
+        int compare = this.compareTo(wg);
+        if(compare != 0){return false;}
         return true;
     }
     
@@ -49,9 +55,11 @@ public class WordNgram implements Comparable<WordNgram>{
      * @return value constructed from all N words in this N-gram
      */
     public int hashCode(){
-        // TODO return a better hash value
-      
-        
-        return 15;
+    	String cat = "";
+        for(String w : this.myWords){
+        	cat = cat + w;
+        }
+    	
+        return cat.hashCode();
     }
 }
