@@ -53,7 +53,11 @@ public class MapMarkovModel extends AbstractModel {
         smart(k, numLetters);
     }
   
-    
+    /**
+     * Use a map to build the output string
+     * @param k is the length of the n-gram
+     * @param numLetters is the number of letters in output
+     */
     public void smart(int k, int numLetters) {
     	
     	if (myMap.size()==0){
@@ -88,6 +92,11 @@ public class MapMarkovModel extends AbstractModel {
     	this.notifyViews(build.toString());
     } 
     
+    /**
+     * Build the map for smart()
+     * @param k is the length of the n-grams
+     * @return a map of strings to character arrays 
+     */
     public HashMap<String, ArrayList<Character>> buildMap(int k){
     	HashMap<String, ArrayList<Character>> map = new HashMap<String, ArrayList<Character>>();
     	String wrapAroundString = myString + myString.substring(0,k); 
