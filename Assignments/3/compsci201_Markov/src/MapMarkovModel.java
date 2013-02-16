@@ -5,13 +5,13 @@ public class MapMarkovModel extends AbstractModel {
 	
 	private String myString;
     private Random myRandom;
-    private HashMap<String, ArrayList<String>> myMap; 
+    private HashMap<String, ArrayList<Character>> myMap; 
     public static final int DEFAULT_COUNT = 100; // default # random letters generated
 
     public MapMarkovModel() {
        
         myRandom = new Random(1234);
-        myMap = new HashMap<String, ArrayList<String>>(); 
+        myMap = new HashMap<String, ArrayList<Character>>(); 
     }
 
     /**
@@ -53,12 +53,19 @@ public class MapMarkovModel extends AbstractModel {
     
     public void smart(int k, int numLetters) {
     	
-    	// check whether size of first key == k (if no: need new map)
-    	List<String> keys = new ArrayList<String>(myMap.keySet());
-    	String first = keys.get(0);
-    	if (myMap.size() ==0 || first.length()!=k){
+    	if (myMap.size()==0){
     		myMap = buildMap(k);
     	}
+    	else{
+    		List<String> keys = new ArrayList<String>(myMap.keySet());
+        	String first = keys.get(0);
+        	if(first.length()!=k){
+        		myMap = buildMap(k);
+        	}
+    	}
+
+    	List<String> keys = new ArrayList<String>(myMap.keySet());
+    	String first = keys.get(30);
     	
     	// use a map to generate the markov string
     	int start = myRandom.nextInt(myString.length() - k + 1);
@@ -66,12 +73,14 @@ public class MapMarkovModel extends AbstractModel {
     	StringBuilder build = new StringBuilder();
     	
     	double stime = System.currentTimeMillis();
-    	for(int i=0; i<numLetters; i+=k){
-    		ArrayList<String> list = myMap.get(str);
-    		int pick = myRandom.nextInt(list.size());
-    		String next = list.get(pick);
-    		build.append(next);
-    		str = next;
+    	for(int i=0; i<numLetters; i++){
+    		ArrayList<Character> nextChars = myMap.get(str);
+    		if(!(nextChars==null)){
+    			int pick = myRandom.nextInt(nextChars.size());
+        		Character next = nextChars.get(pick);
+        		build.append(next);
+        		str = str.substring(1) + next;
+    		}
     	}
     	double etime = System.currentTimeMillis();
         double time = (etime - stime) / 1000.0;
@@ -79,22 +88,20 @@ public class MapMarkovModel extends AbstractModel {
     	this.notifyViews(build.toString());
     } 
     
-    public HashMap<String, ArrayList<String>> buildMap(int k){
-    	HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
-    	
+    public HashMap<String, ArrayList<Character>> buildMap(int k){
+    	HashMap<String, ArrayList<Character>> map = new HashMap<String, ArrayList<Character>>();
     	String wrapAroundString = myString + myString.substring(0,k); 
+    	ArrayList<Character> list = new ArrayList<Character>();
     	
     	for (int i = 0; i < myString.length(); i++) {
-    		ArrayList<String> list = new ArrayList<String>();
     		String kchar = wrapAroundString.substring(i, i+k);
-    		String next = wrapAroundString.substring(i+1, k+1);
-    		if(map.containsKey(kchar)){
-    			list = map.get(kchar);
-    			
-    		}
+    		if(map.containsKey(kchar)){ list = map.get(kchar); }
+    		else{ list = new ArrayList<Character>(); }
+    		Character next = wrapAroundString.charAt(i+k);
     		list.add(next);
-			map.put(kchar, list);
+    		map.put(kchar, list);
     	}
-    	return new HashMap<String, ArrayList<String>>(); 
+    		
+    	return map; 
     }
 }
