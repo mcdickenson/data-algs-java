@@ -72,6 +72,7 @@ public class WordMarkovModel extends AbstractModel {
         		myMap = buildMap(k);
         	}
     	}
+        System.out.println("Number of Keys: "+ myMap.size());
     	
     	// use a map to generate the markov string
     	int start = myRandom.nextInt(myWords.length - k + 1);

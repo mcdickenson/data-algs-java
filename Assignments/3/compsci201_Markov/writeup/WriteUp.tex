@@ -135,6 +135,7 @@ urlcolor=RoyalBlue4}
 \paragraph{1)} The time to generate order-5 text using \texttt{romeo.txt} is shown in the table below:
 
 \begin{table}[h]
+\caption{Run Times for Romeo and Juliet with Brute Force Method}
 \begin{center}
 \begin{tabular}{lr}
 Characters & Time (seconds) \\
@@ -159,6 +160,7 @@ Consequently, I predict that generating order-5 text of lengths 400, 800, and 16
 \paragraph{3)} Using the Map method in \texttt{MapMarkovModel.java}, the run times are as follows for an order-5 model with \texttt{romeo.txt}:
 
 \begin{table}[h]
+\caption{Run Times for Romeo and Juliet with HashMap Method}
 \begin{center}
 \begin{tabular}{lr}
 Characters & Time (seconds) \\
@@ -173,5 +175,29 @@ Characters & Time (seconds) \\
 \end{table}
 
 This data indicates to me that the Map method is still $O(n)$ because the run time approximately doubles as $n$ doubles. However, it does reduce the time required by a factor of about 40. This is one weakness of Big-Oh notation: sometimes constant factors make a big difference! 
+
+\section*{Part B}
+
+The table below shows how the runtimes of HashMap and TreeMap depend on the size of the training text corpus. In each case the Map is used to generate 2000 words using an order-5 Markov model. The additional texts that I used were the US Constitution and the Declaration of Independence, both obtained from \href{http://www.usconstitution.net}.
+
+\begin{table}[h]
+\caption{Run Times for Building Maps with Hash and Tree}
+\begin{center}
+\begin{tabular}{p{1in}p{1in}p{1in}p{1in}p{.8in}p{.8in}}
+Corpus Name & Corpus Length (words) & HashMap (seconds) & HashMap (key count) &  TreeMap (seconds) & TreeMap (key count) \\
+\hline
+alice & 26,468 & 0.008 & 26,222 \\
+clinton-nh & 887 & 0.013 & 871 \\
+const & 7,652 & 0.004 & 7,049 \\
+declar & 1,340 & 0.010 & 1,340 \\
+edwards-nh & 817 & 0.002 & 800 \\
+hawthorne & 85,754 & 0.027 & 85,590 \\
+melville & 14,353 & 0.021 & 14,316 \\
+obama-nh & 1,079 & 0.003 & 1,073 & \\
+poe & 2,324 & 0.012 & 2,323 \\
+romeo & 25,788 & 0.003 & 25,740  
+\end{tabular}
+\end{center}
+\end{table}
 
 \end{document}
