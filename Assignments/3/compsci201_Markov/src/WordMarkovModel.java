@@ -15,7 +15,6 @@ public class WordMarkovModel extends AbstractModel {
     public static final int DEFAULT_COUNT = 100; // default # random letters generated
 
     public WordMarkovModel() {
-       
         myRandom = new Random(1234);
         myMap = new HashMap<WordNgram, ArrayList<WordNgram>>();
     }
