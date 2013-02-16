@@ -63,15 +63,19 @@ public class WordNgram implements Comparable<WordNgram>{
         return cat.hashCode();
     }
     
+    /**
+     * Returns this size of the array myWords 
+     */
     public int numWords(){
     	return this.myWords.length;
     }
     
+    /**
+     * Gets the last string in myWords array
+     * @return value is used to build the output string in WordMarkovModel
+     */
     public String getLast(){
     	return this.myWords[this.myWords.length-1];
     }
     
-//    public String[] getAll(){
-//    	return this.myWords;
-//    }
 }
