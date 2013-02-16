@@ -1,0 +1,177 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% -------------------- defaults -------------------- %
+% load lots o' packages
+
+% layout control
+\usepackage[paper=a4paper,left=25mm,right=25mm,top=20mm,bottom=25mm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\setlength{\parskip}{.5em}
+\usepackage{rotating}
+\usepackage{setspace}
+
+% math typesetting
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\usepackage{verbatim}
+\usepackage{listings}
+
+% restricts float objects to be inserted before end of section
+% creates float barriers
+\usepackage[section]{placeins}
+
+% tables
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{longtable}
+
+\usepackage[%
+decimalsymbol=.,
+digitsep=fullstop
+]{siunitx}
+
+% to adapt caption style
+\usepackage[font={small},labelfont=bf]{caption}
+
+% references
+\usepackage[longnamesfirst]{natbib}
+\bibpunct{(}{)}{;}{a}{}{,}
+
+% footnotes at bottom
+\usepackage[bottom]{footmisc}
+
+% to change enumeration symbols begin{enumerate}[(a)]
+\usepackage{enumerate}
+
+% to make enumerations and itemizations within paragraphs or
+% lines. f.i. begin{inparaenum} for (a) is (b) and (c)
+\usepackage{paralist}
+
+% to colorize links in document. See color specification below
+\usepackage[pdftex,hyperref,x11names]{xcolor}
+
+% for multiple references and insertion of the word "figure" or "table"
+% \usepackage{cleveref}
+
+% load the hyper-references package and set document info
+\usepackage[pdftex]{hyperref}
+
+% graphics stuff
+\usepackage{coordsys}
+\usepackage{tikz}
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage[space]{grffile} % allows us to specify directories that have spaces
+\usepackage{placeins} % prevents floats from moving past a \FloatBarrier
+%\usepackage{tikz}
+% \usepackage{pgfplots}
+
+% define clickable links and their colors
+\hypersetup{%
+unicode=false,          % non-Latin characters in Acrobat's bookmarks
+pdftoolbar=true,        % show Acrobat's toolbar?
+pdfmenubar=true,        % show Acrobat's menu?
+pdffitwindow=false,     % window fit to page when opened
+pdfstartview={FitH},    % fits the width of the page to the window
+pdfnewwindow=true,%
+pagebackref=false,%
+pdfauthor={Matt Dickenson},%
+pdftitle={Title},%
+colorlinks,%
+citecolor=black,%
+filecolor=black,%
+linkcolor=black,%
+urlcolor=RoyalBlue4}
+
+\lstset{
+    basicstyle=\ttfamily,
+    upquote=true,
+    breaklines=true,
+    tabsize=2,
+    postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookrightarrow}},
+    breakatwhitespace=true,
+    numbers=left,
+    showstringspaces=false
+}
+
+% -------------------------------------------------- %
+
+
+
+%-- Set options
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+\newcommand{\inputTikZ}[2]{%  
+     \scalebox{#1}{\input{#2}}  
+}
+
+
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+%\linespread{2} %-- Uncomment for Double Space
+\begin{document}
+
+% ----------------------TITLE----------------------- %
+\title{CS 201 - HW 3 WriteUp}
+\line
+\leftright{\today}{Matt Dickenson} %-- left and right positions in the header
+\setlength{\parindent}{16pt}
+
+\section*{Part A}
+
+\paragraph{1)} The time to generate order-5 text using \texttt{romeo.txt} is shown in the table below:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lr}
+Characters & Time (seconds) \\
+\hline
+100 & 0.042 \\
+200 & 0.083 \\
+400 & 0.162 \\
+800 & 0.338 \\
+1600 & 0.641 \\
+\end{tabular}
+\end{center}
+\end{table}
+
+As the table shows, doubling the size of the requested output approximately doubles the size of the time it takes to generate the text, plus a fixed amount of time of about 2 milliseconds. Thus, the brute force model is $O(n)$where $n$ is the size of the output.  
+
+An order-10 model with this same textual input takes about the same amount of time, but an order-1 model seems to take about 1.4 to 1.5 times as long at all sizes of input. This is likely because the number of 1-grams is much larger than the number of 5- or 10-grams in the text. 
+
+\paragraph{2)} The size of the input affects the run time through the \texttt{while} loop on line 71 of \texttt{MarkovModel.java}. Since the run time of nested loops are multiplicative, the run time is a function of $n \times m$ where $n$ is the length of the requested output and $m$ is the length of the input text. In (A1) we held $m$ fixed. If we change the input text from \emph{Romeo and Juliet} to \emph{Scarlet Letter} (which is over 3 times as long), I would expect the runtime time to increase by $3n$. 
+
+Consequently, I predict that generating order-5 text of lengths 400, 800, and 1600 characters would take about 0.5, 1.0, and 1.8 seconds, respectively. If we were to use the King James Bible text, $m$ would be roughly 9 times as long as it is with \emph{Scarlet Letter} and about 30 times as long as \emph{Romeo and Juliet}. I predict that generating 1600 characters of text with an order-5 model using the King James corpus would take about 16.2 ($9\times1.8$) seconds. 
+
+\paragraph{3)} Using the Map method in \texttt{MapMarkovModel.java}, the run times are as follows for an order-5 model with \texttt{romeo.txt}:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lr}
+Characters & Time (seconds) \\
+\hline
+100 & 0.001 \\
+200 & 0.001\\
+400 & 0.003 \\
+800 & 0.008 \\
+1600 & 0.014 \\
+\end{tabular}
+\end{center}
+\end{table}
+
+This data indicates to me that the Map method is still $O(n)$ because the run time approximately doubles as $n$ doubles. However, it does reduce the time required by a factor of about 40. This is one weakness of Big-Oh notation: sometimes constant factors make a big difference! 
+
+\end{document}
