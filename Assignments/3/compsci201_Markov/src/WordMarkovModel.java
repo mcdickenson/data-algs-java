@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class WordMarkovModel extends AbstractModel {
 	
 	private String myString;
-//	private List<String> myStrings;
 	private String[] myWords;
     private Random myRandom;
     private HashMap<WordNgram, ArrayList<WordNgram>> myMap; 
@@ -21,6 +20,9 @@ public class WordMarkovModel extends AbstractModel {
         myMap = new HashMap<WordNgram, ArrayList<WordNgram>>();
     }
 	
+    /**
+     * Read in the text for the Markov model
+     */
 	public void initialize(Scanner s) {
         double start = System.currentTimeMillis();
         int countChar = readChars(s);
@@ -54,6 +56,11 @@ public class WordMarkovModel extends AbstractModel {
         smart(k, numWords);
     }
     
+    /**
+     * build the output string of length numWords using a Markovian map of WordNgrams
+     * @param k = n in the WordNgrams
+     * @param numWords is the number of words in the output 
+     */
     public void smart(int k, int numWords) {
     	
     	if (myMap.size()==0){
@@ -88,6 +95,11 @@ public class WordMarkovModel extends AbstractModel {
     	this.notifyViews(build.toString());
     } 
     
+    /**
+     * Build the map for smart()
+     * @param k is the length of the WordNgrams
+     * @return a map of WordNgrams to a WordNgram array
+     */
     public HashMap<WordNgram, ArrayList<WordNgram>> buildMap(int k){
     	HashMap<WordNgram, ArrayList<WordNgram>> map = new HashMap<WordNgram, ArrayList<WordNgram>>();
     	String[] wrapAroundWords = new String[myWords.length+k];
