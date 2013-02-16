@@ -14,7 +14,7 @@ public class WordNgram implements Comparable<WordNgram>{
      * Store the n words that begin at index start of array list as
      * the N words of this N-gram.
      * @param list contains at least n words beginning at index start
-     * @start is the first of the N worsd to be stored in this N-gram
+     * @start is the first of the N words to be stored in this N-gram
      * @n is the number of words to be stored (the n in this N-gram)
      */
     public WordNgram(String[] list, int start, int n) {
@@ -66,4 +66,12 @@ public class WordNgram implements Comparable<WordNgram>{
     public int numWords(){
     	return this.myWords.length;
     }
+    
+    public String getLast(){
+    	return this.myWords[this.myWords.length-1];
+    }
+    
+//    public String[] getAll(){
+//    	return this.myWords;
+//    }
 }

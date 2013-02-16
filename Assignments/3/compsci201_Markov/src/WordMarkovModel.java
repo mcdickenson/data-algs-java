@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -8,7 +9,8 @@ import java.util.Scanner;
 public class WordMarkovModel extends AbstractModel {
 	
 	private String myString;
-	private ArrayList<String> myStrings;
+//	private List<String> myStrings;
+	private String[] myWords;
     private Random myRandom;
     private HashMap<WordNgram, ArrayList<WordNgram>> myMap; 
     public static final int DEFAULT_COUNT = 100; // default # random letters generated
@@ -22,8 +24,8 @@ public class WordMarkovModel extends AbstractModel {
 	public void initialize(Scanner s) {
         double start = System.currentTimeMillis();
         int countChar = readChars(s);
-        String[] words = myString.split("\\s+");
-        int countWord = words.length;
+        myWords = myString.split("\\s+");
+        int countWord = myWords.length;
         double end = System.currentTimeMillis();
         double time = (end - start) / 1000.0;
         super.messageViews("#read: " + countWord + " words in: " + time + " secs");
@@ -52,7 +54,7 @@ public class WordMarkovModel extends AbstractModel {
         smart(k, numWords);
     }
     
-    public void smart(int k, int numLetters) {
+    public void smart(int k, int numWords) {
     	
     	if (myMap.size()==0){
     		myMap = buildMap(k);
@@ -66,19 +68,19 @@ public class WordMarkovModel extends AbstractModel {
     	}
     	
     	// use a map to generate the markov string
-    	int start = myRandom.nextInt(myString.length() - k + 1);
-    	String str = myString.substring(start, start + k);
+    	int start = myRandom.nextInt(myWords.length - k + 1);
+    	WordNgram str = new WordNgram(myWords, start, k);
     	StringBuilder build = new StringBuilder();
     	
     	double stime = System.currentTimeMillis();
-    	for(int i=0; i<numLetters; i++){
-    		ArrayList<WordNgram> nextWords = myMap.get(str);
-    		if(!(nextWords==null)){ // TODO: remove this line once it works 
-    			int pick = myRandom.nextInt(nextWords.size());
-        		WordNgram next = nextWords.get(pick);
-        		build.append(next);
-        		str = str.substring(1) + next;
-    		}
+    	for(int i=0; i<numWords; i++){
+    		ArrayList<WordNgram> nextWords = myMap.get(str);    		
+    		int pick = myRandom.nextInt(nextWords.size());
+        	WordNgram next = nextWords.get(pick);
+       		String nextString = next.getLast();
+       		build.append(nextString);
+       		build.append(" ");
+       		str = next; 
     	}
     	double etime = System.currentTimeMillis();
         double time = (etime - stime) / 1000.0;
@@ -88,21 +90,26 @@ public class WordMarkovModel extends AbstractModel {
     
     public HashMap<WordNgram, ArrayList<WordNgram>> buildMap(int k){
     	HashMap<WordNgram, ArrayList<WordNgram>> map = new HashMap<WordNgram, ArrayList<WordNgram>>();
-    	String wrapAroundString = myString + myString.substring(0,k); 
-    	ArrayList<Character> list = new ArrayList<Character>();
+    	String[] wrapAroundWords = new String[myWords.length+k];
+    	for(int i = 0; i<myWords.length; i++){
+    		wrapAroundWords[i] = myWords[i];
+    	}
+    	for(int j = 0; j < k; j++){
+    		wrapAroundWords[myWords.length+j] = myWords[j];
+    	}
     	
-    	for (int i = 0; i < myString.length(); i++) {
-    		String kchar = wrapAroundString.substring(i, i+k);
-    		if(map.containsKey(kchar)){ list = map.get(kchar); }
-    		else{ list = new ArrayList<Character>(); }
-    		Character next = wrapAroundString.charAt(i+k);
+    	ArrayList<WordNgram> list = new ArrayList<WordNgram>();
+    	
+    	for (int i = 0; i < myWords.length; i++) {
+    		WordNgram kWords = new WordNgram(wrapAroundWords, i, k);
+    		if(map.containsKey(kWords)){ list = map.get(kWords); }
+    		else{ list = new ArrayList<WordNgram>(); }
+    		WordNgram next = new WordNgram(wrapAroundWords, i+1, k);
     		list.add(next);
-    		map.put(kchar, list);
+    		map.put(kWords, list);
     	}
     		
-    	return new HashMap<WordNgram, ArrayList<WordNgram>>(); 
+    	return map; 
     }
 
-    //TODO: make the new map work
-    //TODO: make WordNgram's instead of substrings 
 }
