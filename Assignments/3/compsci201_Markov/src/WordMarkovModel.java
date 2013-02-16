@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -11,12 +11,12 @@ public class WordMarkovModel extends AbstractModel {
 	private String myString;
 	private String[] myWords;
     private Random myRandom;
-    private HashMap<WordNgram, ArrayList<WordNgram>> myMap; 
+    private TreeMap<WordNgram, ArrayList<WordNgram>> myMap; 
     public static final int DEFAULT_COUNT = 100; // default # random letters generated
 
     public WordMarkovModel() {
         myRandom = new Random(1234);
-        myMap = new HashMap<WordNgram, ArrayList<WordNgram>>();
+        myMap = new TreeMap<WordNgram, ArrayList<WordNgram>>();
     }
 	
     /**
@@ -100,8 +100,8 @@ public class WordMarkovModel extends AbstractModel {
      * @param k is the length of the WordNgrams
      * @return a map of WordNgrams to a WordNgram array
      */
-    public HashMap<WordNgram, ArrayList<WordNgram>> buildMap(int k){
-    	HashMap<WordNgram, ArrayList<WordNgram>> map = new HashMap<WordNgram, ArrayList<WordNgram>>();
+    public TreeMap<WordNgram, ArrayList<WordNgram>> buildMap(int k){
+    	TreeMap<WordNgram, ArrayList<WordNgram>> map = new TreeMap<WordNgram, ArrayList<WordNgram>>();
     	String[] wrapAroundWords = new String[myWords.length+k];
     	for(int i = 0; i<myWords.length; i++){
     		wrapAroundWords[i] = myWords[i];
