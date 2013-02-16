@@ -79,12 +79,10 @@ public class MapMarkovModel extends AbstractModel {
     	double stime = System.currentTimeMillis();
     	for(int i=0; i<numLetters; i++){
     		ArrayList<Character> nextChars = myMap.get(str);
-    		if(!(nextChars==null)){
-    			int pick = myRandom.nextInt(nextChars.size());
-        		Character next = nextChars.get(pick);
-        		build.append(next);
-        		str = str.substring(1) + next;
-    		}
+    		int pick = myRandom.nextInt(nextChars.size());
+       		Character next = nextChars.get(pick);
+       		build.append(next);
+       		str = str.substring(1) + next;		
     	}
     	double etime = System.currentTimeMillis();
         double time = (etime - stime) / 1000.0;
