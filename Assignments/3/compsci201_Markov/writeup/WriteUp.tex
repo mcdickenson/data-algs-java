@@ -178,24 +178,24 @@ This data indicates to me that the Map method is still $O(n)$ because the run ti
 
 \section*{Part B}
 
-The table below shows how the runtimes of HashMap and TreeMap depend on the size of the training text corpus. In each case the Map is used to generate 2000 words using an order-5 Markov model. The additional texts that I used were the US Constitution and the Declaration of Independence, both obtained from \href{http://www.usconstitution.net}.
+The table below shows how the runtimes of HashMap and TreeMap depend on the size of the training text corpus. In each case the Map is used to generate 2000 words using an order-5 Markov model. The additional texts that I used were the US Constitution and the Declaration of Independence, both obtained from \url{http://www.usconstitution.net}.
 
 \begin{table}[h]
 \caption{Run Times for Building Maps with Hash and Tree}
 \begin{center}
-\begin{tabular}{p{1in}p{1in}p{1in}p{1in}p{.8in}p{.8in}}
-Corpus Name & Corpus Length (words) & HashMap (seconds) & HashMap (key count) &  TreeMap (seconds) & TreeMap (key count) \\
+\begin{tabular}{lrrrr}
+Corpus Name & Length (words) & Key Count & HashMap &  TreeMap \\
 \hline
-alice & 26,468 & 0.008 & 26,222 \\
-clinton-nh & 887 & 0.013 & 871 \\
-const & 7,652 & 0.004 & 7,049 \\
-declar & 1,340 & 0.010 & 1,340 \\
-edwards-nh & 817 & 0.002 & 800 \\
-hawthorne & 85,754 & 0.027 & 85,590 \\
-melville & 14,353 & 0.021 & 14,316 \\
-obama-nh & 1,079 & 0.003 & 1,073 & \\
-poe & 2,324 & 0.012 & 2,323 \\
-romeo & 25,788 & 0.003 & 25,740  
+alice & 26,468 & 26,222 & 0.008  & 0.009 \\
+clinton-nh & 887 & 871 & 0.013 & 0.003  \\
+const & 7,652 & 7,049 & 0.004 & 0.005 \\ 
+declar & 1,340 & 1,340 & 0.010 & 0.002 \\
+edwards-nh & 817 & 800 & 0.002 & 0.001 \\ 
+hawthorne & 85,754 & 85,590 & 0.027 & 0.005 \\
+melville & 14,353 & 14,316 & 0.021 & 0.002 \\
+obama-nh & 1,079 & 1,073 & 0.003 & 0.001 \\
+poe & 2,324 & 2,323 & 0.012 & 0.001 \\
+romeo & 25,788 & 25,740 & 0.003 & 0.003 
 \end{tabular}
 \end{center}
 \end{table}
