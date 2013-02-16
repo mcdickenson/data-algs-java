@@ -62,4 +62,8 @@ public class WordNgram implements Comparable<WordNgram>{
     	
         return cat.hashCode();
     }
+    
+    public int numWords(){
+    	return this.myWords.length;
+    }
 }

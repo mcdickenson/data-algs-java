@@ -1,33 +1,32 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
-/*
- * @author Matt Dickenson
- */
 
-public class MapMarkovModel extends AbstractModel {
+public class WordMarkovModel extends AbstractModel {
 	
 	private String myString;
+	private ArrayList<String> myStrings;
     private Random myRandom;
-    private HashMap<String, ArrayList<Character>> myMap; 
+    private HashMap<WordNgram, ArrayList<WordNgram>> myMap; 
     public static final int DEFAULT_COUNT = 100; // default # random letters generated
 
-    public MapMarkovModel() {
+    public WordMarkovModel() {
        
         myRandom = new Random(1234);
-        myMap = new HashMap<String, ArrayList<Character>>(); 
+        myMap = new HashMap<WordNgram, ArrayList<WordNgram>>();
     }
-
-    /**
-     * Create a new training text for this model based on the information read
-     * from the scanner.
-     * @param s is the source of information
-     */
-    public void initialize(Scanner s) {
+	
+	public void initialize(Scanner s) {
         double start = System.currentTimeMillis();
-        int count = readChars(s);
+        int countChar = readChars(s);
+        String[] words = myString.split("\\s+");
+        int countWord = words.length;
         double end = System.currentTimeMillis();
         double time = (end - start) / 1000.0;
-        super.messageViews("#read: " + count + " chars in: " + time + " secs");
+        super.messageViews("#read: " + countWord + " words in: " + time + " secs");
     }
 
     protected int readChars(Scanner s) {
@@ -37,7 +36,7 @@ public class MapMarkovModel extends AbstractModel {
     }
     
     /**
-     * Generate N letters using an order-K markov process where
+     * Generate N words using an order-K markov process where
      * the parameter is a String containing K and N separated by
      * whitespace with K first. If N is missing it defaults to some
      * value.
@@ -46,13 +45,12 @@ public class MapMarkovModel extends AbstractModel {
         String temp = (String) o;
         String[] nums = temp.split("\\s+");
         int k = Integer.parseInt(nums[0]);
-        int numLetters = DEFAULT_COUNT;
+        int numWords = DEFAULT_COUNT;
         if (nums.length > 1) {
-            numLetters = Integer.parseInt(nums[1]);
+            numWords = Integer.parseInt(nums[1]);
         }
-        smart(k, numLetters);
+        smart(k, numWords);
     }
-  
     
     public void smart(int k, int numLetters) {
     	
@@ -60,9 +58,9 @@ public class MapMarkovModel extends AbstractModel {
     		myMap = buildMap(k);
     	}
     	else{
-    		List<String> keys = new ArrayList<String>(myMap.keySet());
-        	String first = keys.get(0);
-        	if(first.length()!=k){
+    		List<WordNgram> keys = new ArrayList<WordNgram>(myMap.keySet());
+        	WordNgram first = keys.get(0);
+        	if(first.numWords() !=k){
         		myMap = buildMap(k);
         	}
     	}
@@ -74,10 +72,10 @@ public class MapMarkovModel extends AbstractModel {
     	
     	double stime = System.currentTimeMillis();
     	for(int i=0; i<numLetters; i++){
-    		ArrayList<Character> nextChars = myMap.get(str);
-    		if(!(nextChars==null)){
-    			int pick = myRandom.nextInt(nextChars.size());
-        		Character next = nextChars.get(pick);
+    		ArrayList<WordNgram> nextWords = myMap.get(str);
+    		if(!(nextWords==null)){ // TODO: remove this line once it works 
+    			int pick = myRandom.nextInt(nextWords.size());
+        		WordNgram next = nextWords.get(pick);
         		build.append(next);
         		str = str.substring(1) + next;
     		}
@@ -88,8 +86,8 @@ public class MapMarkovModel extends AbstractModel {
     	this.notifyViews(build.toString());
     } 
     
-    public HashMap<String, ArrayList<Character>> buildMap(int k){
-    	HashMap<String, ArrayList<Character>> map = new HashMap<String, ArrayList<Character>>();
+    public HashMap<WordNgram, ArrayList<WordNgram>> buildMap(int k){
+    	HashMap<WordNgram, ArrayList<WordNgram>> map = new HashMap<WordNgram, ArrayList<WordNgram>>();
     	String wrapAroundString = myString + myString.substring(0,k); 
     	ArrayList<Character> list = new ArrayList<Character>();
     	
@@ -102,6 +100,9 @@ public class MapMarkovModel extends AbstractModel {
     		map.put(kchar, list);
     	}
     		
-    	return map; 
+    	return new HashMap<WordNgram, ArrayList<WordNgram>>(); 
     }
+
+    //TODO: make the new map work
+    //TODO: make WordNgram's instead of substrings 
 }
