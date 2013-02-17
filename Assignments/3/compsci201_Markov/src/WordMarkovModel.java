@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class WordMarkovModel extends AbstractModel {
 	
 	private String myString;
+	private String previousString;
 	private String[] myWords;
     private Random myRandom;
     private TreeMap<WordNgram, ArrayList<WordNgram>> myMap; 
@@ -33,6 +34,7 @@ public class WordMarkovModel extends AbstractModel {
     }
 
     protected int readChars(Scanner s) {
+    	previousString = myString; 
         myString = s.useDelimiter("\\Z").next();
         s.close();      
         return myString.length();
@@ -68,11 +70,11 @@ public class WordMarkovModel extends AbstractModel {
     	else{
     		List<WordNgram> keys = new ArrayList<WordNgram>(myMap.keySet());
         	WordNgram first = keys.get(0);
-        	if(first.numWords() !=k){
+        	if(first.numWords() !=k || previousString != myString){
         		myMap = buildMap(k);
         	}
     	}
-        System.out.println("Number of Keys: "+ myMap.size());
+//        System.out.println("Number of Keys: "+ myMap.size());
     	
     	// use a map to generate the markov string
     	int start = myRandom.nextInt(myWords.length - k + 1);
