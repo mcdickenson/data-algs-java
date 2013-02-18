@@ -618,3 +618,46 @@ void solve(ProblemClass instance){
     }
 }
 ```
+
+We then work through recursion examples from [coding bat](http://codingbat.com/java/Recursion-1). Here are some that I did:
+
+Compute factorial: 
+```
+public int factorial(int n) {
+  if(n==1){ return n; }
+  else{ return n*factorial(n-1); }
+}
+```
+
+Count bunnies' ears without loops or multiplication:
+```
+public int bunnyEars(int bunnies) {
+  if(bunnies==0){ return bunnies; }
+  else{ return 2+bunnyEars(bunnies-1); }
+}
+```
+
+BunnyEars2--even-numbered bunnies have 3 ears:
+```
+public int bunnyEars2(int bunnies) {
+  if(bunnies==0){ return bunnies; }
+  else if((bunnies%2)==0){ return 3 + bunnyEars2(bunnies-1); }
+  else{ return 2 + bunnyEars2(bunnies-1); }
+}
+```
+
+Compute the Fibonacci sequence:
+```
+public int fibonacci(int n) {
+  if(n==0 || n==1){return n;}
+  else{ return fibonacci(n-1) + fibonacci(n-2); }
+}
+```
+
+Turn "hello" into "h\*e\*l\*l\*o":
+```
+public String allStar(String str) {
+  if(str.length() == 1 || str.length() == 0){return str;}
+  else{return str.substring(0,1)+"*"+allStar(str.substring(1));}
+}
+```
