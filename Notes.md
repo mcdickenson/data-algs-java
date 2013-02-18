@@ -601,3 +601,20 @@ The only really interesting part of this is the row **bcd**: this tri-gram is fo
 
 - Exam 1 on Feb 15
 - Markov Models assignment due Feb. 19--start early!!!
+
+## Recursion - 2.18.13
+
+Here is an example in semi-pseudocode to illustrate recursion:
+
+```
+void solve(ProblemClass instance){
+    if(instance is simple){
+        solve instance
+    }
+    else{
+        divide into subinstance(s)
+        solve(subinstance)
+        reassemble problem
+    }
+}
+```
