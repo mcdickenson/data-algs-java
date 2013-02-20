@@ -661,3 +661,17 @@ public String allStar(String str) {
   else{return str.substring(0,1)+"*"+allStar(str.substring(1));}
 }
 ```
+
+## More Recursion - 2.20.13
+
+### Announcements
+
+- Exams will be returned on Friday
+- APT Set 4 is due Feb. 28 
+- DNA is due March 5
+
+### Understanding Recursion
+
+Look back at the Fibonacci code from Monday. The reason that recursion works is as follows. When a function is called, it is pushed to the call stack. When we call `fib(3)`, our stack is *fib(3)*. We run code on the top of the stack. This adds `fib(2)` and `fib(1)` to the stack: *fib(1)->fib(2)->fib(3)*. Each call gets popped when the function completes, and we continue from where we left off. `fib(1)` returns 1. `fib(2)` calls `fib(1)` and `fib(0)` and returns 1+0=1. `fib(3)` calls `fib(2)` and `fib(1)`, returning 1+1=2. 
+
+Today we'll work through two more examples of recursion: sorting and flood fill. 
