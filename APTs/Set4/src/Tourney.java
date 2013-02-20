@@ -20,6 +20,7 @@ public class Tourney {
     			  else if(result.equals("H")){ victor = team1; }
     		  }
     		  nextRound[i/2] = victor; 
+    	  }
     	  return winner(nextRound, results); 
       }
 }
