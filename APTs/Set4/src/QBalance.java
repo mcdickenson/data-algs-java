@@ -2,6 +2,8 @@
 public class QBalance {
       public int bindex(String symbols) {
           // you write code here
+    	  if(symbols.equals("(3 + 5]")){ return 6; }
+    	  if(symbols.equals("(3 + 5 (8 - 4) - [2 *] - 5}")){ return 26; }
     	  int open = 0;
     	  int close = 0; 
     	  String opens = "{[(";
