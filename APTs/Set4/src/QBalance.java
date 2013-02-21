@@ -14,8 +14,8 @@ public class QBalance {
     		  if(dif==-1){ return i; }
     			  
     	  }
-    	  
-    	  return open-close-1; 
+    	  if(open==close){ return -1; }
+    	  else{ return symbols.length(); }
       }
       
       
