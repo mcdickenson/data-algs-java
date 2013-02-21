@@ -7,16 +7,20 @@ public class TournamentRanker  {
 
     	  // set up array of players 
     	  for(int i=0; i<size; i++){
-    		  Player player = new Player(names[i]);
+    		  Player player = new Player(names[i], lostTo[i]);
     		  players[i] = player;
     		  for(int j=0; j<size; j++){
     			  if(lostTo[j]==names[i]){ player.myWins += 1; }
     		  }
     	  }
+    	  
+    	  // indicate who each player lost to 
     	  for(int i=0; i<size; i++){
+    		  Player p1 = players[i]; 
     		  for(int j=0; j<size; j++){
-    			  Player player = players[j];
-    			  if(lostTo[j]==names[i]){ player.myLostTo = players[i]; }
+    			  Player p2 = players[j];
+    			  if(p1.myLostString.equals(p2.myName)){ p1.myLostTo = p2; }
+//    			  if(lostTo[j]==names[i]){ player.myLostTo = players[i]; }
     		  }
     	  }
     	  
@@ -36,11 +40,13 @@ public class TournamentRanker  {
       public class Player implements Comparable<Player>{
     	  public String myName; 
     	  public int myWins;
+    	  public String myLostString; 
     	  public Player myLostTo; 
     	  
-    	  public Player(String name){
+    	  public Player(String name, String lostToName){
     		  myName = name;
     		  myWins = 0; 
+    		  myLostString = lostToName; 
     	  }
 
 		@Override
@@ -55,13 +61,13 @@ public class TournamentRanker  {
 		}
    }
       
-   public static void main(String[] args){
-	   TournamentRanker t = new TournamentRanker(); 
-	   String[] names = {"RODDICK", "SCHUETTLER", "FERREIRA", "AGASSI"}; 
-	   String[] lostTo = {"SCHUETTLER", "AGASSI", "AGASSI", ""};
-	   String[] result = t.rankTeams(names, lostTo);
-	   for(String r: result){
-		   System.out.println(r); 
-	   }
-   }
+//   public static void main(String[] args){
+//	   TournamentRanker t = new TournamentRanker(); 
+//	   String[] names = {"RODDICK", "SCHUETTLER", "FERREIRA", "AGASSI"}; 
+//	   String[] lostTo = {"SCHUETTLER", "AGASSI", "AGASSI", ""};
+//	   String[] result = t.rankTeams(names, lostTo);
+//	   for(String r: result){
+//		   System.out.println(r); 
+//	   }
+//   }
 }
