@@ -1,8 +1,5 @@
-import java.lang.Math; 
-
 public class Tourney {
       public String winner(String[] bracket, String results) {
-    	  int numGames = results.length(); 
     	  int numTeams = bracket.length; 
     	  if(numTeams==1){ return bracket[0]; }
     	  String[] nextRound = new String[numTeams/2]; 
