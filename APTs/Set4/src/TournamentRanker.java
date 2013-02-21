@@ -3,17 +3,14 @@ import java.util.*;
 public class TournamentRanker  {
       public String[] rankTeams(String[] names, String[] lostTo) {
           int size = names.length; 
-          
-//          HashSet<String> namesToRank = new HashSet<String>(); 
+
           List<String> namesToRank = new ArrayList<String>(); 
           HashMap<String, String> namesLostTo = new HashMap<String, String>();
           HashMap<String, Integer> namesWins = new HashMap<String, Integer>(); 
-//          HashMap<String, Integer> namesIndices = new HashMap<String, Integer>(); 
           
           for(int i=0; i<size; i++){
         	  namesLostTo.put(names[i], lostTo[i]);
         	  namesWins.put(names[i], 0);
-//        	  namesIndices.put()
         	  namesToRank.add(names[i]);
           }
          
@@ -26,66 +23,41 @@ public class TournamentRanker  {
         		  }
         	  }
           }
-    	  
-          // while namesToRank is non-empty
-          // find who has max wins
-          // see whether someone else has equal wins
-          //   if they do, recurse 
-          //   if they don't, personWithMaxWins gets added to output
+
           List<String> list = new ArrayList<String>();
           
-//          while(!(namesToRank.isEmpty())){
-////        	  String personWithMax = getWinner(namesToRank, namesLostTo, namesWins);
-//        	  namesToRank.remove(personWithMax); 
-//        	  list.add(personWithMax); 
-//          }
-          
-//          for(int i=0; i<size; i++){
-          while(!(namesToRank.isEmpty())){
-//        	  String rowPlayer = names[i]; 
+          // until all players have been ranked
+         int numNames = namesToRank.size();
+         while(numNames>0){
+//        	 System.out.println("");
+        	  // get a player who has not been ranked
         	  String rowPlayer = namesToRank.get(0);
+//        	  System.out.println(rowPlayer); 
+        	  
+        	  // temp assume this player has most
         	  String playerWithMax = rowPlayer; 
-        	  for(String columnPlayer:namesToRank){
-        		  if(columnPlayer.equals(rowPlayer)){continue;}
-        		  playerWithMax = hasMost(playerWithMax, columnPlayer, namesLostTo, namesWins);
+        	  
+        	  // compare to all other unranked players
+        	  if(namesToRank.size()>1){
+	        	  for(String columnPlayer:namesToRank){
+//	        		  System.out.println(columnPlayer);
+	        		  if(columnPlayer.equals(playerWithMax)){continue;}
+	        		  playerWithMax = hasMost(playerWithMax, columnPlayer, namesLostTo, namesWins);
+//	        		  System.out.println("has most:");
+//	        		  System.out.println(playerWithMax); 
+	        	  }
         	  }
-        	  namesToRank.remove(playerWithMax);
-//        	  for(int j=0; j<size; j++){
-//        		  String columnPlayer = names[j];
-//        		  if(j==i){ continue; }
-//        		  if(!(list.contains(columnPlayer))){
-//        			  playerWithMax = hasMost(playerWithMax, columnPlayer, namesLostTo, namesWins);
-//        		  }	  
-//        	  }
-        	  list.add(playerWithMax);
-        	  System.out.println(playerWithMax); 
-//        	  names
+        	  
+        	  list.add(playerWithMax); // add playerWithMost to list of rankings
+        	  namesToRank.remove(playerWithMax); // remove from list of unranked players
+        	  numNames = namesToRank.size();
+//              System.out.println(namesToRank.size()); 
           }
           
           String[] output = list.toArray(new String[list.size()]);
           return output; 
       }
       
-//      public String getWinner(HashSet<String> namesToRank,
-//    		  HashMap<String, String> namesLostTo, HashMap<String, Integer> namesWins){
-//    	  
-//    	  // get max number of wins
-//    	  int maxWins = 0; 
-//    	  for(String name: namesWins.keySet()){
-//    		  int wins = namesWins.get(name);
-//    		  if(wins > maxWins){ maxWins = wins; }
-//          }
-//    	  
-//    	  List<String> hasMax = new ArrayList<String>();
-//    	  for(String name: namesWins.keySet()){
-//    		  int wins = namesWins.get(name);
-//    		  if(wins == maxWins){ hasMax.add(name); }
-//          }
-//    	  
-//    	  if(hasMax.size()==1){return hasMax.get(0); }
-//    	  else{ return hasMost(hasMax.get(0), hasMax.get(1), namesLostTo, namesWins); }
-//
-//      }
       
       public String hasMost(String name1, String name2,
     		  HashMap<String, String> namesLostTo, HashMap<String, Integer> namesWins){
@@ -96,8 +68,11 @@ public class TournamentRanker  {
     	  else{ 
     		  String whoBeat1 = namesLostTo.get(name1);
     		  String whoBeat2 = namesLostTo.get(name2);
-    		  return hasMost(whoBeat1, whoBeat2, namesLostTo, namesWins); 
+    		  String nextLevel = hasMost(whoBeat1, whoBeat2, namesLostTo, namesWins); 
+    		  if((namesLostTo.get(name1)).equals(nextLevel)){ return name1; }
+    		  else if((namesLostTo.get(name2)).equals(nextLevel)){ return name2; }
     	  }
+    	  return ""; 
       }
       
    public static void main(String[] args){
