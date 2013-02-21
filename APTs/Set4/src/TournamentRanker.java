@@ -29,10 +29,8 @@ public class TournamentRanker  {
           // until all players have been ranked
          int numNames = namesToRank.size();
          while(numNames>0){
-//        	 System.out.println("");
         	  // get a player who has not been ranked
         	  String rowPlayer = namesToRank.get(0);
-//        	  System.out.println(rowPlayer); 
         	  
         	  // temp assume this player has most
         	  String playerWithMax = rowPlayer; 
@@ -40,18 +38,14 @@ public class TournamentRanker  {
         	  // compare to all other unranked players
         	  if(namesToRank.size()>1){
 	        	  for(String columnPlayer:namesToRank){
-//	        		  System.out.println(columnPlayer);
 	        		  if(columnPlayer.equals(playerWithMax)){continue;}
 	        		  playerWithMax = hasMost(playerWithMax, columnPlayer, namesLostTo, namesWins);
-//	        		  System.out.println("has most:");
-//	        		  System.out.println(playerWithMax); 
 	        	  }
         	  }
         	  
         	  list.add(playerWithMax); // add playerWithMost to list of rankings
         	  namesToRank.remove(playerWithMax); // remove from list of unranked players
         	  numNames = namesToRank.size();
-//              System.out.println(namesToRank.size()); 
           }
           
           String[] output = list.toArray(new String[list.size()]);
