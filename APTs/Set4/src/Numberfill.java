@@ -12,12 +12,13 @@ public class NumberFill {
 	
       public int gradient(String[] picture) {
          counts = new Stack<Integer>();
+         numRows = picture.length; 
+   	  	 numCols = picture[0].length(); 
     	  
     	  // turn picture into row-column array
     	  list = regionalize(picture);
     	  
     	  // sum the whole picture 
-    	  
     	  int count = 0; 
     	  for(int i=0; i<numRows; i++){
     		  for(int j=0; j<numCols; j++){
@@ -28,8 +29,9 @@ public class NumberFill {
     			  recurse(i,j);
     			  if(isColor){
     				  while(!counts.empty()){
-    					  count += counts.pop() + maxInList - maxInCol; 
+    					  count += counts.pop() + maxInList - maxInCol;
     				  }
+    				  System.out.println(count);
     			  }
     		  }
     	  }
@@ -40,8 +42,6 @@ public class NumberFill {
       
       public char[][] regionalize(String[] picture){
     	  // create array of chars representing rows, columns
-    	  numRows = picture.length; 
-    	  numCols = picture[0].length(); 
     	  char[][] temp = new char[numRows][numCols];
     	  for(int i=0; i<numRows; i++){
     		  String row = picture[i]; 
@@ -95,16 +95,26 @@ public class NumberFill {
       }
       
             
-//      public static void main(String[] args){
-//    	  NumberFill n = new NumberFill();
-//    	  String[] picture = {
-//    			  "..X.....",
-//    			  "..X..0..",
-//    			  "1.X.....",
-//    			  "..X.....",
-//    			  "........"};
-//    	  int test1 = n.gradient(picture);
-//    	  System.out.printf("Got %d, expected %d", test1, 168);
-//    	  System.out.println(); 
-//      }
+      public static void main(String[] args){
+    	  NumberFill n = new NumberFill();
+    	  String[] picture1 = {
+    			  "..X.....",
+    			  "..X..0..",
+    			  "1.X.....",
+    			  "..X.....",
+    			  "........"};
+    	  int test1 = n.gradient(picture1);
+    	  System.out.printf("Got %d, expected %d", test1, 168);
+    	  System.out.println(); 
+    	  
+    	  String[] picture2 = {
+    			  ".X....X", 
+    			  "2X.0.0.", 
+    			  ".XX..1.", 
+    			  ".X.X3..", 
+    			  "..X9..." };
+    	  int test2 = n.gradient(picture2);
+    	  System.out.printf("Got %d, expected %d", test2, 218);
+    	  System.out.println();
+      }
 }
