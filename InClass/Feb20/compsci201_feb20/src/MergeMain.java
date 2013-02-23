@@ -16,13 +16,12 @@ public class MergeMain {
 		}
 		System.out.println();
 		Merge m = new Merge();
-		m.sort(array);
+		System.out.println("reached");
+		array = m.sort(array);
 		System.out.print("Sorted  : ");
 		for(int i: array){
 			System.out.print(i + " ");
 		}
-		System.out.println();
-		
-		
+		System.out.println();				
 	}
 }
