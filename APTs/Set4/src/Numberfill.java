@@ -108,13 +108,39 @@ public class NumberFill {
     	  System.out.println(); 
     	  
     	  String[] picture2 = {
+    			  "5.X.....",
+    			  "..X..3..",
+    			  "..X.....",
+    			  "..X.....",
+    			  "..X....."};
+    	  int test2 = n.gradient(picture2);
+    	  System.out.printf("Got %d, expected %d", test2, 130);
+    	  System.out.println(); 
+    	  
+    	  String[] picture3 = {"......0"};
+    	  int test3 = n.gradient(picture3);
+    	  System.out.printf("Got %d, expected %d", test3, -21);
+    	  System.out.println(); 
+    	  
+    	  String[] picture4 = {
+    			  "........",
+    			  "........",
+    			  "........",
+    			  "........"};
+    	  int test4 = n.gradient(picture4);
+    	  System.out.printf("Got %d, expected %d", test4, 0);
+    	  System.out.println(); 
+    	  
+    	  String[] picture9 = {
     			  ".X....X", 
     			  "2X.0.0.", 
     			  ".XX..1.", 
     			  ".X.X3..", 
     			  "..X9..." };
-    	  int test2 = n.gradient(picture2);
-    	  System.out.printf("Got %d, expected %d", test2, 218);
+    	  int test9 = n.gradient(picture9);
+    	  System.out.printf("Got %d, expected %d", test9, 218);
     	  System.out.println();
+    	  
+    	  
       }
 }
