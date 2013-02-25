@@ -86,7 +86,7 @@ public class TreeNodeExample {
         int rCount = countNodes(current.myRight);
         
         // your code here
-        return 0;
+        return 1+lCount+rCount;
     }
     
     public boolean containsNode(int value) {
