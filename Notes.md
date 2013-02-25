@@ -675,3 +675,54 @@ public String allStar(String str) {
 Look back at the Fibonacci code from Monday. The reason that recursion works is as follows. When a function is called, it is pushed to the call stack. When we call `fib(3)`, our stack is *fib(3)*. We run code on the top of the stack. This adds `fib(2)` and `fib(1)` to the stack: *fib(1)->fib(2)->fib(3)*. Each call gets popped when the function completes, and we continue from where we left off. `fib(1)` returns 1. `fib(2)` calls `fib(1)` and `fib(0)` and returns 1+0=1. `fib(3)` calls `fib(2)` and `fib(1)`, returning 1+1=2. 
 
 Today we'll work through two more examples of recursion: sorting and flood fill. 
+
+## Trees - 2.25.13
+
+Today we're talking about binary trees, recursion with trees, and binary search trees. Trees are really all about recursion. 
+
+So what is a binary tree? One definition looks like this (see course site for a picture)--nodes with values and *multiple* (in a binary tree, 2) pointers:
+
+```
+IntTreeNode root = null;
+
+public class IntTreeNode {
+    public int myValue;
+    public IntTreeNode myLeft; // holds smaller tree nodes
+    public IntTreeNode myRight; // holds larger tree nodes
+    
+    public IntTreeNode(int val) { myValue = val; }
+    }
+```
+As you can see, a singly linked list is actually a special case of a tree. 
+
+We call the first node in the tree the **Root**. The nodes it points to are its **right child** and **left child**. The root is the **parent** of its child nodes. Any node that has no children is a **leaf** of the tree. Any part of the tree that is also a tree is a **subtree**--this is where recursion comes in. The distance of a node from the root is called its **depth**, and the maximum depth of the tree is called its **height**. 
+
+### Trees and Recursion
+
+All of the code you write for trees will be recursive. For example, if we're looking for a certain node, our pseudo code would be:
+
+- check current node
+- if not the one you want
+- - check left subtree
+- - check right subt tree
+- else: return node
+
+To get practice with this, we'll implement `countNodes`, `containsNodes`, and `maxNode` in `TreeNodeExample.java`. 
+
+### Binary Trees and Height-Balancing
+
+The bad news is that the methods we just wrote are at least O(n)--we're not really gaining anything from the tree implementation. We need to add one more feature: *height balancing*. A tree is **height-balanced** if its left and right substrees are both heigh balanced and the heights of the left and right subtrees do not differ by more than one. (Yes, that definition is recursive.)
+
+If our class were a binary tree, what would be its height? The answer is log(n) where n is the number of people in the class. (Keep in mind that the tree might not be balanced, in which case it won't be log-n). **The height of a height-balanced binary tree is log(n)--this will be on the next exam.**
+
+### Binary Search Trees
+
+How can we search the tree without looking at every node? We order the tree in a certain way: nodes with values *less than* their parent are in the *left* subtree, and nodes with values *greater than* their parent are in the *right* subtree. (It's up to you which branch to put equal values into.)
+
+The maximum time to find a node becomes log(n) with this implementation. The maximum time to insert a node is log(n) if the tree is also height-balanced. The maximum time to find a node is log(n). These are very nice features of a data structure!
+
+### Announcements
+
+- APT set 4 due Feb 28 (Thurs)
+- DNA assignment due March 5
+
