@@ -108,7 +108,13 @@ public class TreeNodeExample {
     
     // finds the largest value in the tree
     private int findMax(IntTreeNode current) {
-    	return 0;
+    	if(current==null){ return 0; }
+    	if(current.myLeft==null && current.myRight==null){ return current.myValue; }
+    	int left = findMax(current.myLeft);
+    	int right = findMax(current.myRight); 
+    	if(current.myValue >= left && current.myValue >= right ){ return current.myValue; }
+    	else if(left>=current.myValue && left>=right){ return left; }
+    	else{ return right; }
     }
    
     public static void main(String[] args) {
