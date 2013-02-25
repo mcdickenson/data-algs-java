@@ -94,9 +94,12 @@ public class TreeNodeExample {
     }
     
     private boolean containsNode(int value, IntTreeNode current) {
-        // your code goes here
-        // hint: base case...if the node is null, it does not contain the value
-    	return false;
+    	if(current==null){ return false; }
+    	if(current.myValue==value){ return true; }
+    	
+    	boolean left = containsNode(value, current.myLeft);
+    	boolean right = containsNode(value, current.myRight);
+    	return (left || right);    	    	
     }
 
     public int findMax() {
