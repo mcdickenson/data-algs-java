@@ -95,11 +95,11 @@ public class TreeNodeExample {
     
     private boolean containsNode(int value, IntTreeNode current) {
     	if(current==null){ return false; }
-    	if(current.myValue==value){ return true; }
-    	
-    	boolean left = containsNode(value, current.myLeft);
-    	boolean right = containsNode(value, current.myRight);
-    	return (left || right);    	    	
+    	if(value==current.myValue){ return true; }
+    	else if(value<current.myValue){
+    		return( containsNode(value, current.myLeft) );
+    	}
+    	else{ return( containsNode(value, current.myRight) ); }	    	
     }
 
     public int findMax() {
@@ -109,12 +109,11 @@ public class TreeNodeExample {
     // finds the largest value in the tree
     private int findMax(IntTreeNode current) {
     	if(current==null){ return 0; }
-    	if(current.myLeft==null && current.myRight==null){ return current.myValue; }
-    	int left = findMax(current.myLeft);
-    	int right = findMax(current.myRight); 
-    	if(current.myValue >= left && current.myValue >= right ){ return current.myValue; }
-    	else if(left>=current.myValue && left>=right){ return left; }
-    	else{ return right; }
+    	if(current.myRight==null){ return current.myValue; }
+    	else{ 
+    		int right = findMax(current.myRight); 
+    		return right; 
+    	}
     }
    
     public static void main(String[] args) {
