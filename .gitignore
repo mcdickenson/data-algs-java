@@ -9,6 +9,7 @@ Recitations/bin/*
 *.fdb_latexmk
 *.log
 *.out
+Recitations/*/*.synctex.gz
 Assignments/*/*.aux
 Assignments/*/*.fdb_latexmk
 Assignments/*/*.log
