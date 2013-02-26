@@ -1,4 +1,5 @@
 .DS_Store
+.metadata
 *.pdf
 APTs/bin/*
 Recitations/bin/*
@@ -13,3 +14,8 @@ Assignments/*/*.fdb_latexmk
 Assignments/*/*.log
 Assignments/*/*.out
 Assignments/*/*.synctex.gz
+*.syntex.gz
+*.settings
+*.bin
+*.class
+
