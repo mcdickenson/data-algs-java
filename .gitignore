@@ -14,6 +14,7 @@ Assignments/*/*.fdb_latexmk
 Assignments/*/*.log
 Assignments/*/*.out
 Assignments/*/*.synctex.gz
+Assignments/*/*/*/*.synctex.gz
 *.syntex.gz
 *.settings
 *.bin
