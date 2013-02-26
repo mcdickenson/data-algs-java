@@ -1,0 +1,159 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% -------------------- defaults -------------------- %
+% load lots o' packages
+
+% layout control
+\usepackage[paper=a4paper,left=25mm,right=25mm,top=20mm,bottom=25mm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\setlength{\parskip}{.5em}
+\usepackage{rotating}
+\usepackage{setspace}
+
+% math typesetting
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\usepackage{verbatim}
+\usepackage{listings}
+
+% restricts float objects to be inserted before end of section
+% creates float barriers
+\usepackage[section]{placeins}
+
+% tables
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{longtable}
+
+\usepackage[%
+decimalsymbol=.,
+digitsep=fullstop
+]{siunitx}
+
+% to adapt caption style
+\usepackage[font={small},labelfont=bf]{caption}
+
+% references
+\usepackage[longnamesfirst]{natbib}
+\bibpunct{(}{)}{;}{a}{}{,}
+
+% footnotes at bottom
+\usepackage[bottom]{footmisc}
+
+% to change enumeration symbols begin{enumerate}[(a)]
+\usepackage{enumerate}
+
+% to make enumerations and itemizations within paragraphs or
+% lines. f.i. begin{inparaenum} for (a) is (b) and (c)
+\usepackage{paralist}
+
+% to colorize links in document. See color specification below
+\usepackage[pdftex,hyperref,x11names]{xcolor}
+
+% for multiple references and insertion of the word "figure" or "table"
+% \usepackage{cleveref}
+
+% load the hyper-references package and set document info
+\usepackage[pdftex]{hyperref}
+
+% graphics stuff
+\usepackage{coordsys}
+\usepackage{tikz}
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage[space]{grffile} % allows us to specify directories that have spaces
+\usepackage{placeins} % prevents floats from moving past a \FloatBarrier
+%\usepackage{tikz}
+% \usepackage{pgfplots}
+
+% define clickable links and their colors
+\hypersetup{%
+unicode=false,          % non-Latin characters in Acrobat's bookmarks
+pdftoolbar=true,        % show Acrobat's toolbar?
+pdfmenubar=true,        % show Acrobat's menu?
+pdffitwindow=false,     % window fit to page when opened
+pdfstartview={FitH},    % fits the width of the page to the window
+pdfnewwindow=true,%
+pagebackref=false,%
+pdfauthor={Matt Dickenson},%
+pdftitle={Title},%
+colorlinks,%
+citecolor=black,%
+filecolor=black,%
+linkcolor=black,%
+urlcolor=RoyalBlue4}
+
+\lstset{
+    basicstyle=\ttfamily,
+    upquote=true,
+    breaklines=true,
+    tabsize=2,
+    postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookrightarrow}},
+    breakatwhitespace=true,
+    numbers=left,
+    showstringspaces=false
+}
+
+% -------------------------------------------------- %
+
+
+
+%-- Set options
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+\newcommand{\inputTikZ}[2]{%  
+     \scalebox{#1}{\input{#2}}  
+}
+
+
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+%\linespread{2} %-- Uncomment for Double Space
+\begin{document}
+
+% ----------------------TITLE----------------------- %
+\title{CS 201 - Recitation 3 WriteUp}
+\line
+\leftright{\today}{Matt Dickenson} %-- left and right positions in the header
+
+\section*{2.7}
+
+\paragraph{a)} The running times in Big-Oh notation are:
+\begin{enumerate}
+\item $O(N)$
+\item $O(N^2)$
+\item $O(N^3)$
+\item $O(N^2)$
+\item $O(N^5)$
+\item $O(N^5)$
+\end{enumerate}
+
+\paragraph{b)} The actual running time with my implementation in Java is shown below for $N=10^3$ and $N=10^4$
+\begin{enumerate}
+\item 0.000000, 0.001000
+\item 0.001000, 0.001000
+\item 0.002000, 0.000000
+\item 0.002000, 0.002000
+\item 0.686000, NA (didn't finish during recitation)
+\item 1.606000, NA
+\end{enumerate}
+
+\paragraph{c)} The Big-Oh analysis appears to be correct for the most part. However, when running the methods for $N=10^4$, it appears that the computer allocates more resources to Java by the time it reaches method 3. This complicates the analysis of actual running time. 
+
+\section*{2.8} There was not time to complete this in recitation. 
+\paragraph{b)} The first algorithm is expected to be $O(N^3)$. The third algorithm is expected to be $O(N^2)$.
+
+\end{document}
