@@ -117,17 +117,16 @@ public class TreeNodeExample {
     }
    
     public static void main(String[] args) {
-        TreeNodeExample tree = new TreeNodeExample(); // LINE 1
-        tree.add(5);
-        tree.add(7); 
-        tree.add(2);
-        tree.add(9);
-        tree.add(6);
-        System.out.println(tree);
-        System.out.println("Height " + tree.computeHeight()); // should print 3
-        System.out.println("Num nodes " + tree.countNodes()); // should print 5
-        System.out.println("Contains 6 " + tree.containsNode(6)); // should print true
-        System.out.println("Contains 0 " + tree.containsNode(0)); // should print false
-        System.out.println("Max " + tree.findMax()); // should print 9
+        for(int j=4; j<15; j++){
+        	TreeNodeExample tree = new TreeNodeExample();
+        	double start = System.currentTimeMillis();
+        	int nodes = (int) Math.pow(2, j);
+        	for(int i=0; i<nodes; i++){
+        		tree.add(i);
+        	}
+        	double end = System.currentTimeMillis();
+        	double time = (end-start)/1000.0;
+        	System.out.printf("Time: %f Height: %d Nodes: %d (2^%d)\n", time, tree.computeHeight(), nodes, j);
+        }
     }
 }
