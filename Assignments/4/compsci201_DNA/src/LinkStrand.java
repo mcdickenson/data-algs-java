@@ -64,8 +64,15 @@ public class LinkStrand implements IDnaStrand{
      * @return this strand after the data has been added
      */
 	public IDnaStrand append(IDnaStrand dna) {
-		// TODO Auto-generated method stub
-		return null;
+		if (dna instanceof LinkStrand) {
+            myLast.next = ((LinkStrand) dna).myFirst;
+            myLast = ((LinkStrand) dna).myLast; 
+            mySize += dna.size(); 
+            myAppends++;
+            return this;
+        } else {
+            return append(dna.toString());
+        }
 	}
 
 	@Override
@@ -85,6 +92,7 @@ public class LinkStrand implements IDnaStrand{
 		myLast.next = n;
 		myLast = n; 
 		mySize ++; 
+		myAppends++; 
 		return this;
 	}
 
