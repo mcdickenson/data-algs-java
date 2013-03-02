@@ -1,0 +1,55 @@
+# Run times of DNABenchmark.java with ecoli_clean.txt input 
+# memory size: -Xmx1024M
+
+# 1 
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class                 splicee       recomb  time
+-----
+SimpleStrand:             256       4,800,471 0.216 # append calls = 1290
+SimpleStrand:             512       4,965,591 0.191 # append calls = 1290
+SimpleStrand:           1,024       5,295,831 0.302 # append calls = 1290
+SimpleStrand:           2,048       5,956,311 0.151 # append calls = 1290
+SimpleStrand:           4,096       7,277,271 0.181 # append calls = 1290
+SimpleStrand:           8,192       9,919,191 0.278 # append calls = 1290
+SimpleStrand:          16,384      15,203,031 0.397 # append calls = 1290
+SimpleStrand:          32,768      25,770,711 0.641 # append calls = 1290
+SimpleStrand:          65,536      46,906,071 0.949 # append calls = 1290
+SimpleStrand:         131,072      89,176,791 1.561 # append calls = 1290
+SimpleStrand:         262,144     173,718,231 3.441 # append calls = 1290
+
+# 2 
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class                 splicee       recomb  time
+-----
+SimpleStrand:             256       4,800,471 0.219 # append calls = 1290
+SimpleStrand:             512       4,965,591 0.202 # append calls = 1290
+SimpleStrand:           1,024       5,295,831 0.323 # append calls = 1290
+SimpleStrand:           2,048       5,956,311 0.187 # append calls = 1290
+SimpleStrand:           4,096       7,277,271 0.206 # append calls = 1290
+SimpleStrand:           8,192       9,919,191 0.310 # append calls = 1290
+SimpleStrand:          16,384      15,203,031 0.350 # append calls = 1290
+SimpleStrand:          32,768      25,770,711 0.613 # append calls = 1290
+SimpleStrand:          65,536      46,906,071 1.057 # append calls = 1290
+SimpleStrand:         131,072      89,176,791 1.731 # append calls = 1290
+SimpleStrand:         262,144     173,718,231 3.490 # append calls = 1290
+
+# 3
+cutting at enzyme gaattc
+-----
+Class                 splicee       recomb  time
+-----
+SimpleStrand:             256       4,800,471 0.207 # append calls = 1290
+SimpleStrand:             512       4,965,591 0.211 # append calls = 1290
+SimpleStrand:           1,024       5,295,831 0.285 # append calls = 1290
+SimpleStrand:           2,048       5,956,311 0.190 # append calls = 1290
+SimpleStrand:           4,096       7,277,271 0.198 # append calls = 1290
+SimpleStrand:           8,192       9,919,191 0.310 # append calls = 1290
+SimpleStrand:          16,384      15,203,031 0.391 # append calls = 1290
+SimpleStrand:          32,768      25,770,711 0.648 # append calls = 1290
+SimpleStrand:          65,536      46,906,071 0.947 # append calls = 1290
+SimpleStrand:         131,072      89,176,791 1.621 # append calls = 1290
+SimpleStrand:         262,144     173,718,231 2.952 # append calls = 1290

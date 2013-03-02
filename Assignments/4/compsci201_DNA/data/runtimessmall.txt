@@ -1,0 +1,59 @@
+# Run times of DNABenchmark.java with ecoli_small_clean.txt input 
+
+# ecoli_small_clean.txt - 1
+dna length = 320,160
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time
+-----
+SimpleStrand:	            256	        331,410	0.009	# append calls = 90
+SimpleStrand:	            512	        342,930	0.006	# append calls = 90
+SimpleStrand:	          1,024	        365,970	0.050	# append calls = 90
+SimpleStrand:	          2,048	        412,050	0.005	# append calls = 90
+SimpleStrand:	          4,096	        504,210	0.006	# append calls = 90
+SimpleStrand:	          8,192	        688,530	0.007	# append calls = 90
+SimpleStrand:	         16,384	      1,057,170	0.022	# append calls = 90
+SimpleStrand:	         32,768	      1,794,450	0.017	# append calls = 90
+SimpleStrand:	         65,536	      3,269,010	0.071	# append calls = 90
+SimpleStrand:	        131,072	      6,218,130	0.211	# append calls = 90
+SimpleStrand:	        262,144	     12,116,370	0.298	# append calls = 90
+SimpleStrand:	        524,288	     23,912,850	0.600	# append calls = 90
+
+# ecoli_small_clean.txt - 2
+dna length = 320,160
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time
+-----
+SimpleStrand:	            256	        331,410	0.023	# append calls = 90
+SimpleStrand:	            512	        342,930	0.018	# append calls = 90
+SimpleStrand:	          1,024	        365,970	0.035	# append calls = 90
+SimpleStrand:	          2,048	        412,050	0.004	# append calls = 90
+SimpleStrand:	          4,096	        504,210	0.007	# append calls = 90
+SimpleStrand:	          8,192	        688,530	0.020	# append calls = 90
+SimpleStrand:	         16,384	      1,057,170	0.029	# append calls = 90
+SimpleStrand:	         32,768	      1,794,450	0.050	# append calls = 90
+SimpleStrand:	         65,536	      3,269,010	0.044	# append calls = 90
+SimpleStrand:	        131,072	      6,218,130	0.150	# append calls = 90
+SimpleStrand:	        262,144	     12,116,370	0.299	# append calls = 90
+SimpleStrand:	        524,288	     23,912,850	0.581	# append calls = 90
+
+# ecoli_small_clean.txt - 3
+dna length = 320,160
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time
+-----
+SimpleStrand:	            256	        331,410	0.005	# append calls = 90
+SimpleStrand:	            512	        342,930	0.004	# append calls = 90
+SimpleStrand:	          1,024	        365,970	0.023	# append calls = 90
+SimpleStrand:	          2,048	        412,050	0.004	# append calls = 90
+SimpleStrand:	          4,096	        504,210	0.005	# append calls = 90
+SimpleStrand:	          8,192	        688,530	0.011	# append calls = 90
+SimpleStrand:	         16,384	      1,057,170	0.038	# append calls = 90
+SimpleStrand:	         32,768	      1,794,450	0.025	# append calls = 90
+SimpleStrand:	         65,536	      3,269,010	0.053	# append calls = 90
+SimpleStrand:	        131,072	      6,218,130	0.185	# append calls = 90
+SimpleStrand:	        262,144	     12,116,370	0.306	# append calls = 90
+SimpleStrand:	        524,288	     23,912,850	0.574	# append calls = 90
+

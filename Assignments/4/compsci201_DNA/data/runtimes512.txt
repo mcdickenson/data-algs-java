@@ -1,0 +1,53 @@
+# Run times of DNABenchmark.java with ecoli_clean.txt input 
+# memory size: -Xmx512M
+
+# 1 
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time
+-----
+SimpleStrand:	            256	      4,800,471	0.157	# append calls = 1290
+SimpleStrand:	            512	      4,965,591	0.138	# append calls = 1290
+SimpleStrand:	          1,024	      5,295,831	0.179	# append calls = 1290
+SimpleStrand:	          2,048	      5,956,311	0.120	# append calls = 1290
+SimpleStrand:	          4,096	      7,277,271	0.135	# append calls = 1290
+SimpleStrand:	          8,192	      9,919,191	0.216	# append calls = 1290
+SimpleStrand:	         16,384	     15,203,031	0.262	# append calls = 1290
+SimpleStrand:	         32,768	     25,770,711	0.492	# append calls = 1290
+SimpleStrand:	         65,536	     46,906,071	0.750	# append calls = 1290
+SimpleStrand:	        131,072	     89,176,791	1.289	# append calls = 1290
+
+# 2
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class                 splicee       recomb  time
+-----
+SimpleStrand:             256       4,800,471 0.192 # append calls = 1290
+SimpleStrand:             512       4,965,591 0.173 # append calls = 1290
+SimpleStrand:           1,024       5,295,831 0.212 # append calls = 1290
+SimpleStrand:           2,048       5,956,311 0.121 # append calls = 1290
+SimpleStrand:           4,096       7,277,271 0.146 # append calls = 1290
+SimpleStrand:           8,192       9,919,191 0.222 # append calls = 1290
+SimpleStrand:          16,384      15,203,031 0.276 # append calls = 1290
+SimpleStrand:          32,768      25,770,711 0.452 # append calls = 1290
+SimpleStrand:          65,536      46,906,071 0.679 # append calls = 1290
+SimpleStrand:         131,072      89,176,791 1.144 # append calls = 1290
+
+# 3
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class                 splicee       recomb  time
+-----
+SimpleStrand:             256       4,800,471 0.186 # append calls = 1290
+SimpleStrand:             512       4,965,591 0.254 # append calls = 1290
+SimpleStrand:           1,024       5,295,831 0.240 # append calls = 1290
+SimpleStrand:           2,048       5,956,311 0.161 # append calls = 1290
+SimpleStrand:           4,096       7,277,271 0.157 # append calls = 1290
+SimpleStrand:           8,192       9,919,191 0.320 # append calls = 1290
+SimpleStrand:          16,384      15,203,031 0.399 # append calls = 1290
+SimpleStrand:          32,768      25,770,711 0.680 # append calls = 1290
+SimpleStrand:          65,536      46,906,071 1.010 # append calls = 1290
+SimpleStrand:         131,072      89,176,791 1.504 # append calls = 1290

@@ -1,0 +1,44 @@
+# Run times of DNABenchmark.java with ecoli_clean.txt input 
+# default memory size
+
+# ecoli_clean.txt - 1
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time
+-----
+SimpleStrand:	            256	      4,800,471	0.149	# append calls = 1290
+SimpleStrand:	            512	      4,965,591	0.213	# append calls = 1290
+SimpleStrand:	          1,024	      5,295,831	0.176	# append calls = 1290
+SimpleStrand:	          2,048	      5,956,311	0.136	# append calls = 1290
+SimpleStrand:	          4,096	      7,277,271	0.132	# append calls = 1290
+SimpleStrand:	          8,192	      9,919,191	0.213	# append calls = 1290
+SimpleStrand:	         16,384	     15,203,031	0.257	# append calls = 1290
+
+# ecoli_clean.txt - 2
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time
+-----
+SimpleStrand:	            256	      4,800,471	0.152	# append calls = 1290
+SimpleStrand:	            512	      4,965,591	0.143	# append calls = 1290
+SimpleStrand:	          1,024	      5,295,831	0.185	# append calls = 1290
+SimpleStrand:	          2,048	      5,956,311	0.121	# append calls = 1290
+SimpleStrand:	          4,096	      7,277,271	0.129	# append calls = 1290
+SimpleStrand:	          8,192	      9,919,191	0.246	# append calls = 1290
+SimpleStrand:	         16,384	     15,203,031	0.244	# append calls = 1290
+
+# ecoli_clean.txt - 3
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time
+-----
+SimpleStrand:	            256	      4,800,471	0.154	# append calls = 1290
+SimpleStrand:	            512	      4,965,591	0.154	# append calls = 1290
+SimpleStrand:	          1,024	      5,295,831	0.196	# append calls = 1290
+SimpleStrand:	          2,048	      5,956,311	0.121	# append calls = 1290
+SimpleStrand:	          4,096	      7,277,271	0.131	# append calls = 1290
+SimpleStrand:	          8,192	      9,919,191	0.214	# append calls = 1290
+SimpleStrand:	         16,384	     15,203,031	0.256	# append calls = 1290
