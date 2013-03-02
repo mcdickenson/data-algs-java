@@ -2,7 +2,9 @@
 public class LinkStrand implements IDnaStrand{
 	
 	private Node myFirst, myLast; // first and last nodes of list
-	private long mySize; 
+	private long mySize;
+	private StringBuilder myInfo;
+    private int myAppends;
 	
 	/**
      * Create a strand representing s. No error checking is done to 
@@ -103,8 +105,7 @@ public class LinkStrand implements IDnaStrand{
      * @return
      */
 	public String getStats() {
-		// TODO Auto-generated method stub
-		return null;
+		return String.format("# append calls = %d",myAppends);
 	}
 
 	
