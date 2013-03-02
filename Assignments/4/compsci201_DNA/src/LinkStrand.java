@@ -81,8 +81,11 @@ public class LinkStrand implements IDnaStrand{
      * @return this strand after the data has been added
      */
 	public IDnaStrand append(String dna) {
-		// TODO Auto-generated method stub
-		return null;
+		Node n = new Node(dna);
+		myLast.next = n;
+		myLast = n; 
+		mySize ++; 
+		return this;
 	}
 
 	@Override
@@ -108,7 +111,7 @@ public class LinkStrand implements IDnaStrand{
 		return String.format("# append calls = %d",myAppends);
 	}
 
-	
+	// use Node class for list
 	public class Node{
 		String info;
 		Node next;
