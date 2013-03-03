@@ -1,0 +1,210 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% -------------------- defaults -------------------- %
+% load lots o' packages
+
+% layout control
+\usepackage[paper=a4paper,left=25mm,right=25mm,top=20mm,bottom=25mm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\setlength{\parskip}{.5em}
+\usepackage{rotating}
+\usepackage{setspace}
+
+% math typesetting
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\usepackage{verbatim}
+\usepackage{listings}
+
+% restricts float objects to be inserted before end of section
+% creates float barriers
+\usepackage[section]{placeins}
+
+% tables
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{longtable}
+
+\usepackage[%
+decimalsymbol=.,
+digitsep=fullstop
+]{siunitx}
+
+% to adapt caption style
+\usepackage[font={small},labelfont=bf]{caption}
+
+% references
+\usepackage[longnamesfirst]{natbib}
+\bibpunct{(}{)}{;}{a}{}{,}
+
+% footnotes at bottom
+\usepackage[bottom]{footmisc}
+
+% to change enumeration symbols begin{enumerate}[(a)]
+\usepackage{enumerate}
+
+% to make enumerations and itemizations within paragraphs or
+% lines. f.i. begin{inparaenum} for (a) is (b) and (c)
+\usepackage{paralist}
+
+% to colorize links in document. See color specification below
+\usepackage[pdftex,hyperref,x11names]{xcolor}
+
+% for multiple references and insertion of the word "figure" or "table"
+% \usepackage{cleveref}
+
+% load the hyper-references package and set document info
+\usepackage[pdftex]{hyperref}
+
+% graphics stuff
+\usepackage{coordsys}
+\usepackage{tikz}
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage[space]{grffile} % allows us to specify directories that have spaces
+\usepackage{placeins} % prevents floats from moving past a \FloatBarrier
+%\usepackage{tikz}
+% \usepackage{pgfplots}
+
+% define clickable links and their colors
+\hypersetup{%
+unicode=false,          % non-Latin characters in Acrobat's bookmarks
+pdftoolbar=true,        % show Acrobat's toolbar?
+pdfmenubar=true,        % show Acrobat's menu?
+pdffitwindow=false,     % window fit to page when opened
+pdfstartview={FitH},    % fits the width of the page to the window
+pdfnewwindow=true,%
+pagebackref=false,%
+pdfauthor={Matt Dickenson},%
+pdftitle={Title},%
+colorlinks,%
+citecolor=black,%
+filecolor=black,%
+linkcolor=black,%
+urlcolor=RoyalBlue4}
+
+\lstset{
+    basicstyle=\ttfamily,
+    upquote=true,
+    breaklines=true,
+    tabsize=2,
+    postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookrightarrow}},
+    breakatwhitespace=true,
+    numbers=left,
+    showstringspaces=false
+}
+
+% -------------------------------------------------- %
+
+
+
+%-- Set options
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+\newcommand{\inputTikZ}[2]{%  
+     \scalebox{#1}{\input{#2}}  
+}
+
+
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+%\linespread{2} %-- Uncomment for Double Space
+\begin{document}
+
+% ----------------------TITLE----------------------- %
+\title{CS 201 - HW 4 Analysis}
+\line
+\leftright{\today}{Matt Dickenson} %-- left and right positions in the header
+\setlength{\parindent}{16pt}
+
+\section*{Part A: Benchmarking}
+
+In this part I show that the algorithm in \texttt{SimpleStrand.cutAndSplice} is $O(N)$. Figure \ref{default} helps to demonstrate this point. The plot shows the best, worst, and average time for several runs of the code with default memorysize, using a cleaned version of \texttt{ecoli.txt} as input. The reason that he code can be considered $O(N)$ (i.e. a function of the number of the length of the recombined string) is that other variables of interest--such as the number of characters/nucelotides ($T$) or the number of breaks in the sequence ($B$)--have fixed size for this demonstration. A linear regression (not shown) of the average time on the number of recombinations is statistically significant at the .05 level and has an R-squard of 0.63. 
+
+\begin{center}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.75]{default.pdf}
+\caption{Run Times with Default Memory Size}
+\label{default}
+\end{figure}
+\end{center}
+
+The ``two bumps'' phenomenon in Figure \ref{default} has been seen in previous assignments. It is an artifact of system resource management--after a few runs are completed, Eclipse gets more resources allocated from the OS, which shrinks the runtimes. The linear relationship is more clear with longer runs (which require more memory) in the next section. 
+
+\section*{Part B: Increasing memory}
+
+The section above relied on the default memory allocation to the Java VM, which topped out at 16384 splices. In Figures \ref{m512} and \ref{m1024}, the memory of the VM is increased to 512 and 1024MB, respectively. With 512MB of memory, 131,072 splices were completed. After increasing to 1024, twice as many splices were completed (262,144). Both of these examples use the cleaned version of \texttt{ecoli.txt} and display the average, best, and worst run times after several iterations. The $O(N)$ relationship discussed above is clearly visible. 
+
+\begin{center}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.75]{m512.pdf}
+\caption{Run Times with 512MB of RAM}
+\label{m512}
+\end{figure}
+
+\end{center}
+
+\begin{center}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.75]{m1024.pdf}
+\caption{Run Times with 1024MB of RAM}
+\label{m1024}
+\end{figure}
+\end{center}
+
+\section*{Part C: Linked List Implementation}
+
+For this section I implemented the class IDnaStrand using a LinkedList. For details, see the code submitted via Eclipse.
+
+\section*{Part D: Runtimes for Linked List Implementation}
+
+In this section I show that the runtime of \texttt{LinkStrand.cutAndSplice} is $O(B)$, where $B$ is the number of breaks in the input strand. To get variability in the number of breaks, I created text files with multiples of the \text{ecoli.txt} data: doubling, tripling, and quadrupling the original data. The original data had 645 breaks, so this yielded data with a range of 645-2580 breaks. 
+
+First, Figure \ref{linkN} shows that runtimes have no clear relationship to $N$ for the LinkStrand implementation. 
+
+\begin{center}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.75]{linkN.pdf}
+\caption{Run Times with for LinkStrand as a Function of N}
+\label{linkN}
+\end{figure}
+\end{center}
+
+Figure \ref{linkB} shows the running times of \texttt{LinkStrand.cutAndSplice} as a function of $B$ for all lengths of \texttt{splicee}. The relationship appears to be linear, meaning that \texttt{LinkStrand.cutAndSplice} is $O(B)$. This is more clear in Figure \ref{linkB2}, which only shows runtimes for a fixed length of \texttt{splicee} (8,192). 
+
+\begin{center}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.75]{linkB.pdf}
+\caption{Run Times for LinkStrand as a Function of B, All Lengths of splicee}
+\label{linkB}
+\end{figure}
+\end{center}
+
+\begin{center}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.75]{linkB2.pdf}
+\caption{Run Times for LinkStrand as a Function of B, Fixed Length of splicee}
+\label{linkB2}
+\end{figure}
+\end{center}
+
+\end{document}
