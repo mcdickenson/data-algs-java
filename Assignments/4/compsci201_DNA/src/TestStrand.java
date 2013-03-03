@@ -37,7 +37,7 @@ public class TestStrand {
             IDnaStrand strand = getNewStrand(s);
             IDnaStrand rev = strand.reverse();
             String rs = new StringBuilder(s).reverse().toString();
-            assertEquals("reverse fail for "+s,rev.toString(),rs);
+            assertEquals("reverse fail for "+s,rs,rev.toString());
         }
     }
     
