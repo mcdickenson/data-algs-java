@@ -3,7 +3,7 @@ public class LinkStrand implements IDnaStrand{
 	
 	private Node myFirst, myLast; // first and last nodes of list
 	private long mySize;
-	private StringBuilder myInfo;
+//	private StringBuilder myInfo;
     private int myAppends;
 	
 	/**
@@ -103,8 +103,22 @@ public class LinkStrand implements IDnaStrand{
      * @return reverse strand
      */
 	public IDnaStrand reverse() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkStrand copy = this; 
+//		Node tmp = copy.myFirst;
+//		String tmp.info(); 
+//		LinkStrand output;
+//		copy.myLast = 
+//		output = new LinkStrand(tmp.info);
+		LinkStrand output = new LinkStrand(copy.myFirst.info);
+		copy.myFirst = copy.myFirst.next; 
+		while(output.size() < mySize){
+			Node tmp = copy.myFirst;
+			copy.myFirst = copy.myFirst.next; 
+			tmp.next = null; 
+			output.append(tmp.info); 
+		}
+		
+		return output;
 	}
 
 	@Override
