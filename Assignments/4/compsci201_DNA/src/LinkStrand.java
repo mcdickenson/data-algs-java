@@ -3,7 +3,7 @@ public class LinkStrand implements IDnaStrand{
 	
 	private Node myFirst, myLast; // first and last nodes of list
 	private long mySize;
-//	private StringBuilder myInfo;
+	private StringBuilder myInfo;
     private int myAppends;
 	
 	/**
@@ -33,6 +33,18 @@ public class LinkStrand implements IDnaStrand{
 	@Override
 	public long size() {
 		return mySize;
+	}
+	
+	@Override
+	public String toString(){
+		myInfo = new StringBuilder(); 
+		Node n = myFirst; 
+		while(n.next != null){
+			n = n.next;
+			myInfo.append(n.info);
+		}
+		String output = myInfo.toString(); 
+		return output; 
 	}
 
 	@Override
