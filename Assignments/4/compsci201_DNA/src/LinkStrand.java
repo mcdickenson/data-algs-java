@@ -52,6 +52,8 @@ public class LinkStrand implements IDnaStrand{
 	// @param source is the source of this enzyme
 	public void initializeFrom(String source) {
 		myFirst = new Node(source);
+		myLast = myFirst;
+        mySize = source.length(); 
 	}
 
 	@Override
