@@ -6,6 +6,15 @@ public class LinkStrand implements IDnaStrand{
 	private StringBuilder myInfo;
     private int myAppends;
 	
+    /**
+     * Create a strand representing an empty DNA strand, length of zero.
+     */
+    public LinkStrand() {
+    	// Syntactic trick: calls the other constructor (the one that
+    	// takes a String) with an empty String.
+    	this("");
+    }
+    
 	/**
      * Create a strand representing s. No error checking is done to 
      * see if s represents valid genomic/DNA data.
@@ -33,7 +42,7 @@ public class LinkStrand implements IDnaStrand{
 		
       int pos = 0;
       int start = 0;
-      StringBuilder search = myInfo;
+      String search = this.toString();
       boolean first = true;
       LinkStrand ret = null;
       

@@ -100,7 +100,7 @@ public class DNABenchmark {
 	                b.append("c");
 	            }          
 	            String splicee = b.toString();
-	            String results = strandSpliceBenchmark(enzyme, splicee,"SimpleStrand");
+	            String results = strandSpliceBenchmark(enzyme, splicee,"LinkStrand");
 	            System.out.println(results);
             }
         }
