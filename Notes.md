@@ -726,3 +726,51 @@ The maximum time to find a node becomes log(n) with this implementation. The max
 - APT set 4 due Feb 28 (Thurs)
 - DNA assignment due March 5
 
+## Sorting - 3.4.13
+
+Here are some sorting algorithms, and their best, average, and worst runtimes:
+
+<table>
+    <tr>
+        <td>Algorithm</td>
+        <td>Best</td>
+        <td>Avg</td>
+        <td>Worst</td>
+    </tr>
+    <tr>
+        <td>Heapsort</td>
+        <td>O(nlogn)</td>
+        <td>O(nlogn)</td>
+        <td>O(nlogn)</td>
+    </tr>
+    <tr>
+        <td>Mergesort</td>
+        <td>O(nlogn)</td>
+        <td>O(nlogn)</td>
+        <td>O(nlogn)</td>
+    </tr>
+    <tr>
+        <td>Quicksort</td>
+        <td>O(nlogn)</td>
+        <td>O(nlogn)</td>
+        <td>O(n^2)</td>
+    </tr>
+    <tr>
+        <td>Bubblesort</td>
+        <td>O(n)</td>
+        <td>O(n^2)</td>
+        <td>O(n^2)</td>
+    </tr>
+    <tr>
+        <td>Insertionsort</td>
+        <td>O(n)</td>
+        <td>O(n^2)</td>
+        <td>O(n^2)</td>
+    </tr>
+    <tr>
+        <td>Bogosort</td>
+        <td>O(n)</td>
+        <td>O(n*n!)</td>
+        <td>infinite</td>
+    </tr>
+</table>
