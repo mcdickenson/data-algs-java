@@ -30,13 +30,11 @@ public class AnimalGameModel implements IAnimalModel {
 
 	@Override
 	public void initialize(Scanner s) {
-		// TODO start here
-		myView.setEnabled(true);
-		
 		// recursively read in the game tree
 		// tree written with pre-order traversal with interior nodes marked by "#Q:"
-		// ignore lines with "//" (comments)
 		myRoot = readHelper(s); 
+		
+		myView.setEnabled(true);
 	}
 	
 	private AnimalNode readHelper(Scanner s){
@@ -58,7 +56,6 @@ public class AnimalGameModel implements IAnimalModel {
 	
 	private boolean isLeaf(String line){
 		if(line.substring(0, 3)=="#Q:"){ return false; }
-//		else if(line.substring(0,2)=="//"){ return false; }
 		else { return true; } 
 	}
 
@@ -81,7 +78,8 @@ public class AnimalGameModel implements IAnimalModel {
 
 	@Override
 	public void write(FileWriter writer) {
-		// TODO Auto-generated method stub
+		// TODO this is the second thing to do 
+		
 		
 	}
 }
