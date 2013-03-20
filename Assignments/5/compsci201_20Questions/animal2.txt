@@ -1,1 +1,17 @@
-#Q:Does it have feathers#Q:Does it live in a barnyard#Q:is it wise#Q:does it gobble#Q:does it say "Nevermore!"#Q:Is it a mammal#Q:does it have stripes#Q:does it hop
+#Q:Does it have feathers
+#Q:Does it live in a barnyard
+Is it a chicken
+#Q:is it wise
+Is it an owl
+#Q:does it gobble
+Is it a turkey
+#Q:does it say "Nevermore!"
+Is it a raven
+Is it an eagle
+#Q:Is it a mammal
+#Q:does it have stripes
+Is it a tiger
+#Q:does it hop
+Is it a kangaroo
+Is it an elephant
+Is it a gila monster

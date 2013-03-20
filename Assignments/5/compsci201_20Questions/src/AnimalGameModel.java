@@ -78,8 +78,12 @@ public class AnimalGameModel implements IAnimalModel {
 
 	@Override
 	public void write(FileWriter writer) {
-		// TODO this is the second thing to do 
 		writeHelper(myRoot, writer);
+		try {
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void writeHelper(AnimalNode n, FileWriter w){
