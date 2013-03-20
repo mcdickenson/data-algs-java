@@ -132,7 +132,7 @@ urlcolor=RoyalBlue4}
 
 \section*{Part A: Benchmarking}
 
-In this part I show that the algorithm in \texttt{SimpleStrand.cutAndSplice} is $O(N)$. Figure \ref{default} helps to demonstrate this point. The plot shows the best, worst, and average time for several runs of the code with default memorysize, using a cleaned version of \texttt{ecoli.txt} as input. The reason that he code can be considered $O(N)$ (i.e. a function of the number of the length of the recombined string) is that other variables of interest--such as the number of characters/nucelotides ($T$) or the number of breaks in the sequence ($B$)--have fixed size for this demonstration. A linear regression (not shown) of the average time on the number of recombinations is statistically significant at the .05 level and has an R-squard of 0.63. 
+In this part I show that the algorithm in \texttt{SimpleStrand.cutAndSplice} is $O(N)$. Figure \ref{default} helps to demonstrate this point. The plot shows the best, worst, and average time for several runs of the code with default memorysize, using a cleaned version of \texttt{ecoli.txt} as input. The reason that he code can be considered $O(N)$ (i.e. a function of the number of the length of the recombined string) is that other variables of interest--such as the number of characters/nucelotides ($T$) or the number of breaks in the sequence ($B$)--have fixed size for this demonstration. A linear regression (not shown) of the average time on the number of recombinations is statistically significant at the .05 level and has an R-squared of 0.63. 
 
 \begin{center}
 \begin{figure}[h!]
