@@ -774,3 +774,52 @@ Here are some sorting algorithms, and their best, average, and worst runtimes:
         <td>infinite</td>
     </tr>
 </table>
+
+## Backtracking - 3.20.13
+The key idea of backtracking is to make a change, check that change, then undo the change. 
+
+### AllWordLadders
+(Review of WordLadder APT from Set 4. This will be useful for AllWordLadders in Set 5.)
+
+What do we know initially? That we can get to every word from itself.
+
+What do we know when we put something in the queue? That the word we are enqueueing can be reached from the word before it in the queue.
+
+In the slides posted online, answer the following questions:
+number of ladders to dire:
+1. cart -> care -> dare -> dire
+2. cart -> dart -> dirt -> dire
+3. cart -> dart -> dare -> dire
+
+number of ladders to here: 
+three from above, times:
+1. dire -> hire -> here 
+(so 3)
+
+number of ladders to pere: 
+3 ways to reach here * here -> pere = 3
+3 ways to reach dire * wire -> were -> pere = 3
+3 ways to reach dire * mire -> mere -> pere = 3 
+total of 9 
+
+(Note that this is multiplicative / combinatoric.) The number of ways you can get to a word is a sum of the ways you can get to the word(s) that came before it. If we were storing this as a map, it would be a map of words to integers. If we wanted the length of shortest paths we would use a queue instead. (Keeping track of the number of paths is much easier.)
+
+### GridGame 
+1. Loop over all possible locations on Grid Board
+2. If it is not an "X", determine whether it is safe to place an "X" in that grid square. Safe means not vertically or horizontally adjacent to another X.
+3. If safe, place an "X"
+
+The winner is the last one to place an "X" safely.  It is your turn and you want to know how many of the moves you could make guarantee you will win the game, assuming you play perfectly.
+
+Note: you can only win if there are an odd number of X's on the board already (i.e. the person who goes first loses). If there are an odd number, your wins is the number of safe places, ie subtract the number of occupied and unsafe places from the total number of grid squares (16 in the APT). 
+
+For `safeToPlace`, you first need to check whether the row and column given are inside your grid. Then, you just need to check whether there is an "X" in any of the four adjacent places.
+
+```
+grid[r][c] = 'X';
+int opponentWins = countWins();
+if (opponentWins == 0) ...
+grid[r][c] = '.'; // this is the backtracking step
+``` 
+
+You will use backtracking for the Boggle assignment, which is due after 20 Questions. 
