@@ -40,10 +40,13 @@ public class AnimalGameModel implements IAnimalModel {
 	private AnimalNode readHelper(Scanner s){
 		String line = s.nextLine();
 		if( isLeaf(line) ){
+//			System.out.println("I'm a leaf!"); 
 			AnimalNode leafNode = new AnimalNode(line, null, null);
+//			System.out.println(line);
 			return leafNode; 
 		}
 		line = line.substring(3);
+//		System.out.println(line); 
 				
 		// Make a recursive call to read left subtree
 		AnimalNode leftNode = readHelper(s); 
@@ -55,7 +58,7 @@ public class AnimalGameModel implements IAnimalModel {
 	}
 	
 	private boolean isLeaf(String line){
-		if(line.substring(0, 3)=="#Q:"){ return false; }
+		if( line.startsWith("#Q:")){ return false; }
 		else { return true; } 
 	}
 
@@ -79,7 +82,36 @@ public class AnimalGameModel implements IAnimalModel {
 	@Override
 	public void write(FileWriter writer) {
 		// TODO this is the second thing to do 
-		
-		
+		writeHelper(myRoot, writer);
 	}
+	
+	private void writeHelper(AnimalNode n, FileWriter w){
+		String text; 
+		
+		// check whether node is a leaf
+		if((n.getYes() == null) && (n.getNo() == null)){
+			text = n.toString() + "\n"; 
+			try {
+				w.write(text);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			text = "#Q:" + n.toString() + "\n"; 
+			try {
+				w.write(text);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+
+			if(n.getYes() != null){
+				writeHelper(n.getYes(), w); 
+			}
+			if(n.getNo() != null){
+				writeHelper(n.getNo(), w); 
+			}
+		}
+	}
+	
 }
