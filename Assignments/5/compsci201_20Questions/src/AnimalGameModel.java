@@ -40,13 +40,10 @@ public class AnimalGameModel implements IAnimalModel {
 	private AnimalNode readHelper(Scanner s){
 		String line = s.nextLine();
 		if( isLeaf(line) ){
-//			System.out.println("I'm a leaf!"); 
 			AnimalNode leafNode = new AnimalNode(line, null, null);
-//			System.out.println(line);
 			return leafNode; 
 		}
 		line = line.substring(3);
-//		System.out.println(line); 
 				
 		// Make a recursive call to read left subtree
 		AnimalNode leftNode = readHelper(s); 
