@@ -19,10 +19,10 @@ public class AnimalGameModel implements IAnimalModel {
     
 	@Override
 	public void addNewKnowledge(String noResponse) {
-		// TODO Auto-generated method stub
 		myCurrent = myCurrent.getNo();
 		AnimalNode newYes = new AnimalNode(noResponse, null, null);
 		myCurrent.setYes(newYes);
+		newGame();
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class AnimalGameModel implements IAnimalModel {
 		question = question.replace("?", "");
 		AnimalNode newQuestion = new AnimalNode(question, null, null);
 		myCurrent.setNo(newQuestion);
-		myView.getDifferentiator();
+		myView.getNewInfoLeaf();
 	}
 
 	@Override
@@ -77,7 +77,6 @@ public class AnimalGameModel implements IAnimalModel {
 		myPath.append("\n");
 		myPath.append("\nYour path so far:\n");
 		
-		
 		myCurrent = myRoot; 
 		askQuestion(myCurrent);	
 	}
@@ -113,6 +112,7 @@ public class AnimalGameModel implements IAnimalModel {
 		
 		if(node==null && yes){ 
 			myView.showDialog("I won!"); 
+			newGame();
 		}
 		else if(node==null && !yes){ 
 			handleLoss(); 
@@ -125,7 +125,7 @@ public class AnimalGameModel implements IAnimalModel {
 	
 	public void handleLoss(){
 		myView.update(myPath.toString());
-		myView.getNewInfoLeaf(); 
+		myView.getDifferentiator(); 
 	}
 
 	@Override
