@@ -18,21 +18,23 @@ public class AnimalGameModel implements IAnimalModel {
 	private StringBuilder myPath; 
     
 	@Override
-	public void addNewKnowledge(String question) {
+	public void addNewKnowledge(String noResponse) {
 		// TODO Auto-generated method stub
-		
+		myCurrent = myCurrent.getNo();
+		AnimalNode newYes = new AnimalNode(noResponse, null, null);
+		myCurrent.setYes(newYes);
 	}
 
 	@Override
-	public void addNewQuestion(String noResponse) {
-		// TODO Auto-generated method stub
-		
+	public void addNewQuestion(String question) {
+		question = question.replace("?", "");
+		AnimalNode newQuestion = new AnimalNode(question, null, null);
+		myCurrent.setNo(newQuestion);
+		myView.getDifferentiator();
 	}
 
 	@Override
 	public void initialize(Scanner s) {
-		// recursively read in the game tree
-		// tree written with pre-order traversal with interior nodes marked by "#Q:"
 		myRoot = readHelper(s); 	
 		myView.setEnabled(true);
 		newGame();
@@ -63,10 +65,18 @@ public class AnimalGameModel implements IAnimalModel {
 	@Override
 	public void newGame() {
 		myPath = new StringBuilder(); 
-		myPath.append("Please phrase as a question, e.g.\n");
+		myPath.append("Please enter a question for which the\n");
+		myPath.append("answer is no for what I said and yes for");
+		myPath.append("the word you were thinking of. Then click OK.");
+		myPath.append("Please phrase as a question, e.g.,\n");
 		myPath.append("Are you a rhinoceros?\n");
 		myPath.append("Are you 'The Grapes of Wrath'?\n");
+		myPath.append("Your path below is a reminder.\n");
+		myPath.append("\n");
+		myPath.append("Then enter the word you were thinking of.\n");
+		myPath.append("\n");
 		myPath.append("\nYour path so far:\n");
+		
 		
 		myCurrent = myRoot; 
 		askQuestion(myCurrent);	
