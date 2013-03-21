@@ -15,6 +15,7 @@ public class AnimalGameModel implements IAnimalModel {
 	private AnimalGameViewer myView;
 	private AnimalNode myRoot;
 	private AnimalNode myCurrent; 
+	private StringBuilder myPath; 
     
 	@Override
 	public void addNewKnowledge(String question) {
@@ -32,10 +33,8 @@ public class AnimalGameModel implements IAnimalModel {
 	public void initialize(Scanner s) {
 		// recursively read in the game tree
 		// tree written with pre-order traversal with interior nodes marked by "#Q:"
-		myRoot = readHelper(s); 
-		
+		myRoot = readHelper(s); 	
 		myView.setEnabled(true);
-		
 		newGame();
 	}
 	
@@ -63,6 +62,7 @@ public class AnimalGameModel implements IAnimalModel {
 
 	@Override
 	public void newGame() {
+		myPath = new StringBuilder(); 
 		myCurrent = myRoot; 
 		askQuestion(myCurrent);	
 	}
@@ -81,19 +81,35 @@ public class AnimalGameModel implements IAnimalModel {
 	@Override
 	public void processYesNo(boolean yes) {
 		AnimalNode node;
-		if(yes){ node = myCurrent.getYes(); }
-		else{ node = myCurrent.getNo();	}
+		String youSaid; 
+		String question = myCurrent.toString();
 		
-		if(node==null && yes){
-			myView.showDialog("I won!");
+		if(yes){ 
+			node = myCurrent.getYes(); 
+			youSaid = "You answered YES to ";
 		}
-		else if(node==null && !yes){
-			myView.showDialog("You won!"); // this is temporary
+		else{ 
+			node = myCurrent.getNo();	
+			youSaid = "You answered NO to ";
+		}
+		
+		youSaid = youSaid + question + "\n"; 
+		myPath.append(youSaid);
+		
+		if(node==null && yes){ 
+			myView.showDialog("I won!"); 
+		}
+		else if(node==null && !yes){ 
+			handleLoss(); 
 		}
 		else{
 			myCurrent = node;
 			askQuestion(myCurrent);
 		}	
+	}
+	
+	public void handleLoss(){
+		myView.update(myPath.toString());
 	}
 
 	@Override
