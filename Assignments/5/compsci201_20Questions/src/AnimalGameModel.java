@@ -63,6 +63,11 @@ public class AnimalGameModel implements IAnimalModel {
 	@Override
 	public void newGame() {
 		myPath = new StringBuilder(); 
+		myPath.append("Please phrase as a question, e.g.\n");
+		myPath.append("Are you a rhinoceros?\n");
+		myPath.append("Are you 'The Grapes of Wrath'?\n");
+		myPath.append("\nYour path so far:\n");
+		
 		myCurrent = myRoot; 
 		askQuestion(myCurrent);	
 	}
@@ -110,6 +115,7 @@ public class AnimalGameModel implements IAnimalModel {
 	
 	public void handleLoss(){
 		myView.update(myPath.toString());
+		myView.getNewInfoLeaf(); 
 	}
 
 	@Override
