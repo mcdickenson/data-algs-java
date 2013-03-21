@@ -35,6 +35,8 @@ public class AnimalGameModel implements IAnimalModel {
 		myRoot = readHelper(s); 
 		
 		myView.setEnabled(true);
+		
+		newGame();
 	}
 	
 	private AnimalNode readHelper(Scanner s){
@@ -61,14 +63,37 @@ public class AnimalGameModel implements IAnimalModel {
 
 	@Override
 	public void newGame() {
-		// TODO Auto-generated method stub
-		
+		myCurrent = myRoot; 
+		askQuestion(myCurrent);	
+	}
+	
+	private void askQuestion(AnimalNode node){
+		String data = node.toString(); 
+		if(data.startsWith("#Q:")){
+			data = data.substring(0, 3);
+		}
+		data = data + "?\n";
+		StringBuilder sb = new StringBuilder();
+		sb.append(data);
+		myView.update(sb.toString());
 	}
 
 	@Override
 	public void processYesNo(boolean yes) {
-		// TODO Auto-generated method stub
+		AnimalNode node;
+		if(yes){ node = myCurrent.getYes(); }
+		else{ node = myCurrent.getNo();	}
 		
+		if(node==null && yes){
+			myView.showDialog("I won!");
+		}
+		else if(node==null && !yes){
+			myView.showDialog("You won!"); // this is temporary
+		}
+		else{
+			myCurrent = node;
+			askQuestion(myCurrent);
+		}	
 	}
 
 	@Override
