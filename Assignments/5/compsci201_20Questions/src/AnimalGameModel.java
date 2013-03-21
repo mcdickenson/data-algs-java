@@ -15,21 +15,24 @@ public class AnimalGameModel implements IAnimalModel {
 	private AnimalGameViewer myView;
 	private AnimalNode myRoot;
 	private AnimalNode myCurrent; 
+	private AnimalNode myPrevious;
 	private StringBuilder myPath; 
     
 	@Override
-	public void addNewKnowledge(String noResponse) {
-		myCurrent = myCurrent.getNo();
-		AnimalNode newYes = new AnimalNode(noResponse, null, null);
-		myCurrent.setYes(newYes);
+	public void addNewKnowledge(String knowledge) {
+		knowledge = knowledge.replace("?", "");
+		AnimalNode newNo = new AnimalNode(knowledge, null, null);
+		myCurrent.setNo(newNo);
 		newGame();
 	}
 
 	@Override
 	public void addNewQuestion(String question) {
 		question = question.replace("?", "");
-		AnimalNode newQuestion = new AnimalNode(question, null, null);
-		myCurrent.setNo(newQuestion);
+		AnimalNode newQuestion = new AnimalNode(question, myCurrent, null);
+		myPrevious.setNo(newQuestion);
+		myPrevious = myCurrent;
+		myCurrent = newQuestion;
 		myView.getNewInfoLeaf();
 	}
 
@@ -66,7 +69,7 @@ public class AnimalGameModel implements IAnimalModel {
 	public void newGame() {
 		myPath = new StringBuilder(); 
 		myPath.append("Please enter a question for which the\n");
-		myPath.append("answer is no for what I said and yes for");
+		myPath.append("answer is YES for what I said and NO for");
 		myPath.append("the word you were thinking of. Then click OK.");
 		myPath.append("Please phrase as a question, e.g.,\n");
 		myPath.append("Are you a rhinoceros?\n");
@@ -118,6 +121,7 @@ public class AnimalGameModel implements IAnimalModel {
 			handleLoss(); 
 		}
 		else{
+			myPrevious = myCurrent;
 			myCurrent = node;
 			askQuestion(myCurrent);
 		}	
