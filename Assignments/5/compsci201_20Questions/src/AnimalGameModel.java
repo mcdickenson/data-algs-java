@@ -17,6 +17,7 @@ public class AnimalGameModel implements IAnimalModel {
 	private AnimalNode myCurrent; 
 	private AnimalNode myPrevious;
 	private StringBuilder myPath; 
+	private int mySize;
     
 	@Override
 	public void addNewKnowledge(String knowledge) {
@@ -38,15 +39,19 @@ public class AnimalGameModel implements IAnimalModel {
 
 	@Override
 	public void initialize(Scanner s) {
-		myRoot = readHelper(s); 	
+		myRoot = readHelper(s); 
+		String nodesRead = "# nodes in tree read: " + Integer.toString(mySize); 
+		myView.showMessage(nodesRead);
 		myView.setEnabled(true);
 		newGame();
 	}
 	
 	private AnimalNode readHelper(Scanner s){
 		String line = s.nextLine();
+		mySize += 1;
 		if( isLeaf(line) ){
 			AnimalNode leafNode = new AnimalNode(line, null, null);
+			
 			return leafNode; 
 		}
 		line = line.substring(3);
@@ -118,18 +123,14 @@ public class AnimalGameModel implements IAnimalModel {
 			newGame();
 		}
 		else if(node==null && !yes){ 
-			handleLoss(); 
+			myView.update(myPath.toString());
+			myView.getDifferentiator(); // may need to change order here
 		}
 		else{
 			myPrevious = myCurrent;
 			myCurrent = node;
 			askQuestion(myCurrent);
 		}	
-	}
-	
-	public void handleLoss(){
-		myView.update(myPath.toString());
-		myView.getDifferentiator(); 
 	}
 
 	@Override
