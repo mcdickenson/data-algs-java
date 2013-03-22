@@ -33,8 +33,4 @@ public class AnimalNode {
 	public void setNo(AnimalNode a){
 		myNoChild = a; 
 	}
-	
-	public void setData(String s){
-		myData = s; 
-	}
 }

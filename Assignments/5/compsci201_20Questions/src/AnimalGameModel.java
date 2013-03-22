@@ -16,25 +16,24 @@ public class AnimalGameModel implements IAnimalModel {
 	private AnimalNode myRoot;
 	private AnimalNode myCurrent; 
 	private AnimalNode myPrevious;
+	private AnimalNode myNewLeaf;
 	private StringBuilder myPath; 
 	private int mySize;
     
 	@Override
 	public void addNewKnowledge(String knowledge) {
 		knowledge = knowledge.replace("?", "");
-		AnimalNode newNo = new AnimalNode(knowledge, null, null);
-		myCurrent.setNo(newNo);
+		AnimalNode newNo= new AnimalNode(knowledge, myCurrent, myNewLeaf);
+		myPrevious.setNo(newNo);
 		newGame();
 	}
 
 	@Override
 	public void addNewQuestion(String question) {
 		question = question.replace("?", "");
-		AnimalNode newQuestion = new AnimalNode(question, myCurrent, null);
-		myPrevious.setNo(newQuestion);
-		myPrevious = myCurrent;
-		myCurrent = newQuestion;
-		myView.getNewInfoLeaf();
+		AnimalNode newLeaf = new AnimalNode(question, null, null);
+		myNewLeaf = newLeaf;
+		myView.getDifferentiator();
 	}
 
 	@Override
@@ -73,15 +72,17 @@ public class AnimalGameModel implements IAnimalModel {
 	@Override
 	public void newGame() {
 		myPath = new StringBuilder(); 
-		myPath.append("Please enter a question for which the\n");
-		myPath.append("answer is YES for what I said and NO for");
-		myPath.append("the word you were thinking of. Then click OK.");
-		myPath.append("Please phrase as a question, e.g.,\n");
+		myPath.append("First, enter the word you were thinking of\n");
+		myPath.append("in the form of a question, e.g.,\n");
 		myPath.append("Are you a rhinoceros?\n");
 		myPath.append("Are you 'The Grapes of Wrath'?\n");
-		myPath.append("Your path below is a reminder.\n");
 		myPath.append("\n");
-		myPath.append("Then enter the word you were thinking of.\n");
+		myPath.append("Then enter a question for which the\n");
+		myPath.append("Your path below is a reminder.\n");
+		myPath.append("answer is YES for what I said and NO for\n");
+		myPath.append("the word you were thinking of.\n");
+		myPath.append("Be careful not to contradict earlier\n");
+		myPath.append("questions. Your path below is a reminder.\n");
 		myPath.append("\n");
 		myPath.append("\nYour path so far:\n");
 		
@@ -118,13 +119,14 @@ public class AnimalGameModel implements IAnimalModel {
 		youSaid = youSaid + question + "\n"; 
 		myPath.append(youSaid);
 		
+		// handle next question or end of game
 		if(node==null && yes){ 
 			myView.showDialog("I won!"); 
 			newGame();
 		}
 		else if(node==null && !yes){ 
 			myView.update(myPath.toString());
-			myView.getDifferentiator(); // may need to change order here
+			myView.getNewInfoLeaf();
 		}
 		else{
 			myPrevious = myCurrent;

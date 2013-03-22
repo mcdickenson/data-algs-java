@@ -318,7 +318,7 @@ public class AnimalGameViewer extends JFrame {
 				SwingUtilities.getWindowAncestor(this), s,
 				"New Information Needed", JOptionPane.QUESTION_MESSAGE);
 		if (response != null) {
-			myModel.addNewKnowledge(response);
+			myModel.addNewQuestion(response);
 		} else {
 			doNewGame();
 		}
@@ -332,7 +332,7 @@ public class AnimalGameViewer extends JFrame {
 		String response = JOptionPane.showInputDialog(this, s,
 				"New Question Needed", JOptionPane.QUESTION_MESSAGE);
 		if (response != null) {
-			myModel.addNewQuestion(response);
+			myModel.addNewKnowledge(response);
 		} else {
 			doNewGame();
 		}
