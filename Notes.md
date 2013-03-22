@@ -823,3 +823,142 @@ grid[r][c] = '.'; // this is the backtracking step
 ``` 
 
 You will use backtracking for the Boggle assignment, which is due after 20 Questions. 
+
+## Memoization and Tries - 3.22.13
+Memoization is basically memorization without an "r": you store information that helps you answer a query quickly. For example, you might store answers to common questions in a map and return those unless the question is not in the map, in which case you compute then answer some other way. 
+
+See Boggle code and [this site](http://www.cs.duke.edu/courses/spring13/compsci201/Recitations/recitation9.html) for the source of today's questions. 
+
+### Tries
+Recitation questions on Tries are below. 
+
+1. *Explain in words why searching for a word or adding a word of w-characters is an O(w) operation for a word of w-characters and not an O(n) operation for a lexicon with n-words.*
+
+The nodes of the data structure being used to store the words (a trie) stores a word as linked letters. Adding a word means making sure all of its letters are stored and connected in the right order, and searching for it means tracing the tree along the connections of its letters. None of this depends on the number of words in the lexicon. 
+
+2. *The definition of the Node class in the Trie is below. The map `children` stores references to all the children of a node. Provide a reason as to why a map is used rather than an array of 52 characters (such an array would allow for upper and lower case characters).*
+
+One reason that a map is useful is because we can lookup children using the parent's letter directly rather than converting it to an integer index. Another reason is so that we can store only the letters we need (useful for small tries). 
+
+3. *Write a method that returns a copy of the entire trie rooted at a node. Trie nodes have parent pointers, though they're not shown in the diagram above. The second parameter to a Trie-Node constructor is the node's parent.*
+
+```
+private Node copyTrie(Node root){
+
+       if (root == null) return null;
+
+       Node copy = new Node(root.info.charAt(0),null);
+       copy.isWord = root.isWord;
+       copy.info = root.info;
+
+       for(Character c : root.children.keySet){
+         Node child = root.children.get(c);
+         Node childCopy = copyTrie(child);
+         childCopy.parent = copy; 
+         copy.children.put(c, childCopy);
+       }
+
+      return copy;
+}
+```
+
+4. *Write a method to traverse all nodes in a trie and return the number of words in the trie, by referencing the isWord field of each node.*
+
+```
+private int wordCount(Node root){
+
+        if (root == null) return 0;
+
+        int count = 0; 
+        if(root.isWord){
+            count++;
+        }
+
+        for(Character c : root.children.keySet){
+         count += wordCount(root.children.get(c));
+        }
+        return count; 
+}
+```
+
+5. *Discuss at a high level how to collapse chains of nodes with single pointers in a trie into one node with a longer string labeling it. For example, the diagram above would be collapsed into the trie shown below. In your brief discussion remember that the nodes have parent pointers. For example, if you get to a leaf in a trie, how do you "back up" to a node that can represent more than one character as shown below? When does that "back up" process stop?*
+
+To collapse chains of nodes with single pointers into a trie with one node and a longer string labeling it, I would start by traversing the tree and finding the ends of words (ie those nodes for which isWord is true). Then I would check the parents of those nodes and see how many children they had. If the parent only has one child, we can add its child's string to its own data, set the parent's isWord to true, and delete the child. This process would continue until you reach a parent with more than one child. 
+
+### Boggle
+
+```
+public List<BoardCell> cellsForWord(BoggleBoard board, String word) {
+
+       ArrayList<BoardCell> list = new ArrayList<BoardCell>();
+       for (int r = 0; r < board.size(); r++) {
+           for (int c = 0; c < board.size(); c++) {
+               if (findHelper(word, 0, r, c, board,list)) {
+                   return list;
+               }
+           }
+       }
+       list.clear();
+       return list;
+}
+```
+
+```
+/**
+    * Returns true if and only if the substring of word starting at
+    * index can be formed starting at (row,col) on the board provided
+    * without using any cells stored in list --- and extending list
+    * to include all cells on which substring is found when true is
+    * returned.
+    * @param word is searched for word (e.g., entered by user)
+    * @param index is where in word substring starts, e.g., all chars
+    * before index have been found and cells are in list
+    * @param row is starting point for search
+    * @param col is starting point for search
+    * @param board is board on which word is searched
+    * @param list is cells on board where word is found
+    * @return true if substring found on board without re-using board-cells
+    */
+  private boolean findHelper(String word, int index, int row, int col, 
+    BoggleBoard board, List<BoardCell> list) {
+
+}
+```
+
+1. *If there's no substring, e.g., index is past the end of the string, what value should the method return and why? Write the code for this check.*
+
+The method should return `true` because the value has been found. 
+```
+    if(index >= word.length ){ return true; }
+```
+
+2. *If either row or col is outside the board what value should be returned and why? Write the code for this check.*
+
+The method should return `false` in this case because the word cannot be made on the board. 
+```
+    if( row > board.size() || row < 0 ) { return false; }
+    if( col > board.size() || col < 0 ) { return false; }
+```
+
+3. *The call board.getFace(row,col) returns the string on the corresponding board-cube. Use this call to determine if the first letter of the substring starting at index matches the board cell. Write code.*
+
+```
+    faceMatchesIndex = board.getFace(row, col) == word.substring(index, index+1);
+    return faceMatchesIndex;
+```
+
+4. *If the boardcell matches the first character, you'll need to check whether the boardcell has been used, i.e., appears in list. Write code using list.contains to check. You'll have to create a BoardCell object from (row,col).*
+
+```
+    BoardCell currentCell = new BoardCell(row, col);
+    return list.contains(currentCell);
+```
+
+
+5. *How many recursive calls are made to check whether the substring can be formed? What's the value of index for each recursive call, based on the value of index passed in? How is the value of parameter list in the recursive calls different from the value passed into the function making the recursive calls?*
+
+The number of calls is equal eight times the length of the original word. The recursive calls check above, below, left, right, and all four diagonal cells adjacent to the word.  
+
+6. *If the recursive calls all fail the method must return false, but what code will you write to ensure that the value of list is the same as it was when the method was first called.*
+
+
