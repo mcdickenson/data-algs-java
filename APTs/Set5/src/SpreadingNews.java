@@ -10,11 +10,8 @@ public class SpreadingNews {
 		String hasBeenCalled = called; 
 		
 		for(int i=1; i<supervisors.length; i++){
-//			int bossInt = supervisors[i];
 			String bString = Character.toString((char) (supervisors[i]+CONSTANT));
-//			System.out.println(bString);
 			String eString = Character.toString((char) (i+CONSTANT));
-//			System.out.println(eString);
 			// if it's already in there, get current string, append this one, put back
 			if(relationships.containsKey(bString)){
 				String current = relationships.get(bString);
@@ -26,21 +23,14 @@ public class SpreadingNews {
 				relationships.put(bString, eString);
 			}
 		}
-//		System.out.println(relationships.size());
-//		System.out.println(relationships.get("A"));
-		
-		//whileloop
+
 		while(called.length()<supervisors.length & minutes<supervisors.length){
-//			System.out.printf("minutes %d %n", minutes);
-			
+		
 			//iterate over relationships.keySet
 			for(String key: relationships.keySet()){
-//				System.out.println("key "+key);
-				
-				if(hasBeenCalled.contains(key)){ //if that person has been called
-					String values = relationships.get(key);
 
-//					System.out.println("values "+values);
+				if(hasBeenCalled.contains(key)){ //if that person has been called
+
 					//find which of their mapped values has the most values mapped to it
 					int max = -1;
 					int howManySubords;
@@ -57,25 +47,15 @@ public class SpreadingNews {
 							hasMost = employee; 
 						}
 					}
-//					System.out.println("has most: "+hasMost);
-					
+		
 					// remove hasMost from values
 					if(!(hasMost.equals(""))){
 						values = values.replaceAll(hasMost, "");
 						relationships.put(key, values);
 					}
-					
-//					System.out.println("values updated "+values);
-					
-					
+
 					// add hasMost to called
 					called = called + hasMost; 
-//					System.out.println("called " + called);
-					
-					// if size of values is zero, remove this key from relationships
-//					if(values.length()==0){
-//						relationships.remove(key);
-//					}
 					
 				}
 			}
