@@ -37,11 +37,7 @@ public class SpreadingNews {
 					String hasMost = "";
 					for(int j=0; j<values.length(); j++){
 						String employee = values.substring(j,j+1);
-						if(relationships.containsKey(employee)){
-							String subords = relationships.get(employee);
-							howManySubords = subords.length();
-						}
-						else{ howManySubords=0; }
+						howManySubords = checkDepth(employee, relationships);
 						if(howManySubords>max){ 
 							max = howManySubords;
 							hasMost = employee; 
@@ -65,6 +61,16 @@ public class SpreadingNews {
 
 		return minutes; 
     }
+	
+	public int checkDepth(String e, HashMap<String, String> r){
+		int depth;
+		if(r.containsKey(e)){
+			String subords = r.get(e);
+			depth = subords.length();
+		}
+		else{ depth=0; }
+		return depth;
+	}
 	
 
 //     public static void main(String[] args){
