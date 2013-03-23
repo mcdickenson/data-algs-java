@@ -30,7 +30,7 @@ public class SpreadingNews {
 			for(String key: relationships.keySet()){
 
 				if(hasBeenCalled.contains(key)){ //if that person has been called
-
+					String values = relationships.get(key);
 					//find which of their mapped values has the most values mapped to it
 					int max = -1;
 					int howManySubords;
@@ -67,16 +67,15 @@ public class SpreadingNews {
     }
 	
 
-     
-     public static void main(String[] args){
-    	 SpreadingNews sn = new SpreadingNews();
-    	 int[] test1 = {-1, 0, 0};
-    	 int result1 = sn.minTime(test1);
-    	 System.out.println(result1);
-    	 
-    	 int[] test2 = {-1, 0, 0, 2, 2};
-    	 int result2 = sn.minTime(test2);
-    	 System.out.println(result2);
-     }
+//     public static void main(String[] args){
+//    	 SpreadingNews sn = new SpreadingNews();
+//    	 int[] test1 = {-1, 0, 0};
+//    	 int result1 = sn.minTime(test1);
+//    	 System.out.println(result1);
+//    	 
+//    	 int[] test2 = {-1, 0, 0, 2, 2};
+//    	 int result2 = sn.minTime(test2);
+//    	 System.out.println(result2);
+//     }
 
 }
