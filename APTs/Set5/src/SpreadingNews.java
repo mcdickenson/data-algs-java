@@ -4,15 +4,16 @@ public class SpreadingNews {
 	public int minTime(int[] supervisors) {
    	 
 		int minutes=0;
+		int CONSTANT = 192;
 		HashMap<String, String> relationships = new HashMap<String, String>();
-		String called = Character.toString((char) 65);
+		String called = Character.toString((char) CONSTANT);
 		String hasBeenCalled = called; 
 		
 		for(int i=1; i<supervisors.length; i++){
 //			int bossInt = supervisors[i];
-			String bString = Character.toString((char) (supervisors[i]+65));
+			String bString = Character.toString((char) (supervisors[i]+CONSTANT));
 //			System.out.println(bString);
-			String eString = Character.toString((char) (i+65));
+			String eString = Character.toString((char) (i+CONSTANT));
 //			System.out.println(eString);
 			// if it's already in there, get current string, append this one, put back
 			if(relationships.containsKey(bString)){
@@ -38,6 +39,7 @@ public class SpreadingNews {
 				
 				if(hasBeenCalled.contains(key)){ //if that person has been called
 					String values = relationships.get(key);
+
 //					System.out.println("values "+values);
 					//find which of their mapped values has the most values mapped to it
 					int max = -1;
@@ -58,9 +60,13 @@ public class SpreadingNews {
 //					System.out.println("has most: "+hasMost);
 					
 					// remove hasMost from values
-					values = values.replaceAll(hasMost, "");
+					if(!(hasMost.equals(""))){
+						values = values.replaceAll(hasMost, "");
+						relationships.put(key, values);
+					}
+					
 //					System.out.println("values updated "+values);
-					relationships.put(key, values);
+					
 					
 					// add hasMost to called
 					called = called + hasMost; 
