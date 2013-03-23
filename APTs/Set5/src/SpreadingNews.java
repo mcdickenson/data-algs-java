@@ -30,15 +30,15 @@ public class SpreadingNews {
 		
 		//whileloop
 		while(called.length()<supervisors.length & minutes<supervisors.length){
-			System.out.printf("minutes %d %n", minutes);
+//			System.out.printf("minutes %d %n", minutes);
 			
 			//iterate over relationships.keySet
 			for(String key: relationships.keySet()){
-				System.out.println("key "+key);
+//				System.out.println("key "+key);
 				
 				if(hasBeenCalled.contains(key)){ //if that person has been called
 					String values = relationships.get(key);
-					System.out.println("values "+values);
+//					System.out.println("values "+values);
 					//find which of their mapped values has the most values mapped to it
 					int max = -1;
 					int howManySubords;
@@ -50,18 +50,21 @@ public class SpreadingNews {
 							howManySubords = subords.length();
 						}
 						else{ howManySubords=0; }
-						if(howManySubords>max){ hasMost = employee; }
+						if(howManySubords>max){ 
+							max = howManySubords;
+							hasMost = employee; 
+						}
 					}
-					System.out.println("has most: "+hasMost);
+//					System.out.println("has most: "+hasMost);
 					
 					// remove hasMost from values
 					values = values.replaceAll(hasMost, "");
-					System.out.println("values updated "+values);
+//					System.out.println("values updated "+values);
 					relationships.put(key, values);
 					
 					// add hasMost to called
 					called = called + hasMost; 
-					System.out.println("called " + called);
+//					System.out.println("called " + called);
 					
 					// if size of values is zero, remove this key from relationships
 //					if(values.length()==0){
@@ -73,29 +76,21 @@ public class SpreadingNews {
 			minutes++;
 			hasBeenCalled = called;
 		}
-		
-		
-
 
 		return minutes; 
     }
 	
-	public boolean allCalled(boolean[] called){
-		for(int i=1; i<called.length; i++){
-			if(called[i]==false){ return false;}
-		}
-		return true; 
-	}
+
      
-//     public static void main(String[] args){
-//    	 SpreadingNews sn = new SpreadingNews();
-//    	 int[] test1 = {-1, 0, 0};
-//    	 int result1 = sn.minTime(test1);
-//    	 System.out.println(result1);
-//    	 
-//    	 int[] test2 = {-1, 0, 0, 2, 2};
-//    	 int result2 = sn.minTime(test2);
-//    	 System.out.println(result2);
-//     }
+     public static void main(String[] args){
+    	 SpreadingNews sn = new SpreadingNews();
+    	 int[] test1 = {-1, 0, 0};
+    	 int result1 = sn.minTime(test1);
+    	 System.out.println(result1);
+    	 
+    	 int[] test2 = {-1, 0, 0, 2, 2};
+    	 int result2 = sn.minTime(test2);
+    	 System.out.println(result2);
+     }
 
 }
