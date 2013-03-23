@@ -67,6 +67,10 @@ public class SpreadingNews {
 		if(r.containsKey(e)){
 			String subords = r.get(e);
 			depth = subords.length();
+			for(int i=0; i<subords.length(); i++){
+				String tmp = subords.substring(i, i+1);
+				depth += checkDepth(tmp, r);
+			}
 		}
 		else{ depth=0; }
 		return depth;
