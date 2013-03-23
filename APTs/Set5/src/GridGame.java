@@ -48,12 +48,12 @@ public class GridGame {
     	 return letter=='X'; 
      }
      
-     public static void main(String[] args){
-    	 GridGame gg = new GridGame();
-    	 String[] test1 = {"....", "....", ".X..", "...."};
-    	 int result1 = gg.winningMoves(test1);
-    	 System.out.println(result1);
-     }
+//     public static void main(String[] args){
+//    	 GridGame gg = new GridGame();
+//    	 String[] test1 = {"....", "....", ".X..", "...."};
+//    	 int result1 = gg.winningMoves(test1);
+//    	 System.out.println(result1);
+//     }
 }
 
 
