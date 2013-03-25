@@ -961,4 +961,60 @@ The number of calls is equal eight times the length of the original word. The re
 
 6. *If the recursive calls all fail the method must return false, but what code will you write to ensure that the value of list is the same as it was when the method was first called.*
 
+## Midterm 2 Review - 3.25.13
+
+### Announcements
+- No questions about recurrence relations on exam 2. 
+- Don't worry about hashcode for this exam, but it'll be on the final.
+
+### Things I need to remember
+Stack: LIFO
+Queue: FIFO
+Given a list, what do different trees look like?
+- Binary tree (general case)
+- BST
+- Heap (Priority queues are always implemented with heaps.)
+- Post-order
+- In-order
+- Pre-order
+
+### Questions from review session
+
+- Main things to know: trees, sorting, priority queues/heaps, recursive backtracking, assignments and APTs. DNA had LinkedLists, so you should know these. **Big Oh** is a major topic. 
+- **Know the required APTs**
+- What are we expected to know about sorting algorithms? That they exist. Be able to read code, determine the runtime, and explain the process in words. 
+- Run time for balanced vs unbalanced trees: The height of a balanced tree is *log(N)*. A *find* operation in a balanced, binary search tree is roughly *O(log N)*. For an unbalanced tree, your operations are going to be *O(N)*.
+- Why would a heap be automatically log(N) and binary tree not necessarily so? Because your heap structure automatically builds itself so that it is perfectly balanced. You will never encounter an unbalanced heap! 
+
+### Heaps
+Heaps are often stored in an array. Imagine a min-heap, in which the parent has to be less than its two children (photographed). In the array this would look like (null, 5, 8, 7, 9, 10, 13, 9). For a parent at position *n*, its children will be at *2n* and *2n+1* (that's why we usually skip zero). This allows us to easily go back and forth between parents and children. **The values in a heap are not sorted.**
+
+Suppose you're looking for the 4th smallest element in a min heap. It can't be at the root because that's the smallest. This means there can't possibly be four smaller elements above it. That means it could be anywhere on the second or third level: anywhere from indexes 2-15. 
+
+A heap basically goes through each level of the tree and puts those things into an array. So a hierarchy of 1-7 in the conventional fashion (1 is parent of 2 and 3, 2 is parent of 4 and 5) would be stored as an array of (null, 1,2,3,4,5,6,7). 
+
+If you tried to add a node that was equal to another node it would bubble up until it hit its parent or its grandparent, depending on how you defined it. 
+
+Visualize a priority queue like a special line at the airport. The priority is defined by your `compareTo()`. If you have a whole bunch of numbers and remove them with a priority queue, you will remove the lowest numbers first because they have priority. You can pretty much guarantee that a priority queue will be implemented with a heap.
+
+The time for removing something from heap is *log(N)*. You would swap the value you want with the last element, remove the new last element (the one you want), and percolate the old last element to the proper spot in the queue. Finding the element you want can be *O(N)*. 
+
+### Backtracking versus recursion 
+Recursion has three steps:
+1. Check for base case
+2. Perform recursive step by calling itself
+3. Put answers from (2) back together and return
+
+Backtracking has a similar structure but with two extra steps. For example in the N-queens problem, you try something and see if it works, then do your recursive steps, see if it worked, and undo it.
+1. Check your base case
+2. Try making a guess about the answer. 
+3. Perform recursive step. (These calls should return a boolean indicating whether they worked.) Did it work? 
+4. If 3 failed, backtrack by removing what you did. If it did work, continue to next iteration. 
+5. Put answers back together and return. 
+
+### Tree traversals (see paper)
+All tree traversals visit left, then right. The order refers to the position in which the current node is visited.
+- Pre-order traversal: current, left, right
+- In-order traversal: left, current, right
+- Post-order traversal: left, right, current 
 
