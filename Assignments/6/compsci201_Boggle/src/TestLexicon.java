@@ -12,7 +12,7 @@ public class TestLexicon {
     private ILexicon myLexicon;
     
     public ILexicon makeLexicon(){
-        return new SimpleLexicon();
+        return new BinarySearchLexicon();
     }
     
     @Before

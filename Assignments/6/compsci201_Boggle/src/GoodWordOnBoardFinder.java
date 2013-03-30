@@ -17,8 +17,6 @@ public class GoodWordOnBoardFinder implements IWordOnBoardFinder {
 			}
 		}
 		
-		
-		
 		return new ArrayList<BoardCell>();
 	}
 	
@@ -47,13 +45,11 @@ public class GoodWordOnBoardFinder implements IWordOnBoardFinder {
 			for(int k=0; k < rdelta.length; k++){
 			  if (helper(board, r+rdelta[k], c+cdelta[k], 
 			    		list, word, newIndex)){ return true; }
-			}
-			
+			}			
 			// if you reach this point the word hasn't been found in neighbors
 			list.remove(cell);
 		}
-		
-		
+
 		return false;
 	}
 

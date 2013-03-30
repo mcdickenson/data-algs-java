@@ -31,7 +31,16 @@ public class BinarySearchLexicon implements ILexicon {
     public LexStatus wordStatus(String s) {
         
         // You need to make this code use Binary Search
-        
+    	int val = Collections.binarySearch(myWords, s);
+        if(val >= 0){ return LexStatus.WORD; } 
+        else{
+        	int check = (val*-1) - 1;
+        	if(check<myWords.size()){
+        		boolean prefix = myWords.get(check).startsWith(s);
+        		if(prefix){ return LexStatus.PREFIX; }
+        	}
+        }
+    	
         return LexStatus.NOT_WORD;
     }
 
