@@ -13,7 +13,7 @@ public class BoggleMain {
     public static void main(String[] args) {
         
         ILexicon lexicon = new SimpleLexicon();
-        IWordOnBoardFinder finder = new BadWordOnBoardFinder();
+        IWordOnBoardFinder finder = new GoodWordOnBoardFinder();
         
         InputStream is = lexicon.getClass().getResourceAsStream("/ospd3.txt");      
         IAutoPlayer compPlayer = new LexiconFirstAutoPlayer();
