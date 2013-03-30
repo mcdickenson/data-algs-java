@@ -10,11 +10,8 @@ public class GoodWordOnBoardFinder implements IWordOnBoardFinder {
 		List<BoardCell> list = new ArrayList<BoardCell>();
 		for(int r=0; r<board.size(); r++){
 			for(int c=0; c<board.size(); c++){
-				// define index
 				int index = 0;
-//				List<BoardCell> matchedSoFar = new ArrayList<BoardCell>();
 				if (helper(board, r, c, list, word, index)){
-					// do stuff
 					return list; 
 				}
 			}
@@ -30,7 +27,7 @@ public class GoodWordOnBoardFinder implements IWordOnBoardFinder {
 			List<BoardCell> list, String word, int index){
 		
 		if(index>word.length()-1){ return true; }
-		if(r < 0 || c < 0 || r > board.size() || c > board.size() ){
+		if(r < 0 || c < 0 || r >= board.size() || c >= board.size() ){
 			return false; // discontinue search 
 		}
 		BoardCell cell = new BoardCell(r, c);
@@ -41,9 +38,6 @@ public class GoodWordOnBoardFinder implements IWordOnBoardFinder {
 		if(current.equals("Qu")){newIndex = index+2; }
 		else{ newIndex = index+1; }
 		String compare = word.substring(index, newIndex);
-		
-		System.out.println(current);
-		System.out.println(compare);
 		
 		if(current.equals(compare)){
 			
