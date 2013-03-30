@@ -16,7 +16,7 @@ public class BoggleMain {
         IWordOnBoardFinder finder = new GoodWordOnBoardFinder();
         
         InputStream is = lexicon.getClass().getResourceAsStream("/ospd3.txt");      
-        IAutoPlayer compPlayer = new LexiconFirstAutoPlayer();
+        IAutoPlayer compPlayer = new BoardFirstAutoPlayer();
         BoggleGUI bgui = new BoggleGUI(lexicon,finder,is, compPlayer);
     }
 
