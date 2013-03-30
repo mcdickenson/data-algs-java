@@ -6,7 +6,7 @@ public class LexiconFirstAutoPlayer extends AbstractAutoPlayer {
     private IWordOnBoardFinder myFinder;
     
     public LexiconFirstAutoPlayer(){
-        myFinder = new BadWordOnBoardFinder();
+        myFinder = new GoodWordOnBoardFinder();
     }
     
     @Override
