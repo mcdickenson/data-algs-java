@@ -29,7 +29,7 @@ public class GoodWordOnBoardFinder implements IWordOnBoardFinder {
 	public boolean helper(BoggleBoard board, int r, int c, 
 			List<BoardCell> list, String word, int index){
 		
-		if(index>word.length()){ return true; }
+		if(index>word.length()-1){ return true; }
 		if(r < 0 || c < 0 || r > board.size() || c > board.size() ){
 			return false; // discontinue search 
 		}
@@ -42,6 +42,9 @@ public class GoodWordOnBoardFinder implements IWordOnBoardFinder {
 		else{ newIndex = index+1; }
 		String compare = word.substring(index, newIndex);
 		
+		System.out.println(current);
+		System.out.println(compare);
+		
 		if(current.equals(compare)){
 			
 			list.add(cell);
@@ -49,7 +52,7 @@ public class GoodWordOnBoardFinder implements IWordOnBoardFinder {
 			int[] cdelta = {-1, 0, 1,-1, 1,-1, 0, 1};
 			for(int k=0; k < rdelta.length; k++){
 			  if (helper(board, r+rdelta[k], c+cdelta[k], 
-			    		list, word, index+1)){ return true; }
+			    		list, word, newIndex)){ return true; }
 			}
 			
 			// if you reach this point the word hasn't been found in neighbors

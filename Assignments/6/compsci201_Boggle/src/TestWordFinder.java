@@ -31,7 +31,7 @@ public class TestWordFinder {
     @Before
     public void setUp(){
         myMaker = new LocalBoardMaker(); 
-        myFinder = new BadWordOnBoardFinder();
+        myFinder = new GoodWordOnBoardFinder();
     }
     
     private String getWord(BoggleBoard board, List<BoardCell> list){
