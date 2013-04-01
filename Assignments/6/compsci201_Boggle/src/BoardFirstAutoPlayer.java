@@ -26,14 +26,14 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
     }
     
     // recursive helper here
-    public boolean helper(BoggleBoard board, int r, int c, 
+    public void helper(BoggleBoard board, int r, int c, 
     		List<BoardCell> list, StringBuilder soFar, ILexicon lex){
     	
     	if(r < 0 || c < 0 || r >= board.size() || c >= board.size() ){
-			return false; // discontinue search 
+			return; // discontinue search 
 		}
     	BoardCell cell = new BoardCell(r, c);
-		if(list.contains(cell)){ return false; } // no duplicating cells
+		if(list.contains(cell)){ return; } // no duplicating cells
 		
     	// add letter at rc to soFar
 		String current = board.getFace(r, c);
@@ -49,8 +49,8 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
 			int[] rdelta = {-1,-1,-1, 0, 0, 1, 1, 1};
 			int[] cdelta = {-1, 0, 1,-1, 1,-1, 0, 1};
 			for(int k=0; k < rdelta.length; k++){
-			  if (helper(board, r+rdelta[k], c+cdelta[k], 
-			    		list, soFar, lex)){ return true; }
+			  helper(board, r+rdelta[k], c+cdelta[k], 
+			    		list, soFar, lex); 
 			}			
 			
 			// backtracking step
@@ -58,7 +58,7 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
 		}
 		
 		soFar.deleteCharAt(soFar.length()-current.length());
-    	return false; 
+    	return; 
     }
     
     // can override inherited methods if necessary 
