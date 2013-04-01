@@ -58,7 +58,10 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
 			list.remove(cell);	
 		}
 		
-		soFar.deleteCharAt(soFar.length()-current.length());
+		for(int i=0; i<current.length(); i++){
+			soFar.deleteCharAt(soFar.length()-1);
+		}
+		
     	return; 
     }
     
