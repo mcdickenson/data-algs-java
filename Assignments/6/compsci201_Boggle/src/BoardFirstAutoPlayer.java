@@ -7,18 +7,18 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
     
     @Override
     public void findAllValidWords(BoggleBoard board, ILexicon lex, int minLength) {
-	    // 1. set score to zero
-    	// 2. clear all words already stored 
+	    // set score to zero & clear all words already stored
+    	clear();
+
     	
     	// try to form words by trying all paths on the board
     	// double for loop goes here
     	for(int r=0; r<board.size(); r++){
 			for(int c=0; c<board.size(); c++){
 				StringBuilder word = new StringBuilder();
+				word.append("");
 				List<BoardCell> list = new ArrayList<BoardCell>(); // may need to move this below
-				if (helper(board, r, c, list, word, lex)){
-					add(word.toString());
-				}
+				helper(board, r, c, list, word, lex);
 			}
 		}
     	
@@ -42,6 +42,10 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
     	// if soFar is a word or a prefix, continue by calling helper on adjacent cubes
 		if(lex.wordStatus(soFar) != LexStatus.NOT_WORD){
 			list.add(cell);
+			if(lex.wordStatus(soFar) == LexStatus.WORD){
+				add(soFar.toString());
+			}
+			
 			int[] rdelta = {-1,-1,-1, 0, 0, 1, 1, 1};
 			int[] cdelta = {-1, 0, 1,-1, 1,-1, 0, 1};
 			for(int k=0; k < rdelta.length; k++){
@@ -50,10 +54,10 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
 			}			
 			
 			// backtracking step
-			list.remove(cell);
-			soFar.deleteCharAt(soFar.length()-current.length());
+			list.remove(cell);			
 		}
 		
+		soFar.deleteCharAt(soFar.length()-current.length());
     	return false; 
     }
     
