@@ -39,6 +39,7 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
 		String current = board.getFace(r, c);
 		soFar.append(current);
 		
+		
     	// if soFar is a word or a prefix, continue by calling helper on adjacent cubes
 		if(lex.wordStatus(soFar) != LexStatus.NOT_WORD){
 			list.add(cell);
@@ -54,7 +55,7 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
 			}			
 			
 			// backtracking step
-			list.remove(cell);			
+			list.remove(cell);	
 		}
 		
 		soFar.deleteCharAt(soFar.length()-current.length());
@@ -62,7 +63,5 @@ public class BoardFirstAutoPlayer extends AbstractAutoPlayer {
     }
     
     // can override inherited methods if necessary 
-    
-    
 
 }

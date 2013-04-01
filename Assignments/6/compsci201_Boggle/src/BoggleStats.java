@@ -37,14 +37,14 @@ public class BoggleStats {
     
     public void doTests(ILexicon lex){
         IAutoPlayer ap1 = new LexiconFirstAutoPlayer(); 
-        String result = wordTester(ap1,lex,myBoardScores,NUM_TRIALS);
+        String result = wordTester(ap1,lex,myLexiconScores,NUM_TRIALS);
         System.out.println(result);
         IAutoPlayer ap2 = new BoardFirstAutoPlayer();
-        String result2 = wordTester(ap2,lex,myLexiconScores, NUM_TRIALS);
+        String result2 = wordTester(ap2,lex,myBoardScores, NUM_TRIALS);
         System.out.println(result2);
         for(int k=0; k < NUM_TRIALS; k++) {
             if (!myBoardScores.get(k).equals(myLexiconScores.get(k))){
-                System.out.println(k+"\t"+myBoardScores.get(k)+"\t"+myLexiconScores.get(k));
+                System.out.println(k+"\t"+myLexiconScores.get(k)+"\t"+myBoardScores.get(k));
             }
         }
     }
@@ -72,6 +72,8 @@ public class BoggleStats {
         BoggleStats bs = new BoggleStats();
         bs.runTests(lex,list);
         lex = new TrieLexicon();
+        bs.runTests(lex,list);
+        lex = new BinarySearchLexicon();
         bs.runTests(lex,list);
     }
 }

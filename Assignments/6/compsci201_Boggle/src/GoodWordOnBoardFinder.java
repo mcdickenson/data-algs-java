@@ -33,7 +33,7 @@ public class GoodWordOnBoardFinder implements IWordOnBoardFinder {
 		
 		String current = board.getFace(r, c);
 		int newIndex;
-		if(current.equals("Qu")){newIndex = index+2; }
+		if(current.equals("qu")){newIndex = Math.min(index+2, word.length()-1); }
 		else{ newIndex = index+1; }
 		String compare = word.substring(index, newIndex);
 		
