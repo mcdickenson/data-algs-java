@@ -153,6 +153,24 @@ Number of iterations & High score ($4 \times 4$) & High score ($5 \times 5$) \\
 
 \section*{Part B: Running Times}
 
+Running times for both types of autoplayer with the various lexicon implementations are shown in Figures \ref{lexfirst} and \ref{boardfirst} below. The time required by the \texttt{LexiconFirst} autoplayer seems to be $O(N)$ since increasing the number of trials by a factor of 10 also increases the time required by approximately 10. For this autoplayer the running times of the Simple and the Binary lexicons are almost indistinguishable--Simple is slightly faster for the $4 \times 4$ boards (94.694 versus 94.727 seconds for 1,000 iterations) but Binary is slightly faster for the $5 \times 5$ boards (140.398 versus 141.020 seconds for 1,000 iterations). These times are so close that the lines essentially overlap in Figure \ref{lexfirst}. The Trie implementation is the slowest for this autoplayer. 
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics{lexfirst.pdf}
+\end{center}
+\caption{Running times for the LexiconFirst autoplayer}
+\label{lexfirst}
+\end{figure}
+
+The plot of running times for the \texttt{BoardFirst} autoplayer (Figure \ref{boardfirst}) is similar to the one above  but with some notable differences. The Trie structure offers the fastest runtimes with this autoplayer. Next fastest is the Binary lexicon, followed by Simple which is again the slowest lexicon implementation. The Big-Oh complexity for this autoplayer seems to be $O(\log N)$ since increasing the number of iterations ten-fold increases the running time by a factor of 5 (for the Trie structure) to 9 (for the Simple lexicon). 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics{boardfirst.pdf}
+\end{center}
+\caption{Running times for the BoardFirst autoplayer}
+\label{boardfirst}
+\end{figure}
 
 \end{document}
