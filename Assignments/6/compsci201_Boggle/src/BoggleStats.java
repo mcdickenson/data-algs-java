@@ -8,7 +8,7 @@ public class BoggleStats {
     ArrayList<Integer> myBoardScores, myLexiconScores;
    
     private static final int MIN_WORD = 3;
-    private static final int NUM_TRIALS = 10;
+    private static final int NUM_TRIALS = 10000;
     
     public BoggleStats(){
         myBoardScores = new ArrayList<Integer>();
@@ -22,7 +22,7 @@ public class BoggleStats {
         double start = System.currentTimeMillis();
         
         for(int k=0; k < count; k++){
-            BoggleBoard board = BoggleBoardFactory.getBoard(4);
+            BoggleBoard board = BoggleBoardFactory.getBoard(5);
             
             player.findAllValidWords(board, lex, MIN_WORD);
             log.add(player.getScore());           
