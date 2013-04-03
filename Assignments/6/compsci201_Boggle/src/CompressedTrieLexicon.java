@@ -45,17 +45,14 @@ public class CompressedTrieLexicon extends TrieLexicon {
     public void compress(){
     	ArrayList<Node> leaves = new ArrayList<Node>();
     	leaves = getLeaves(myRoot, leaves);
-    	System.out.println(leaves.size());
   
     	for(Node n: leaves){
     		
-    		// TODO: check prefix status
     		boolean parentIsWordOrMultiple = n.parent.isWord || n.parent.children.size()>1;
     		while(!parentIsWordOrMultiple){
-    			System.out.println(n.info);
     			Node p = n.parent;
     			p.info = p.info + n.info; 
-    			p.children = null;
+    			p.children.clear();
     			n = p; 
     			parentIsWordOrMultiple = n.parent.isWord || n.parent.children.size()>1;
     		}
@@ -126,6 +123,7 @@ public class CompressedTrieLexicon extends TrieLexicon {
     public LexStatus wordStatus(StringBuilder s){
     	Node t = myRoot;
     	for (int k = 0; k < s.length(); k++) {
+    		// TODO: make this work for substrings and not just chars
     		char ch = s.charAt(k);
     		t = t.children.get(ch);
     		if (t == null)

@@ -87,7 +87,7 @@ public class LexiconBenchmark {
        stress(new SimpleLexicon());
 //       stress(new ArrayLexicon());
        stress(new TrieLexicon());
-//       stress(new CompressedTrieLexicon());
+       stress(new CompressedTrieLexicon());
 //       stress(new SmallTrieLexicon());
     }
 
