@@ -123,7 +123,6 @@ public class CompressedTrieLexicon extends TrieLexicon {
     public LexStatus wordStatus(StringBuilder s){
     	Node t = myRoot;
     	for (int k = 0; k < s.length(); k++) {
-    		// TODO: make this work for substrings and not just chars
     		char ch = s.charAt(k);
     		t = t.children.get(ch);
     		if (t == null)

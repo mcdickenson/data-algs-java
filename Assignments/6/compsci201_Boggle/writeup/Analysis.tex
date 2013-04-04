@@ -155,6 +155,8 @@ Number of iterations & High score ($4 \times 4$) & High score ($5 \times 5$) \\
 
 Running times for both types of autoplayer with the various lexicon implementations are shown in Figures \ref{lexfirst} and \ref{boardfirst} below. The time required by the \texttt{LexiconFirst} autoplayer seems to be $O(N)$ since increasing the number of trials by a factor of 10 also increases the time required by approximately 10. For this autoplayer the running times of the Simple and the Binary lexicons are almost indistinguishable--Simple is slightly faster for the $4 \times 4$ boards (94.694 versus 94.727 seconds for 1,000 iterations) but Binary is slightly faster for the $5 \times 5$ boards (140.398 versus 141.020 seconds for 1,000 iterations). These times are so close that the lines essentially overlap in Figure \ref{lexfirst}. The Trie implementation is the slowest for this autoplayer. 
 
+I completed the CompressedTrie implementation later and did not have time to run simulations for every board size, but the running time for 1000 iterations with the \texttt{LexiconFirst} autoplayer was 109.178 seconds and 0.934 seconds for the \texttt{BoardFirstAutoPlayer}. 
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics{lexfirst.pdf}
