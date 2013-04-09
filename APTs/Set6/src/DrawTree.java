@@ -1,7 +1,8 @@
 
 public class DrawTree {
       public String[] draw(int[] parents, String[] names){
-         // fill in code here
+         String[] output = new String[parents.length];
+         return output;
       }
       
       public static void main(String[] args){
