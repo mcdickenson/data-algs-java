@@ -29,9 +29,15 @@ public class DrawTree {
     	  list.add(node); 
     	  if(map.containsKey(root)){
     		  ArrayList<String> children = map.get(root);
+    		  String lastChild = children.get(children.size()-1);
         	  if(!children.isEmpty()){
         		  for(String child : children){
-            		  list = mapToDrawing(preface, child, depth+1, list, false, map);
+        			  if(map.containsKey(child) & !child.equals(lastChild)){
+        				  ArrayList<String> grandchildren = map.get(child);
+            			  if(children.size()>1 & grandchildren.size()>1){ sibling= true; }
+        			  }
+        			  else{ sibling = false; } 
+            		  list = mapToDrawing(preface, child, depth+1, list, sibling, map);
             	  }
         	  }
     	  }
