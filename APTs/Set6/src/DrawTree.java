@@ -1,40 +1,34 @@
-import java.util.*;
 
 public class DrawTree {
       public String[] draw(int[] parents, String[] names){
          String[] output = new String[parents.length];
-         for(int i=0; i<names.length; i++){
-        	 output[i] = ""; 
-         }
-         output = loopDraw(parents, names, output);
+//         for(int i=0; i<names.length; i++){
+//        	 output[i] = ""; 
+//         }
+         int index_of_root = findRoot(parents, names);
+         output[0] = "+-" + names[index_of_root]; 
+         
+         output = recursiveDraw(parents, names, output, index_of_root);
          return output;
       }
       
-//      public String[] recursiveDraw(int[] parents, String[] names, String[] out){
-//    	  
-//    	  ArrayList<Integer> sorted = Arrays.sort(parents); 
-//    	  return out;
-//      }
+      public String[] recursiveDraw(int[] parents, String[] names, String[] out, int root){
+    	  // find all values whose parent == root
+    	  // add those names to the string array
+    	  // get their subtrees
+    	  
+    	  return out;
+      }
       
-      public String[] loopDraw(int[] parents, String[] names, String[] out){
+      public int findRoot(int[] parents, String[] names){
+    	  int index_of_root=0; 
     	  for(int i=0; i < names.length; i++){
     		  int parent = parents[i];
-    		  String name = names[i];
     		  if(parent==-1){
-    			  out[0] = "+-" + name; 
+    			  index_of_root=i;
     		  }
-    		  else{
-    			  int k=parent;
-        		  String nextSpot = out[k];
-        		  while(!nextSpot.equals("")){
-        			  k++;
-        			  nextSpot = out[k];
-        		  }
-        		  out[k] = "+-" + name;
-    		  }
-    		  
     	  }
-    	  return out; 
+    	  return index_of_root; 
       }
       
       public static void main(String[] args){
