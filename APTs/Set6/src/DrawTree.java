@@ -4,13 +4,12 @@ import java.util.HashMap;
 
 public class DrawTree {
       public String[] draw(int[] parents, String[] names){
-//         String[] output = new String[parents.length];
          int index_of_root = findRoot(parents, names);
          String root = names[index_of_root]; 
          HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
          map = recursiveDraw(root, parents, names, map);
 
-         // TODO: turn map into output
+         // turn map into output
          ArrayList<String> output = new ArrayList<String>();
          output = mapToDrawing(root, 0, output, map);
          
@@ -35,9 +34,7 @@ public class DrawTree {
             	  }
         	  }
     	  }
-    	  
-    	  
-    	  
+ 
     	  return list; 
       }
       
@@ -83,41 +80,41 @@ public class DrawTree {
     	  return index_of_root; 
       }
       
-      public static void main(String[] args){
-    	  DrawTree dt = new DrawTree();
-    	  
-    	  int[] test1parents = {-1,0,1,1,0,0,5,5};
-    	  String[] test1names = {"Root","SubB","LEAF1","LEAF2","LEAF3","SubA","LEAF4","LEAF5"};
-    	  String[] test1expected = {"+-Root",
-    			  "  +-SubB",
-    			  "  | +-LEAF1",
-    			  "  | +-LEAF2",
-    			  "  +-LEAF3",
-    			  "  +-SubA",
-    			  "    +-LEAF4",
-    			  "    +-LEAF5" };
-    	  String[] test1result = dt.draw(test1parents, test1names);
-    	  for(int j=0; j<test1expected.length; j++){
-    		  if(!test1expected[j].equals(test1result[j])){
-    			  System.out.println("expected " + test1expected[j] + " got " + test1result[j]);
-    		  }
-    	  }
-    	  
-    	  int[] test2parents = {1,2,3,4,5,6,-1};
-    	  String[] test2names = {"A","B","C","D","E","F","G"};
-    	  String[] test2expected = {"+-G",
-    			  "  +-F",
-    			  "    +-E",
-    			  "      +-D",
-    			  "        +-C",
-    			  "          +-B",
-    			  "            +-A" };
-    	  String[] test2result = dt.draw(test2parents, test2names);
-    	  for(int j=0; j<test2expected.length; j++){
-    		  if(!test2expected[j].equals(test2result[j])){
-    			  System.out.println("expected " + test2expected[j] + " got " + test2result[j]);
-    		  }
-    	  }
-    	  
-      }
+//      public static void main(String[] args){
+//    	  DrawTree dt = new DrawTree();
+//    	  
+//    	  int[] test1parents = {-1,0,1,1,0,0,5,5};
+//    	  String[] test1names = {"Root","SubB","LEAF1","LEAF2","LEAF3","SubA","LEAF4","LEAF5"};
+//    	  String[] test1expected = {"+-Root",
+//    			  "  +-SubB",
+//    			  "  | +-LEAF1",
+//    			  "  | +-LEAF2",
+//    			  "  +-LEAF3",
+//    			  "  +-SubA",
+//    			  "    +-LEAF4",
+//    			  "    +-LEAF5" };
+//    	  String[] test1result = dt.draw(test1parents, test1names);
+//    	  for(int j=0; j<test1expected.length; j++){
+//    		  if(!test1expected[j].equals(test1result[j])){
+//    			  System.out.println("expected " + test1expected[j] + " got " + test1result[j]);
+//    		  }
+//    	  }
+//    	  
+//    	  int[] test2parents = {1,2,3,4,5,6,-1};
+//    	  String[] test2names = {"A","B","C","D","E","F","G"};
+//    	  String[] test2expected = {"+-G",
+//    			  "  +-F",
+//    			  "    +-E",
+//    			  "      +-D",
+//    			  "        +-C",
+//    			  "          +-B",
+//    			  "            +-A" };
+//    	  String[] test2result = dt.draw(test2parents, test2names);
+//    	  for(int j=0; j<test2expected.length; j++){
+//    		  if(!test2expected[j].equals(test2result[j])){
+//    			  System.out.println("expected " + test2expected[j] + " got " + test2result[j]);
+//    		  }
+//    	  }
+//    	  
+//      }
 }
