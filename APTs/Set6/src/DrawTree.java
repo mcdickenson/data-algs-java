@@ -1,23 +1,75 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class DrawTree {
       public String[] draw(int[] parents, String[] names){
-         String[] output = new String[parents.length];
-//         for(int i=0; i<names.length; i++){
-//        	 output[i] = ""; 
-//         }
+//         String[] output = new String[parents.length];
          int index_of_root = findRoot(parents, names);
-         output[0] = "+-" + names[index_of_root]; 
+         String root = names[index_of_root]; 
+         HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+         map = recursiveDraw(root, parents, names, map);
+
+         // TODO: turn map into output
+         ArrayList<String> output = new ArrayList<String>();
+         output = mapToDrawing(root, 0, output, map);
          
-         output = recursiveDraw(parents, names, output, index_of_root);
-         return output;
+         String[] out = output.toArray(new String[output.size()]);
+         return out;
       }
       
-      public String[] recursiveDraw(int[] parents, String[] names, String[] out, int root){
-    	  // find all values whose parent == root
-    	  // add those names to the string array
-    	  // get their subtrees
+      public ArrayList<String> mapToDrawing(String root, int depth,
+    		  ArrayList<String> list, 
+    		  HashMap<String, ArrayList<String>> map){
+    	  String node = "+-" + root;
+    	  for(int i=0; i<depth; i++){
+    		  node = "  " + node; 
+    	  }
+//    	  System.out.println(node);
+    	  list.add(node); 
+    	  if(map.containsKey(root)){
+    		  ArrayList<String> children = map.get(root);
+        	  if(!children.isEmpty()){
+        		  for(String child : children){
+            		  list = mapToDrawing(child, depth+1, list, map);
+            	  }
+        	  }
+    	  }
     	  
-    	  return out;
+    	  
+    	  
+    	  return list; 
+      }
+      
+      public HashMap<String, ArrayList<String>> recursiveDraw(String root, 
+    		  int[] parents, String[] names, 
+    		  HashMap<String, ArrayList<String>> map){
+    	  
+    	  ArrayList<String> children = new ArrayList<String>(); 
+    	  
+    	  // find all values whose parent == root
+    	  for(int i=0; i < names.length; i++){
+    		  int parent = parents[i];
+    		  if(parent!=-1){
+    			  String name_of_parent = names[parent];
+        		  if(name_of_parent.equals(root)){
+        			  // add to list of children
+        			  children.add(names[i]);
+        		  }
+    		  }
+    		  
+    	  }
+    	  if(children.isEmpty()){
+    		  return map; 
+    	  }
+    	  else{
+    		  map.put(root, children);
+    		  for(String child : children){
+    			  map = recursiveDraw(child, parents, names, map);
+    		  }
+    		  return map;
+    	  }
+    	  
       }
       
       public int findRoot(int[] parents, String[] names){
@@ -45,7 +97,11 @@ public class DrawTree {
     			  "    +-LEAF4",
     			  "    +-LEAF5" };
     	  String[] test1result = dt.draw(test1parents, test1names);
-    	  System.out.println(test1expected.equals(test1result));
+    	  for(int j=0; j<test1expected.length; j++){
+    		  if(!test1expected[j].equals(test1result[j])){
+    			  System.out.println("expected " + test1expected[j] + " got " + test1result[j]);
+    		  }
+    	  }
     	  
     	  int[] test2parents = {1,2,3,4,5,6,-1};
     	  String[] test2names = {"A","B","C","D","E","F","G"};
@@ -57,7 +113,11 @@ public class DrawTree {
     			  "          +-B",
     			  "            +-A" };
     	  String[] test2result = dt.draw(test2parents, test2names);
-    	  System.out.println(test2expected.equals(test2result));
+    	  for(int j=0; j<test2expected.length; j++){
+    		  if(!test2expected[j].equals(test2result[j])){
+    			  System.out.println("expected " + test2expected[j] + " got " + test2result[j]);
+    		  }
+    	  }
     	  
       }
 }
