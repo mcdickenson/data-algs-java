@@ -1,8 +1,40 @@
+import java.util.*;
 
 public class DrawTree {
       public String[] draw(int[] parents, String[] names){
          String[] output = new String[parents.length];
+         for(int i=0; i<names.length; i++){
+        	 output[i] = ""; 
+         }
+         output = loopDraw(parents, names, output);
          return output;
+      }
+      
+//      public String[] recursiveDraw(int[] parents, String[] names, String[] out){
+//    	  
+//    	  ArrayList<Integer> sorted = Arrays.sort(parents); 
+//    	  return out;
+//      }
+      
+      public String[] loopDraw(int[] parents, String[] names, String[] out){
+    	  for(int i=0; i < names.length; i++){
+    		  int parent = parents[i];
+    		  String name = names[i];
+    		  if(parent==-1){
+    			  out[0] = "+-" + name; 
+    		  }
+    		  else{
+    			  int k=parent;
+        		  String nextSpot = out[k];
+        		  while(!nextSpot.equals("")){
+        			  k++;
+        			  nextSpot = out[k];
+        		  }
+        		  out[k] = "+-" + name;
+    		  }
+    		  
+    	  }
+    	  return out; 
       }
       
       public static void main(String[] args){
