@@ -33,8 +33,7 @@ public class DrawTree {
         	  if(!children.isEmpty()){
         		  for(String child : children){
         			  if(map.containsKey(child) & !child.equals(lastChild)){
-        				  ArrayList<String> grandchildren = map.get(child);
-            			  if(children.size()>1 & grandchildren.size()>1){ sibling= true; }
+        				  sibling = true; 
         			  }
         			  else{ sibling = false; } 
             		  list = mapToDrawing(preface, child, depth+1, list, sibling, map);
