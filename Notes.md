@@ -1018,3 +1018,16 @@ All tree traversals visit left, then right. The order refers to the position in 
 - In-order traversal: left, current, right
 - Post-order traversal: left, right, current 
 
+## Graphs - 4.10.13
+
+### Announcements
+- Huffman is time consuming, you should have already started
+- APT Set 7 will go up next week and you'll have the whole week 
+
+### Graphs 
+We have worked with trees, and by now you've probably wanted to connect something else in the tree that wasn't already connected (say, a grandchild to its parent). If you had actually been able to do this you would have changed the tree into a graph: trees are actually a subset of graphs. 
+
+Graphs consist of *vertices* and *edges* that connect them. Edges are defined in pairs of vertices. For example, the edge (1,2) connects vertices 1 and 2. If the edges are *directed*, then 1 "points to" 2 and (2,1) is not an edge. We typically abbreviated "directed graph" to "digraph". In an undirected graph, the edges (1,2) and (2,1) are equivalent.
+
+Another feature of a graph is that the edges can have *weights*. For example, the cost of traveling between 1 and 2 could be 3. Think of this as distance between cities, cost of a phone call, etc. This becomes important when we use power graphs. 
+
