@@ -1029,5 +1029,40 @@ We have worked with trees, and by now you've probably wanted to connect somethin
 
 Graphs consist of *vertices* and *edges* that connect them. Edges are defined in pairs of vertices. For example, the edge (1,2) connects vertices 1 and 2. If the edges are *directed*, then 1 "points to" 2 and (2,1) is not an edge. We typically abbreviated "directed graph" to "digraph". In an undirected graph, the edges (1,2) and (2,1) are equivalent.
 
-Another feature of a graph is that the edges can have *weights*. For example, the cost of traveling between 1 and 2 could be 3. Think of this as distance between cities, cost of a phone call, etc. This becomes important when we use power graphs. 
+Another feature of a graph is that the edges can have *weights*. For example, the cost of traveling between 1 and 2 could be 3. Think of this as distance between cities, cost of a phone call, etc. This becomes important when we use graphs to represent electric power grids. 
+
+### Graph traversals (know this for final)
+
+#### Depth-first search (DFS)
+
+Many of the algorithms we have used for trees have analogous graph algorithms. This includes graph traversals. One that you should know is depth-first search (DFS): start at a root node and explore as far as possible before backtracking. In pseudo-code here's the algorithm:
+
+```
+start at vertex
+dfs(vertex)
+  if(visited vertex) return; 
+
+  visit vertex 
+
+  for(vertices adjacent to vertex)
+    dfs(adjacent vertex)
+```
+
+#### Breadth-first search (BFS)
+
+An alternative to DFS is breadth-first searching (BFS): check all neighbors first, then start checking their neighbors. The two main differences are that BFS is not recursive, and it uses a queue to keep track of who it needs to visit. Here's the algorithm in pseudo-code:
+
+```
+start at vertex
+bfs(vertex):
+  myQ.enqueue(vertex)
+
+  while(!myQ.isEmpty())
+    v = myQ.dequeue
+    for(vertices adjacent to vertex)
+      if(adjacent vertex not visited)
+        myQ.enqueue(adjacent vertex)
+``` 
+
+To better understand how these work, look at the in-class code for Graph. 
 
