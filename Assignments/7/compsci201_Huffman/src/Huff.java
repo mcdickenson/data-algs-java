@@ -2,7 +2,7 @@
 /**
  * Main/launch program for Huff assignment. A better
  * comment than this is warranted.
- * @author YOU THE STUDENT
+ * @author Matthew Dickenson
  *
  */
 public class Huff {
