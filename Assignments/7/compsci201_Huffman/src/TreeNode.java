@@ -56,4 +56,17 @@ public class TreeNode implements Comparable<TreeNode> {
 
         return myWeight - rhs.myWeight;
     }
+    
+    public int depth(){
+    	if(myLeft==null & myRight==null){
+    		return 1; 
+    	}
+    	else if(myLeft!=null & myRight==null){
+    		return myLeft.depth()+1; 
+    	}
+    	else if(myLeft==null & myRight!=null){
+    		return myRight.depth()+1; 
+    	}
+    	else{ return Math.max(myLeft.depth(), myRight.depth()) + 1; } 
+    }
 }
