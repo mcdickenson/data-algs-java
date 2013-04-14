@@ -3,6 +3,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class SimpleHuffProcessor implements IHuffProcessor {
     
@@ -18,6 +19,9 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	
     	// write info that allows tree to be recreated
     	writeTraversal(myRoot, bout); 
+//    	for(int k=0; k < ALPH_SIZE; k++){
+//            out.writeBits(BITS_PER_INT, myCounts[k]);
+//        }
     	
     	// write bits needed to encode each character of input file 
     	BitInputStream binput = new BitInputStream(in);
@@ -27,6 +31,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         	String encoding = myMap.get(next);
         	for(int i=0; i<encoding.length(); i++){
         		char c = encoding.charAt(i);
+        		System.out.println(c); 
         		if(c=='0'){ bout.writeBits(1, 0);}
         		else if(c=='1'){ bout.writeBits(1, 1); } 
         	}
@@ -36,6 +41,18 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	bout.close(); 
     	
     	return 0; 
+    }
+    
+    public void writeTraversal(TreeNode t, BitOutputStream out){
+    	if(t.isLeaf()){
+    		out.writeBits(1, 1); // maybe bits-per-int
+    		out.writeBits(BITS_PER_INT, t.myValue);
+    	}
+    	else{
+    		out.writeBits(1, 0); // maybe bits-per-int
+    		writeTraversal(t.myLeft, out);
+    		writeTraversal(t.myRight, out); 
+    	}
     }
 
 
@@ -60,6 +77,8 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         
         // turn forest into a single tree
         PriorityQueue<TreeNode> pq = new PriorityQueue<TreeNode>(forest.values()); 
+        TreeNode nodeEof = new TreeNode(PSEUDO_EOF, 1); 
+        pq.add(nodeEof); 
         myRoot = qShrinker(pq); 
         
         //create map of ints to encodings
@@ -103,31 +122,77 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     		encodePaths(t.myRight, path + "1");
     	}
     }
-    
-    public void writeTraversal(TreeNode t, BitOutputStream out){
-    	if(t.isLeaf()){
-    		out.writeBits(BITS_PER_INT, 1);
-    		out.writeBits(BITS_PER_INT, t.myValue);
-    	}
-    	else{
-    		out.writeBits(BITS_PER_INT, 0);
-    		writeTraversal(t.myLeft, out);
-    		writeTraversal(t.myRight, out); 
-    	}
-    }
 
     public void setViewer(HuffViewer viewer) {
         myViewer = viewer;
     }
 
     public int uncompress(InputStream in, OutputStream out) throws IOException {
-        throw new IOException("uncompress not implemented");
-        //return 0;
+
+        BitInputStream binput = new BitInputStream(in); 
+        BitOutputStream bout = new BitOutputStream(out); 
+    	
+        // read magic number
+        int magic = binput.readBits(BITS_PER_INT);
+        if (magic != MAGIC_NUMBER){
+        	binput.close(); 
+        	bout.close();
+            throw new IOException("magic number not right");
+        }
+        else{ System.out.println("magic number right"); }
+
         
-//        int magic = in.readBits(BITS_PER_INT);
-//        if (magic != MAGIC_NUMBER){
-//            throw new IOException("magic number not right");
-//        }
+        // read in encoding table
+        myRoot = readTraversal(binput); 
+        System.out.println(myRoot.myWeight);
+//        bout.close();
+//        binput.close();
+//        return 0; 
+        
+        // read remaining bits, map them, and write them out 
+        int bits;
+        TreeNode node = myRoot; 
+        while (true){
+        	bits = binput.readBits(1); 
+            if (bits == -1){
+                System.err.println("should not happen! trouble reading bits");
+                break; 
+            }
+            else{ 
+                if ( (bits & 1) == 0){ node = node.myLeft; } 
+                else{ node = node.myRight;}                  
+
+                if (node.isLeaf()){
+                    if (node.myValue== PSEUDO_EOF){
+                    	break; 
+                    }
+                    else{
+                    	bout.writeBits(BITS_PER_INT, node.myValue);
+                    } 
+                    node = myRoot; 
+                }
+            }
+        }
+        
+        binput.close();
+        bout.close(); 
+        return 0; 
+    }
+    
+    public TreeNode readTraversal(BitInputStream in) throws IOException{
+    	int bits = in.readBits(1); 
+    	TreeNode node; 
+    	if(bits==0){  // non-leaf
+    		TreeNode left = readTraversal(in); 
+        	TreeNode right = readTraversal(in); 
+        	node = new TreeNode(left.myValue, left.myWeight+right.myWeight, left, right);
+    	} 
+    	else{ // reached leaf
+    		bits = in.readBits(BITS_PER_INT);
+    		node = new TreeNode(bits, 1);
+    	} 
+    	
+    	return node; 
     }
     
     private void showString(String s){
