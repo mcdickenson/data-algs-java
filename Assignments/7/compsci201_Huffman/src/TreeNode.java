@@ -53,7 +53,6 @@ public class TreeNode implements Comparable<TreeNode> {
      */
 
     public int compareTo(TreeNode rhs) {
-
         return myWeight - rhs.myWeight;
     }
     
@@ -68,5 +67,9 @@ public class TreeNode implements Comparable<TreeNode> {
     		return myRight.depth()+1; 
     	}
     	else{ return Math.max(myLeft.depth(), myRight.depth()) + 1; } 
+    }
+    
+    public boolean isLeaf(){
+    	return (myLeft==null & myRight==null); 
     }
 }
