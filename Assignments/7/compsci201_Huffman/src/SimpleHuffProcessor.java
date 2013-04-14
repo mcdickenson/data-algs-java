@@ -37,7 +37,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         binput.close(); 
         
         myTree = recursiveShrinker(forest); 
-        
+//        return myTree.myWeight; 
         return myTree.depth(); // maybe compare depth of tree to its weight 
     }
     
@@ -47,7 +47,6 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     		tree = getSmallest(forest); 
     	}
     	else{
-    		// TODO: create an array before this of nodes sorted by weight
     		// find two nodes of smallest weight
     		TreeNode smallest = getSmallest(forest); 
     		forest.remove(smallest.myValue);
@@ -58,7 +57,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     		TreeNode newNode = new TreeNode(smallest.myValue, nextSmallest.myWeight+smallest.myWeight, smallest, nextSmallest);
     		
     		forest.put(newNode.myValue, newNode); 
-    		System.out.println(forest.size());
+//    		System.out.println(forest.size());
     		// recurse 
     		tree = recursiveShrinker(forest); 
     	}
