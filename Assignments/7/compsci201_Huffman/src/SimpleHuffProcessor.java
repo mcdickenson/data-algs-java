@@ -11,6 +11,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     private TreeNode myRoot; 
     private HashMap<Integer, String> myMap; 
     private Integer mySize; 
+    private int[] myCounts = new int[256]; 
     
     public int compress(InputStream in, OutputStream out, boolean force) throws IOException {
     	// write the magic number
@@ -18,10 +19,10 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	bout.writeBits(BITS_PER_INT, MAGIC_NUMBER); 
     	
     	// write info that allows tree to be recreated
-    	writeTraversal(myRoot, bout); 
-//    	for(int k=0; k < ALPH_SIZE; k++){
-//            out.writeBits(BITS_PER_INT, myCounts[k]);
-//        }
+//    	writeTraversal(myRoot, bout); 
+    	for(int k=0; k < ALPH_SIZE; k++){
+            bout.writeBits(BITS_PER_INT, myCounts[k]);
+        }
     	
     	// write bits needed to encode each character of input file 
     	BitInputStream binput = new BitInputStream(in);
@@ -31,30 +32,29 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         	String encoding = myMap.get(next);
         	for(int i=0; i<encoding.length(); i++){
         		char c = encoding.charAt(i);
-        		System.out.println(c); 
         		if(c=='0'){ bout.writeBits(1, 0);}
         		else if(c=='1'){ bout.writeBits(1, 1); } 
         	}
         }
-        bout.writeBits(BITS_PER_INT, PSEUDO_EOF);
         binput.close(); 
+        
+        bout.writeBits(BITS_PER_INT, PSEUDO_EOF);
     	bout.close(); 
     	
     	return 0; 
     }
     
-    public void writeTraversal(TreeNode t, BitOutputStream out){
-    	if(t.isLeaf()){
-    		out.writeBits(1, 1); // maybe bits-per-int
-    		out.writeBits(BITS_PER_INT, t.myValue);
-    	}
-    	else{
-    		out.writeBits(1, 0); // maybe bits-per-int
-    		writeTraversal(t.myLeft, out);
-    		writeTraversal(t.myRight, out); 
-    	}
-    }
-
+//    public void writeTraversal(TreeNode t, BitOutputStream out){
+//    	if(t.isLeaf()){
+//    		out.writeBits(1, 1); // maybe BITS_PER_INT
+//    		out.writeBits(9, t.myValue);
+//    	}
+//    	else{
+//    		out.writeBits(1, 0); // maybe BITS_PER_INT
+//    		writeTraversal(t.myLeft, out);
+//    		writeTraversal(t.myRight, out); 
+//    	}
+//    }
 
     public int preprocessCompress(InputStream in) throws IOException {
     	// create forest of nodes
@@ -74,6 +74,15 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         	}
         }
         binput.close(); 
+        
+        // create list of weights
+        for(TreeNode t: forest.values()){
+        	int v = t.myValue;
+        	int w = t.myWeight;
+        	if(v>0){
+        		myCounts[v] = w; 
+        	}
+        }
         
         // turn forest into a single tree
         PriorityQueue<TreeNode> pq = new PriorityQueue<TreeNode>(forest.values()); 
@@ -141,25 +150,35 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         }
         else{ System.out.println("magic number right"); }
 
-        
         // read in encoding table
-        myRoot = readTraversal(binput); 
-        System.out.println(myRoot.myWeight);
-//        bout.close();
-//        binput.close();
-//        return 0; 
+//        myRoot = readTraversal(binput); 
+//        System.out.println("weight: " + myRoot.myWeight);
+        HashMap<Integer, TreeNode> forest = new HashMap<Integer, TreeNode>();
+        for(int k=0; k < ALPH_SIZE; k++){
+            int bits = binput.readBits(BITS_PER_INT);
+//            myCounts[k] = bits;
+            if(bits>0){
+            	TreeNode node = new TreeNode(k, bits); 
+            	forest.put(k, node); 
+            }
+        }
+        PriorityQueue<TreeNode> pq = new PriorityQueue<TreeNode>(forest.values()); 
+        TreeNode nodeEof = new TreeNode(PSEUDO_EOF, 1); 
+        pq.add(nodeEof); 
+        myRoot = qShrinker(pq);
+        System.out.println("weight: " + myRoot.myWeight);
         
         // read remaining bits, map them, and write them out 
-        int bits;
+        int inbits;
         TreeNode node = myRoot; 
         while (true){
-        	bits = binput.readBits(1); 
-            if (bits == -1){
+        	inbits = binput.readBits(1); 
+            if (inbits == -1){
                 System.err.println("should not happen! trouble reading bits");
                 break; 
             }
             else{ 
-                if ( (bits & 1) == 0){ node = node.myLeft; } 
+                if ( (inbits & 1) == 0){ node = node.myLeft; } 
                 else{ node = node.myRight;}                  
 
                 if (node.isLeaf()){
@@ -168,8 +187,8 @@ public class SimpleHuffProcessor implements IHuffProcessor {
                     }
                     else{
                     	bout.writeBits(BITS_PER_INT, node.myValue);
-                    } 
-                    node = myRoot; 
+                    	node = myRoot;
+                    }    
                 }
             }
         }
@@ -179,21 +198,21 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         return 0; 
     }
     
-    public TreeNode readTraversal(BitInputStream in) throws IOException{
-    	int bits = in.readBits(1); 
-    	TreeNode node; 
-    	if(bits==0){  // non-leaf
-    		TreeNode left = readTraversal(in); 
-        	TreeNode right = readTraversal(in); 
-        	node = new TreeNode(left.myValue, left.myWeight+right.myWeight, left, right);
-    	} 
-    	else{ // reached leaf
-    		bits = in.readBits(BITS_PER_INT);
-    		node = new TreeNode(bits, 1);
-    	} 
-    	
-    	return node; 
-    }
+//    public TreeNode readTraversal(BitInputStream in) throws IOException{
+//    	int bits = in.readBits(1); 
+//    	TreeNode node; 
+//    	if(bits==0){  // non-leaf
+//    		TreeNode left = readTraversal(in); 
+//        	TreeNode right = readTraversal(in); 
+//        	node = new TreeNode(left.myValue, left.myWeight+right.myWeight, left, right);
+//    	} 
+//    	else{ // reached leaf
+//    		bits = in.readBits(9);
+//    		node = new TreeNode(bits, 1);
+//    	} 
+//    	
+//    	return node; 
+//    }
     
     private void showString(String s){
         myViewer.update(s);
