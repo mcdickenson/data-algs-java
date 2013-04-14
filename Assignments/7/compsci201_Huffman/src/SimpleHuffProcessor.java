@@ -1,10 +1,9 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 //import java.util.HashSet;
-import java.util.TreeSet;
 
 public class SimpleHuffProcessor implements IHuffProcessor {
     
@@ -36,45 +35,26 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         
         binput.close(); 
         
-        myTree = recursiveShrinker(forest); 
+        PriorityQueue<TreeNode> pq = new PriorityQueue<TreeNode>(forest.values()); 
+        myTree = qShrinker(pq); 
+        
 //        return myTree.myWeight; 
         return myTree.depth(); // maybe compare depth of tree to its weight 
     }
     
-    public TreeNode recursiveShrinker(HashMap<Integer, TreeNode> forest){
+    public TreeNode qShrinker(PriorityQueue<TreeNode> q){
     	TreeNode tree; 
-    	if(forest.size()==1){
-    		tree = getSmallest(forest); 
+    	if(q.size()==1){
+    		tree = q.poll(); 
     	}
     	else{
-    		// find two nodes of smallest weight
-    		TreeNode smallest = getSmallest(forest); 
-    		forest.remove(smallest.myValue);
-    		TreeNode nextSmallest = getSmallest(forest); 
-    		forest.remove(nextSmallest.myValue); 
-    		
-    		// combine them - not sure what to do about values 
+    		TreeNode smallest = q.remove();
+    		TreeNode nextSmallest = q.remove();
     		TreeNode newNode = new TreeNode(smallest.myValue, nextSmallest.myWeight+smallest.myWeight, smallest, nextSmallest);
-    		
-    		forest.put(newNode.myValue, newNode); 
-//    		System.out.println(forest.size());
-    		// recurse 
-    		tree = recursiveShrinker(forest); 
+    		q.add(newNode); 
+    		tree = qShrinker(q); 
     	}
     	return tree; 
-    }
-    
-    public TreeNode getSmallest(HashMap<Integer, TreeNode> forest){
-    	int minWeight = 1000000; 
-    	TreeNode smallest = null; 
-    	for(Integer i : forest.keySet()){ 
-			TreeNode current = forest.get(i);
-			if(current.myWeight < minWeight){
-				smallest = current; 
-				minWeight = current.myWeight; 
-			}
-		}
-    	return smallest; 
     }
 
     public void setViewer(HuffViewer viewer) {
