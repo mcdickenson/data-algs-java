@@ -67,7 +67,14 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         mySize=0; 
         encodePaths(myRoot, ""); 
         
-        return myRoot.myWeight*8 - mySize; 
+        int bitsSaved = myRoot.myWeight*8 - mySize;
+        
+        if(bitsSaved<0){ 
+        	String e = String.format("compression uses %d more bits\n use force compression to compress", bitsSaved);
+        	myViewer.showError(e);
+        }
+        
+        return bitsSaved; 
     }
     
     public TreeNode qShrinker(PriorityQueue<TreeNode> q){
