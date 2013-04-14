@@ -9,6 +9,8 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     
     private HuffViewer myViewer;
     private TreeNode myRoot; 
+    private HashMap<Integer, String> myMap; 
+    private Integer mySize; 
     
     public int compress(InputStream in, OutputStream out, boolean force) throws IOException {
         throw new IOException("compress is not implemented");
@@ -20,6 +22,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
 
 
     public int preprocessCompress(InputStream in) throws IOException {
+    	// create forest of nodes
     	HashMap<Integer, TreeNode> forest = new HashMap<Integer, TreeNode>(); 
     	BitInputStream binput = new BitInputStream(in);
         int next = 1;
@@ -35,15 +38,18 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         		forest.put(next, node);
         	}
         }
-        
         binput.close(); 
         
+        // turn forest into a single tree
         PriorityQueue<TreeNode> pq = new PriorityQueue<TreeNode>(forest.values()); 
         myRoot = qShrinker(pq); 
         
-        //TODO: create map of ints to encodings
+        //create map of ints to encodings
+        myMap = new HashMap<Integer, String>(); 
+        mySize=0; 
+        encodePaths(myRoot, ""); 
         
-        return myRoot.depth(); // maybe compare depth of tree to its weight 
+        return myRoot.myWeight*8 - mySize; 
     }
     
     public TreeNode qShrinker(PriorityQueue<TreeNode> q){
@@ -59,6 +65,18 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     		tree = qShrinker(q); 
     	}
     	return tree; 
+    }
+    
+    public void encodePaths(TreeNode t, String path){
+    	if(t.isLeaf()){
+    		myMap.put(t.myValue, path); 
+    		mySize += t.myWeight*path.length(); 
+    		return; 
+    	}
+    	else{
+    		encodePaths(t.myLeft, path + "0");
+    		encodePaths(t.myRight, path + "1");
+    	}
     }
 
     public void setViewer(HuffViewer viewer) {
