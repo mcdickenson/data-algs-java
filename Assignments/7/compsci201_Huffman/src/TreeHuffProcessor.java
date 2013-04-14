@@ -3,9 +3,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
-public class SimpleHuffProcessor implements IHuffProcessor {
+public class TreeHuffProcessor implements IHuffProcessor {
     
     private HuffViewer myViewer;
     private TreeNode myRoot; 
@@ -19,9 +18,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	bout.writeBits(BITS_PER_INT, MAGIC_NUMBER); 
     	
     	// write info that allows tree to be recreated
-    	for(int k=0; k < ALPH_SIZE; k++){
-            bout.writeBits(BITS_PER_INT, myCounts[k]);
-        }
+    	writeTraversal(myRoot, bout); 
     	
     	// write bits needed to encode each character of input file 
     	BitInputStream binput = new BitInputStream(in);
@@ -41,6 +38,18 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	bout.close(); 
     	
     	return 0; 
+    }
+    
+    public void writeTraversal(TreeNode t, BitOutputStream out){
+    	if(t.isLeaf()){
+    		out.writeBits(1, 1); // maybe BITS_PER_INT
+    		out.writeBits(9, t.myValue);
+    	}
+    	else{
+    		out.writeBits(1, 0); // maybe BITS_PER_INT
+    		writeTraversal(t.myLeft, out);
+    		writeTraversal(t.myRight, out); 
+    	}
     }
 
     public int preprocessCompress(InputStream in) throws IOException {
@@ -138,21 +147,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         else{ System.out.println("magic number right"); }
 
         // read in encoding table
-//        myRoot = readTraversal(binput); 
-//        System.out.println("weight: " + myRoot.myWeight);
-        HashMap<Integer, TreeNode> forest = new HashMap<Integer, TreeNode>();
-        for(int k=0; k < ALPH_SIZE; k++){
-            int bits = binput.readBits(BITS_PER_INT);
-//            myCounts[k] = bits;
-            if(bits>0){
-            	TreeNode node = new TreeNode(k, bits); 
-            	forest.put(k, node); 
-            }
-        }
-        PriorityQueue<TreeNode> pq = new PriorityQueue<TreeNode>(forest.values()); 
-        TreeNode nodeEof = new TreeNode(PSEUDO_EOF, 1); 
-        pq.add(nodeEof); 
-        myRoot = qShrinker(pq);
+        myRoot = readTraversal(binput); 
         System.out.println("weight: " + myRoot.myWeight);
         
         // read remaining bits, map them, and write them out 
@@ -183,6 +178,22 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         binput.close();
         bout.close(); 
         return 0; 
+    }
+    
+    public TreeNode readTraversal(BitInputStream in) throws IOException{
+    	int bits = in.readBits(1); 
+    	TreeNode node; 
+    	if(bits==0){  // non-leaf
+    		TreeNode left = readTraversal(in); 
+        	TreeNode right = readTraversal(in); 
+        	node = new TreeNode(left.myValue, left.myWeight+right.myWeight, left, right);
+    	} 
+    	else{ // reached leaf
+    		bits = in.readBits(9);
+    		node = new TreeNode(bits, 1);
+    	} 
+    	
+    	return node; 
     }
     
     private void showString(String s){
