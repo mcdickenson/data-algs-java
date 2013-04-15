@@ -166,4 +166,42 @@ Total & 3,251,493 & 1,195,865 & 4.670 \\
 \end{tabular}
 \end{table}
 
+
+\section{TreeHuffProcessor}
+
+Pre- and post-compression file sizes for the Calgary corpus using my \texttt{TreeHuffProcessor} are displayed in Table \ref{tree-calgary}. The overall compression rate is 63.578 percent--slightly higher than for \texttt{SimpleHuffProcessor}. The total running time of 4.335 for this corpus is also shorter than the simple processor's 4.670 seconds. Given that this method is both faster and more memory efficient, I would choose it over the simpler processor. 
+
+\begin{table}[h!]
+\centering
+\caption{TreeHuffProcessor on Calgary Corpus}
+\label{tree-calgary}
+\begin{tabular}{lrrr}
+\toprule
+Filename & Start size & End size & Runtime \\
+\midrule
+bib & 111,261 & 73,210 & 0.327 \\
+book1 & 768,771 & 242,592 & 0.918 \\
+book2 & 610,856 & 368,830 & 1.248 \\
+geo & 102,400 & 88 & 0.001 \\
+news & 377,109 & 246,934 & 0.849 \\
+obj1 & 21,504 & 25 & 0.001 \\
+obj2 & 246,814 & 14 & 0.001 \\
+paper1 & 53,161 & 33,861 & 0.125 \\
+paper2 & 82,199 & 48,118 & 0.202 \\
+paper3 & 46,526 & 27,740 & 0.099 \\
+paper4 & 13,286 & 8,303 & 0.032 \\
+paper5 & 11,954 & 7,934 & 0.030 \\
+paper6 & 38,105 & 24,537 & 0.094 \\
+pic & 513,216 & 14 & 0.003 \\
+progc & 39,611 & 26,422 & 0.130 \\
+progl & 71,646 & 43,464 & 0.157 \\
+progp & 49,379 & 30,706 & 0.110 \\
+trans & 93,695 & 1,458 & 0.008 \\
+\midrule
+Total & 3,251,493 & 1,184,250 & 4.335 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
 \end{document}
