@@ -131,7 +131,6 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         	bout.close();
             throw new IOException("magic number not right");
         }
-        else{ System.out.println("magic number right"); }
 
         // read in encoding table
         HashMap<Integer, TreeNode> forest = new HashMap<Integer, TreeNode>();
@@ -146,7 +145,6 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         TreeNode nodeEof = new TreeNode(PSEUDO_EOF, 1); 
         pq.add(nodeEof); 
         myRoot = qShrinker(pq);
-        System.out.println("weight: " + myRoot.myWeight);
         
         // read remaining bits, map them, and write them out 
         int inbits;
