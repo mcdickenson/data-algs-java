@@ -9,7 +9,7 @@ public class Huff {
 
     public static void main(String[] args){
         HuffViewer sv = new HuffViewer("Duke Compsci Huffing");
-        IHuffProcessor proc = new SimpleHuffProcessor();
+        IHuffProcessor proc = new TreeHuffProcessor();
         sv.setModel(proc);    
     }
 }

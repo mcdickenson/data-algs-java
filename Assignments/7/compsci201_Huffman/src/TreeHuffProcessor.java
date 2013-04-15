@@ -9,41 +9,52 @@ public class TreeHuffProcessor implements IHuffProcessor {
     private HuffViewer myViewer;
     private TreeNode myRoot; 
     private HashMap<Integer, String> myMap; 
-    private Integer mySize; 
-    private int[] myCounts = new int[256]; 
+    private int myBitsRead;
+    private int myBitsWritten; 
     
     public int compress(InputStream in, OutputStream out, boolean force) throws IOException {
+    	myBitsWritten=0;
+    	
     	// write the magic number
     	BitOutputStream bout = new BitOutputStream(out); 
     	bout.writeBits(BITS_PER_INT, MAGIC_NUMBER); 
+    	myBitsWritten += BITS_PER_INT; 
     	
     	// write info that allows tree to be recreated
     	writeTraversal(myRoot, bout); 
     	
     	// write bits needed to encode each character of input file 
     	BitInputStream binput = new BitInputStream(in);
-        int next = 1;
-        while(next > 0){
-        	next = binput.read(); 
-        	String encoding = myMap.get(next);
+        int next = binput.read(); 
+        while(next > 0){	
+        	String encoding = myMap.get(next); 
         	for(int i=0; i<encoding.length(); i++){
         		char c = encoding.charAt(i);
         		if(c=='0'){ bout.writeBits(1, 0);}
         		else if(c=='1'){ bout.writeBits(1, 1); } 
+        		myBitsWritten += 1; 
         	}
+        	next = binput.read(); 
         }
         binput.close(); 
         
         bout.writeBits(BITS_PER_INT, PSEUDO_EOF);
     	bout.close(); 
     	
-    	return 0; 
+    	if(myBitsWritten>myBitsRead & !force){
+        	String e = String.format("compression uses %d more bits\n use force compression to compress", 
+        			myBitsWritten-myBitsRead);
+        	throw new IOException(e);
+        }
+    	
+    	return myBitsWritten; 
     }
     
     public void writeTraversal(TreeNode t, BitOutputStream out){
     	if(t.isLeaf()){
     		out.writeBits(1, 1); // maybe BITS_PER_INT
     		out.writeBits(9, t.myValue);
+    		out.writeBits(BITS_PER_INT, t.myWeight);
     	}
     	else{
     		out.writeBits(1, 0); // maybe BITS_PER_INT
@@ -56,9 +67,11 @@ public class TreeHuffProcessor implements IHuffProcessor {
     	// create forest of nodes
     	HashMap<Integer, TreeNode> forest = new HashMap<Integer, TreeNode>(); 
     	BitInputStream binput = new BitInputStream(in);
-        int next = 1;
-        while(next > 0){
-        	next = binput.read(); 
+        int myBitsRead=0; 
+        int next = binput.read(); 
+        
+        while(next > 0){  	
+        	myBitsRead += 8; 
         	if(forest.containsKey(next)){
         		TreeNode node = forest.get(next);
         		node.myWeight++;
@@ -68,17 +81,9 @@ public class TreeHuffProcessor implements IHuffProcessor {
         		TreeNode node = new TreeNode(next, 1); 
         		forest.put(next, node);
         	}
+        	next = binput.read(); 
         }
-        binput.close(); 
-        
-        // create list of weights
-        for(TreeNode t: forest.values()){
-        	int v = t.myValue;
-        	int w = t.myWeight;
-        	if(v>0){
-        		myCounts[v] = w; 
-        	}
-        }
+        binput.close();    
         
         // turn forest into a single tree
         PriorityQueue<TreeNode> pq = new PriorityQueue<TreeNode>(forest.values()); 
@@ -87,18 +92,10 @@ public class TreeHuffProcessor implements IHuffProcessor {
         myRoot = qShrinker(pq); 
         
         //create map of ints to encodings
-        myMap = new HashMap<Integer, String>(); 
-        mySize=0; 
+        myMap = new HashMap<Integer, String>();  
         encodePaths(myRoot, ""); 
         
-        int bitsSaved = myRoot.myWeight*8 - mySize;
-        
-        if(bitsSaved<0){ 
-        	String e = String.format("compression uses %d more bits\n use force compression to compress", bitsSaved);
-        	myViewer.showError(e);
-        }
-        
-        return bitsSaved; 
+        return myBitsRead; 
     }
     
     public TreeNode qShrinker(PriorityQueue<TreeNode> q){
@@ -107,9 +104,10 @@ public class TreeHuffProcessor implements IHuffProcessor {
     		tree = q.poll(); 
     	}
     	else{
-    		TreeNode smallest = q.remove();
-    		TreeNode nextSmallest = q.remove();
-    		TreeNode newNode = new TreeNode(smallest.myValue, nextSmallest.myWeight+smallest.myWeight, smallest, nextSmallest);
+    		TreeNode smallest = q.poll();
+    		TreeNode nextSmallest = q.poll();
+    		TreeNode newNode = new TreeNode(smallest.myValue*1000, 
+    				nextSmallest.myWeight+smallest.myWeight, smallest, nextSmallest);
     		q.add(newNode); 
     		tree = qShrinker(q); 
     	}
@@ -119,7 +117,6 @@ public class TreeHuffProcessor implements IHuffProcessor {
     public void encodePaths(TreeNode t, String path){
     	if(t.isLeaf()){
     		myMap.put(t.myValue, path); 
-    		mySize += t.myWeight*path.length(); 
     		return; 
     	}
     	else{
@@ -133,7 +130,7 @@ public class TreeHuffProcessor implements IHuffProcessor {
     }
 
     public int uncompress(InputStream in, OutputStream out) throws IOException {
-
+    	int myBitsWritten=0; 
         BitInputStream binput = new BitInputStream(in); 
         BitOutputStream bout = new BitOutputStream(out); 
     	
@@ -142,18 +139,17 @@ public class TreeHuffProcessor implements IHuffProcessor {
         if (magic != MAGIC_NUMBER){
         	binput.close(); 
         	bout.close();
-            throw new IOException("magic number not right");
+            throw new IOException("magic number not right");    
         }
-        else{ System.out.println("magic number right"); }
 
         // read in encoding table
-        myRoot = readTraversal(binput); 
-        System.out.println("weight: " + myRoot.myWeight);
+        myRoot = readTraversal(binput);
+        TreeNode node = myRoot; 
         
         // read remaining bits, map them, and write them out 
         int inbits;
-        TreeNode node = myRoot; 
-        while (true){
+        int numIters=1;
+        while (numIters<myRoot.myWeight){
         	inbits = binput.readBits(1); 
             if (inbits == -1){
                 System.err.println("should not happen! trouble reading bits");
@@ -164,20 +160,22 @@ public class TreeHuffProcessor implements IHuffProcessor {
                 else{ node = node.myRight;}                  
 
                 if (node.isLeaf()){
-                    if (node.myValue== PSEUDO_EOF){
+                	if (node.myValue==PSEUDO_EOF){
                     	break; 
                     }
-                    else{
-                    	bout.writeBits(BITS_PER_INT, node.myValue);
-                    	node = myRoot;
-                    }    
-                }
-            }
+                	else{
+                    	bout.writeBits(8, node.myValue);
+                    	myBitsWritten += 8; 
+                    	numIters++; 
+                    	node = myRoot; 
+                	}
+                }              	
+            } 
         }
         
         binput.close();
         bout.close(); 
-        return 0; 
+        return myBitsWritten; 
     }
     
     public TreeNode readTraversal(BitInputStream in) throws IOException{
@@ -186,11 +184,12 @@ public class TreeHuffProcessor implements IHuffProcessor {
     	if(bits==0){  // non-leaf
     		TreeNode left = readTraversal(in); 
         	TreeNode right = readTraversal(in); 
-        	node = new TreeNode(left.myValue, left.myWeight+right.myWeight, left, right);
+        	node = new TreeNode(left.myValue*1000, left.myWeight+right.myWeight, left, right);
     	} 
     	else{ // reached leaf
     		bits = in.readBits(9);
-    		node = new TreeNode(bits, 1);
+    		int weight = in.readBits(BITS_PER_INT); 
+    		node = new TreeNode(bits, weight);
     	} 
     	
     	return node; 
