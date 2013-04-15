@@ -24,15 +24,15 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	
     	// write bits needed to encode each character of input file 
     	BitInputStream binput = new BitInputStream(in);
-        int next = 1;
-        while(next > 0){
-        	next = binput.read(); 
+        int next = binput.read(); 
+        while(next > 0){	
         	String encoding = myMap.get(next);
         	for(int i=0; i<encoding.length(); i++){
         		char c = encoding.charAt(i);
         		if(c=='0'){ bout.writeBits(1, 0);}
         		else if(c=='1'){ bout.writeBits(1, 1); } 
         	}
+        	next = binput.read(); 
         }
         binput.close(); 
         
@@ -47,9 +47,8 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	HashMap<Integer, TreeNode> forest = new HashMap<Integer, TreeNode>(); 
     	BitInputStream binput = new BitInputStream(in);
         int numBits=0; 
-    	int next = 1;
-        while(next > 0){
-        	next = binput.read(); 
+        int next = binput.read(); 
+        while(next > 0){  	
         	numBits += 8; 
         	if(forest.containsKey(next)){
         		TreeNode node = forest.get(next);
@@ -60,6 +59,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         		TreeNode node = new TreeNode(next, 1); 
         		forest.put(next, node);
         	}
+        	next = binput.read(); 
         }
         binput.close(); 
         
@@ -94,7 +94,8 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	else{
     		TreeNode smallest = q.remove();
     		TreeNode nextSmallest = q.remove();
-    		TreeNode newNode = new TreeNode(smallest.myValue, nextSmallest.myWeight+smallest.myWeight, smallest, nextSmallest);
+    		TreeNode newNode = new TreeNode(smallest.myValue, 
+    				nextSmallest.myWeight+smallest.myWeight, smallest, nextSmallest);
     		q.add(newNode); 
     		tree = qShrinker(q); 
     	}
@@ -164,7 +165,9 @@ public class SimpleHuffProcessor implements IHuffProcessor {
                     	break; 
                     }
                     else{
-                    	bout.writeBits(BITS_PER_INT, node.myValue);
+                    	char data = (char) node.myValue; 
+                    	System.out.println(data); 
+                    	bout.writeBits(BITS_PER_INT, data);
                     	node = myRoot;
                     }    
                 }
