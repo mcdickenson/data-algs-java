@@ -26,9 +26,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	BitInputStream binput = new BitInputStream(in);
         int next = binput.read(); 
         while(next > 0){	
-//        	System.out.println(next); 
-        	String encoding = myMap.get(next); // PROBLEM HERE
-//        	System.out.println(encoding); 
+        	String encoding = myMap.get(next); 
         	for(int i=0; i<encoding.length(); i++){
         		char c = encoding.charAt(i);
         		if(c=='0'){ bout.writeBits(1, 0);}
@@ -153,8 +151,9 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         // read remaining bits, map them, and write them out 
         int inbits;
         TreeNode node = myRoot; 
-
-        while (true){
+        
+        int numIters=1;
+        while (numIters<myRoot.myWeight){
         	inbits = binput.readBits(1); 
             if (inbits == -1){
                 System.err.println("should not happen! trouble reading bits");
@@ -169,7 +168,8 @@ public class SimpleHuffProcessor implements IHuffProcessor {
                     	break; 
                     }
                 	else{
-                    	bout.writeBits(BITS_PER_INT, node.myValue);
+                    	bout.writeBits(8, node.myValue);
+                    	numIters++; 
                     	node = myRoot; 
                 	}
                 }              	
