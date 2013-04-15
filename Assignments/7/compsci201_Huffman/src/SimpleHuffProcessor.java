@@ -3,7 +3,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
 public class SimpleHuffProcessor implements IHuffProcessor {
     
@@ -47,9 +46,11 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	// create forest of nodes
     	HashMap<Integer, TreeNode> forest = new HashMap<Integer, TreeNode>(); 
     	BitInputStream binput = new BitInputStream(in);
-        int next = 1;
+        int numBits=0; 
+    	int next = 1;
         while(next > 0){
         	next = binput.read(); 
+        	numBits += 8; 
         	if(forest.containsKey(next)){
         		TreeNode node = forest.get(next);
         		node.myWeight++;
@@ -82,14 +83,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         mySize=0; 
         encodePaths(myRoot, ""); 
         
-        int bitsSaved = myRoot.myWeight*8 - mySize;
-        
-        if(bitsSaved<0){ 
-        	String e = String.format("compression uses %d more bits\n use force compression to compress", bitsSaved);
-        	myViewer.showError(e);
-        }
-        
-        return bitsSaved; 
+        return numBits; 
     }
     
     public TreeNode qShrinker(PriorityQueue<TreeNode> q){
@@ -138,12 +132,9 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         else{ System.out.println("magic number right"); }
 
         // read in encoding table
-//        myRoot = readTraversal(binput); 
-//        System.out.println("weight: " + myRoot.myWeight);
         HashMap<Integer, TreeNode> forest = new HashMap<Integer, TreeNode>();
         for(int k=0; k < ALPH_SIZE; k++){
             int bits = binput.readBits(BITS_PER_INT);
-//            myCounts[k] = bits;
             if(bits>0){
             	TreeNode node = new TreeNode(k, bits); 
             	forest.put(k, node); 
@@ -169,7 +160,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
                 else{ node = node.myRight;}                  
 
                 if (node.isLeaf()){
-                    if (node.myValue== PSEUDO_EOF){
+                    if (node.myValue==PSEUDO_EOF){
                     	break; 
                     }
                     else{
