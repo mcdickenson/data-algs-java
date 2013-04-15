@@ -13,13 +13,17 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     private int[] myCounts = new int[256]; 
     
     public int compress(InputStream in, OutputStream out, boolean force) throws IOException {
+    	int bitsWritten=0;
+    	
     	// write the magic number
     	BitOutputStream bout = new BitOutputStream(out); 
     	bout.writeBits(BITS_PER_INT, MAGIC_NUMBER); 
+    	bitsWritten += BITS_PER_INT; 
     	
     	// write info that allows tree to be recreated
     	for(int k=0; k < ALPH_SIZE; k++){
             bout.writeBits(BITS_PER_INT, myCounts[k]);
+            bitsWritten += BITS_PER_INT; 
         }
     	
     	// write bits needed to encode each character of input file 
@@ -31,6 +35,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         		char c = encoding.charAt(i);
         		if(c=='0'){ bout.writeBits(1, 0);}
         		else if(c=='1'){ bout.writeBits(1, 1); } 
+        		bitsWritten += 1; 
         	}
         	next = binput.read(); 
         }
@@ -39,18 +44,18 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         bout.writeBits(BITS_PER_INT, PSEUDO_EOF);
     	bout.close(); 
     	
-    	return 0; 
+    	return bitsWritten; 
     }
 
     public int preprocessCompress(InputStream in) throws IOException {
     	// create forest of nodes
     	HashMap<Integer, TreeNode> forest = new HashMap<Integer, TreeNode>(); 
     	BitInputStream binput = new BitInputStream(in);
-        int numBits=0; 
+        int bitsRead=0; 
         int next = binput.read(); 
         
         while(next > 0){  	
-        	numBits += 8; 
+        	bitsRead += 8; 
         	if(forest.containsKey(next)){
         		TreeNode node = forest.get(next);
         		node.myWeight++;
@@ -84,7 +89,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         mySize=0; 
         encodePaths(myRoot, ""); 
         
-        return numBits; 
+        return bitsRead; 
     }
     
     public TreeNode qShrinker(PriorityQueue<TreeNode> q){
@@ -120,7 +125,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     }
 
     public int uncompress(InputStream in, OutputStream out) throws IOException {
-
+    	int bitsWritten=0; 
         BitInputStream binput = new BitInputStream(in); 
         BitOutputStream bout = new BitOutputStream(out); 
     	
@@ -167,6 +172,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
                     }
                 	else{
                     	bout.writeBits(8, node.myValue);
+                    	bitsWritten += 8; 
                     	numIters++; 
                     	node = myRoot; 
                 	}
@@ -176,7 +182,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         
         binput.close();
         bout.close(); 
-        return 0; 
+        return bitsWritten; 
     }
     
     private void showString(String s){
