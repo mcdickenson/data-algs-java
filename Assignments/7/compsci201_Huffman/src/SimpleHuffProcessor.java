@@ -26,7 +26,9 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	BitInputStream binput = new BitInputStream(in);
         int next = binput.read(); 
         while(next > 0){	
-        	String encoding = myMap.get(next);
+//        	System.out.println(next); 
+        	String encoding = myMap.get(next); // PROBLEM HERE
+//        	System.out.println(encoding); 
         	for(int i=0; i<encoding.length(); i++){
         		char c = encoding.charAt(i);
         		if(c=='0'){ bout.writeBits(1, 0);}
@@ -48,6 +50,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     	BitInputStream binput = new BitInputStream(in);
         int numBits=0; 
         int next = binput.read(); 
+        
         while(next > 0){  	
         	numBits += 8; 
         	if(forest.containsKey(next)){
@@ -92,9 +95,9 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     		tree = q.poll(); 
     	}
     	else{
-    		TreeNode smallest = q.remove();
-    		TreeNode nextSmallest = q.remove();
-    		TreeNode newNode = new TreeNode(smallest.myValue, 
+    		TreeNode smallest = q.poll();
+    		TreeNode nextSmallest = q.poll();
+    		TreeNode newNode = new TreeNode(smallest.myValue*1000, 
     				nextSmallest.myWeight+smallest.myWeight, smallest, nextSmallest);
     		q.add(newNode); 
     		tree = qShrinker(q); 
@@ -150,6 +153,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         // read remaining bits, map them, and write them out 
         int inbits;
         TreeNode node = myRoot; 
+
         while (true){
         	inbits = binput.readBits(1); 
             if (inbits == -1){
@@ -161,17 +165,15 @@ public class SimpleHuffProcessor implements IHuffProcessor {
                 else{ node = node.myRight;}                  
 
                 if (node.isLeaf()){
-                    if (node.myValue==PSEUDO_EOF){
+                	if (node.myValue==PSEUDO_EOF){
                     	break; 
                     }
-                    else{
-                    	char data = (char) node.myValue; 
-                    	System.out.println(data); 
-                    	bout.writeBits(BITS_PER_INT, data);
-                    	node = myRoot;
-                    }    
-                }
-            }
+                	else{
+                    	bout.writeBits(BITS_PER_INT, node.myValue);
+                    	node = myRoot; 
+                	}
+                }              	
+            } 
         }
         
         binput.close();
