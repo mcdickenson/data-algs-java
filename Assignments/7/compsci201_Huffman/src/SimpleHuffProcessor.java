@@ -14,7 +14,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
     private int myBitsWritten; 
     
     public int compress(InputStream in, OutputStream out, boolean force) throws IOException {
-    	int myBitsWritten=0;
+    	myBitsWritten=0;
     	
     	// write the magic number
     	BitOutputStream bout = new BitOutputStream(out); 
@@ -155,11 +155,10 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         TreeNode nodeEof = new TreeNode(PSEUDO_EOF, 1); 
         pq.add(nodeEof); 
         myRoot = qShrinker(pq);
+        TreeNode node = myRoot; 
         
         // read remaining bits, map them, and write them out 
         int inbits;
-        TreeNode node = myRoot; 
-        
         int numIters=1;
         while (numIters<myRoot.myWeight){
         	inbits = binput.readBits(1); 
