@@ -72,7 +72,7 @@ digitsep=fullstop
 \usepackage{subfig}
 \usepackage{graphicx}
 \usepackage[space]{grffile} % allows us to specify directories that have spaces
-\usepackage{placeins} % prevents floats from moving past a \FloatBarrier
+\usepackage{placeins} % prevents floats & moving past a \FloatBarrier
 %\usepackage{tikz}
 % \usepackage{pgfplots}
 
@@ -125,54 +125,44 @@ urlcolor=RoyalBlue4}
 \begin{document}
 
 % ----------------------TITLE----------------------- %
-\title{CS 201 - HW 6 Analysis}
+\title{CS 201 - HW 7 Analysis}
 \line
 \leftright{\today}{Matt Dickenson} %-- left and right positions in the header
 \setlength{\parindent}{16pt}
 
-For the benchmarking and empirical analysis described below I ran the code in \texttt{BoggleStats.java} with various combinations of Lexicons and Autoplayers, and at several values of \texttt{NUM\_TRIALS}. All trials were conducted on my 2011 Macbook Pro with an Intel Dual Core processor, with minimal additional applications running in the background. The seed for all trials was set to 12345 to ensure comparability between results. Minimum word length for all trials was set at 3 letters. 
+\section{SimpleHuffProcessor}
 
-\section*{Part A: High Scores}
+Pre- and post-compression file sizes for the Calgary corpus using my \texttt{SimpleHuffProcessor} are displayed in Table \ref{simple-calgary}. The overall compression rate is 63.221 percent.
 
-The autoplayers' high scores for different numbers of simulations are shown in Table \ref{highscores}. The more trials are run, the larger the proportion of potential board layouts that is explored. As the table shows, however, even for some large increases in the search space there is no increase in the maximum score. High scores shown are the same for both the \texttt{LexiconFirst} and \texttt{BoardFirst} autoplayers. In all cases the high score is larger with a $5\times5$ board than with a $4 \times 4$ board because more cominations of letters and longer words are possible.
-
-\begin{table}[ht]
-\begin{center}
-\caption{High Scores for Autoplayers}
-\label{highscores}
-\begin{tabular}{ccc}
-Number of iterations & High score ($4 \times 4$) & High score ($5 \times 5$) \\
-\hline
-1,000 & 889 & 1,301 \\
-10,000 & 889 & 2,120 \\
-50,000 & 1,011 & 2,120 \\
-\hline
+\begin{table}
+\caption{SimpleHuffProcessor on Calgary Corpus}
+\label{simple-calgary}
+\begin{tabular}{lrrr}
+\toprule
+Filename & Start size & End size & Runtime \\
+\midrule
+bib &	 111261 & 73793 & 0.339 \\
+book1 &	 768771 & 243186 & 0.960 \\
+book2 &	 610856 & 369333 & 1.301 \\
+geo &	 102400 & 1043 & 0.009 \\
+news &	 377109 & 247426 & 0.883 \\
+obj1 &	 21504 & 1033 & 0.056 \\
+obj2 &	 246814 & 1032 & 0.008 \\
+paper1 &	 53161 & 34369 & 0.136 \\
+paper2 &	 82199 & 48647 & 0.176 \\
+paper3 &	 46526 & 28307 & 0.127 \\
+paper4 &	 13286 & 8892 & 0.036 \\
+paper5 &	 11954 & 8463 & 0.033 \\
+paper6 &	 38105 & 25055 & 0.094 \\
+pic &	 513216 & 1032 & 0.033 \\
+progc &	 39611 & 26946 & 0.124 \\
+progl &	 71646 & 44015 & 0.171 \\
+progp &	 49379 & 31246 & 0.164 \\
+trans &	 93695 & 2047 & 0.020 \\
+\midrule
+Total & 3251493 & 1195865 & 4.670 \\
+\bottomrule
 \end{tabular}
-\end{center}
 \end{table}
-
-\section*{Part B: Running Times}
-
-Running times for both types of autoplayer with the various lexicon implementations are shown in Figures \ref{lexfirst} and \ref{boardfirst} below. The time required by the \texttt{LexiconFirst} autoplayer seems to be $O(N)$ since increasing the number of trials by a factor of 10 also increases the time required by approximately 10. For this autoplayer the running times of the Simple and the Binary lexicons are almost indistinguishable--Simple is slightly faster for the $4 \times 4$ boards (94.694 versus 94.727 seconds for 1,000 iterations) but Binary is slightly faster for the $5 \times 5$ boards (140.398 versus 141.020 seconds for 1,000 iterations). These times are so close that the lines essentially overlap in Figure \ref{lexfirst}. The Trie implementation is the slowest for this autoplayer. 
-
-I completed the CompressedTrie implementation later and did not have time to run simulations for every board size, but the running time for 1000 iterations with the \texttt{LexiconFirst} autoplayer was 109.178 seconds and 0.934 seconds for the \texttt{BoardFirstAutoPlayer}. 
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics{lexfirst.pdf}
-\end{center}
-\caption{Running times for the LexiconFirst autoplayer}
-\label{lexfirst}
-\end{figure}
-
-The plot of running times for the \texttt{BoardFirst} autoplayer (Figure \ref{boardfirst}) is similar to the one above  but with some notable differences. The Trie structure offers the fastest runtimes with this autoplayer. Next fastest is the Binary lexicon, followed by Simple which is again the slowest lexicon implementation. The Big-Oh complexity for this autoplayer seems to be $O(\log N)$ since increasing the number of iterations ten-fold increases the running time by a factor of 5 (for the Trie structure) to 9 (for the Simple lexicon). 
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics{boardfirst.pdf}
-\end{center}
-\caption{Running times for the BoardFirst autoplayer}
-\label{boardfirst}
-\end{figure}
 
 \end{document}
