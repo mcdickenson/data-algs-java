@@ -1066,3 +1066,13 @@ bfs(vertex):
 
 To better understand how these work, look at the in-class code for Graph. 
 
+## Graphs, Recursive Backtracking, and Priority Queues - 4.17.13
+
+### Announcements 
+Today's class will focus on practice problems:
+1. Write code for recursive backtracking in graphs
+2. Code up Djikstra's algorithm 
+
+
+
+
