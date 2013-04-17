@@ -61,7 +61,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
         int myBitsRead=0; 
         int next = binput.read(); 
         
-        while(next > 0){  	
+        while(next != -1){  	
         	myBitsRead += 8; 
         	if(forest.containsKey(next)){
         		TreeNode node = forest.get(next);
