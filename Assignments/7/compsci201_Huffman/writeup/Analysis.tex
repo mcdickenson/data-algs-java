@@ -203,5 +203,11 @@ Total & 3,251,493 & 1,184,250 & 4.335 \\
 \end{tabular}
 \end{table}
 
+\section{Multiple Compressions}
+
+It is possible to reduce file sizes even further by compressing them with the Huffman coding multiple times. However, the file size reduction seems to stop after the second Huffman coding iteration. For example, the original file size of the Calgary corpus is 3,251,493 bytes. After one iteration, this is reduced by about 63.6 percent to 1,184,250 bytes. The second iteration reduces this further to 558 bytes. However, a third iteration leaves the total file size of the entire corpus at 558 bytes--no further reduction is possible. (Although I was initially inclined to graph these numbers, the widely different orders of magnitude made this infeasible.)\footnote{The comparisons in this section are based on the \texttt{SimpleHuffProcessor}. Using the \texttt{TreeHuffProcessor} would likely make the overall compression ratios even better.}
+
+To see why this is the case, consider a file that is intentionally designed to be compressed. The most basic example of this is a file with repetitions of the same character over and over. One compression of this file would result in a much smaller file with only the magic number, character mapping and a single node. A second compression would be about the same size, since it would still have to contain the magic number and character mapping--after this no more compression is possible.
+
 
 \end{document}
