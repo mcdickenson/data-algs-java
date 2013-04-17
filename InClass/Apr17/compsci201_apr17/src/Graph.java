@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 
 
@@ -16,18 +18,24 @@ public class Graph {
 	}
 
 	public void dijkstra(int start, int end){
-		//TODO create an array of vertices for your graph
-
+		// create an array of vertices for your graph
+		int[] vertices = myGraph[start]; 
 		
-		//TODO create a priority queue that will hold all unvisited vertices
+		// create a priority queue that will hold all unvisited vertices
+		PriorityQueue<GraphVertex> unvisited = new PriorityQueue<GraphVertex>(); 
 
-
-		//TODO initialize all of your graph vertices set the distance to 
+		// initialize all of your graph vertices set the distance to 
 		// 'start' to zero and the distance to all other vertices to infinity
 		// add the GraphVertices to your priority queue and array
-
+		ArrayList<GraphVertex> GraphVertices = new ArrayList<GraphVertex>(); 
+		for(int v: vertices){
+			GraphVertex newV = new GraphVertex(v);
+			GraphVertices.add(newV);
+			unvisited.add(newV); 
+		}
 		
 		//TODO loop through you pq while it has vertices
+//		while(unvisited.size()>0)
 		
 			
 			//TODO get the unvisited vertex that is closest to 'start'
@@ -47,20 +55,29 @@ public class Graph {
 	}
 
 	public class GraphVertex implements Comparable<GraphVertex>{
-		//TODO add your instance variables
+		// instance variables
+		int myName; 
+		double myDistance; 
 
+		// constructor should take the vertex name (an int) and set the distance to infinity
+		public GraphVertex(int name){
+			myName = name;
+			myDistance = Double.POSITIVE_INFINITY; 
+		}
 
-		//TODO create your constructor
-		// Your constructor should take the vertex name (an int) and set the distance to infinity
+		// setter method for distance
+		public void setDistance(double dist){
+			myDistance = dist; 
+		}
 
-		//TODO create a setter method for distance
+		// getter method for the vertex name
+		public int getName(){
+			return myName; 
+		}
 
-		//TODO create a getter method for the vertex name
-
-
-		//TODO fix your compareTo so that it compares the distances of the two verticies
 		public int compareTo(GraphVertex arg0) {
-			return 0;
+			Double diff = myDistance - arg0.myDistance;
+			return diff.intValue();
 		}
 
 	}

@@ -1071,7 +1071,7 @@ To better understand how these work, look at the in-class code for Graph.
 ### Announcements 
 Today's class will focus on practice problems:
 1. Write code for recursive backtracking in graphs
-2. Code up Djikstra's algorithm 
+2. Code up Dijkstra's algorithm 
 
 
 
