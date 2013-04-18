@@ -51,17 +51,17 @@ public class GalaxyTrip {
     	   
     	   Collections.sort(combo);
     	   int[] result = buildIntArray(combo);
-    	   for(int v : result){
-    		   System.out.println(v);
-    	   }
+//    	   for(int v : result){
+//    		   System.out.println(v);
+//    	   }
 
 //    	   int[] result = {1, 2, 3};
     	   return result; 
        }
        
        public ArrayList<Integer> sumArray(int windowSize, int[] sizes, ArrayList<Integer> combo){
-    	   System.out.print("window: ");
-    	   System.out.println(windowSize);
+//    	   System.out.print("window: ");
+//    	   System.out.println(windowSize);
     	   if(windowSize==1){
     		   for(int i=0; i<sizes.length; i++){
     			   int result = sizes[i];
@@ -69,24 +69,31 @@ public class GalaxyTrip {
     				   combo.add(result);
     			   }
     		   }
-    		   System.out.print("size: ");
-    		   System.out.println(combo.size());
+//    		   System.out.print("size: ");
+//    		   System.out.println(combo.size());
     		   return combo;
     	   }
     	   else{
     		   ArrayList<Integer> tmp = sumArray(windowSize-1, sizes, combo);
     		   
     		   int upperlimit = tmp.size();
-    		   for(int i=1; i<upperlimit; i++){
-    			   int v1 = tmp.get(i-1);
-    			   int v2 = tmp.get(i);
-    			   int total = v1+v2;
-    			   if(!tmp.contains(total)){
-    				   tmp.add(total);
-    			   }
+    		   if(upperlimit>1){
+    			   for(int i=1; i<upperlimit; i++){
+        			   int v1 = tmp.get(i-1);
+        			   int v2 = tmp.get(i);
+        			   int total = v1+v2;
+        			   if(!tmp.contains(total)){
+        				   tmp.add(total);
+        			   }
+        		   }
     		   }
-    		   System.out.print("size: ");
-    		   System.out.println(tmp.size());
+    		   else{
+    			   int total = tmp.get(0)*2;
+    			   tmp.add(total);
+    		   }
+    		   
+//    		   System.out.print("size: ");
+//    		   System.out.println(tmp.size());
     		   return tmp;
     	   }
        }
@@ -100,13 +107,13 @@ public class GalaxyTrip {
     	    return ints;
     	}
        
-       public static void main(String[] args){
-    	   GalaxyTrip gt = new GalaxyTrip();
-    	   
-    	   String[] d1 = {"1 2", "0", "0", ""};
-    	   int[] test1 = {1, 3, 4};
-    	   int[] result1 = gt.possibleValues(d1);
-    	   if(test1.length==result1.length){ System.out.println("test 1 passes");}
-    	   else{System.out.println("test 1 fails");}
-       }
+//       public static void main(String[] args){
+//    	   GalaxyTrip gt = new GalaxyTrip();
+//    	   
+//    	   String[] d1 = {"1 2", "0", "0", ""};
+//    	   int[] test1 = {1, 3, 4};
+//    	   int[] result1 = gt.possibleValues(d1);
+//    	   if(test1.length==result1.length){ System.out.println("test 1 passes");}
+//    	   else{System.out.println("test 1 fails");}
+//       }
 }
