@@ -7,6 +7,8 @@ import java.util.HashMap;
 public class GalaxyTrip {
        public int[] possibleValues(String[] dependencies){
     	   
+    	   // TODO: try graphs, path sums over size of machines in network, and backtracking
+    	   
     	   // map visited nodes to their parent (or -1)
     	   HashMap<Integer, Integer> visited = new HashMap<Integer, Integer>();
     	   HashMap<Integer, Integer> graphSizes = new HashMap<Integer, Integer>(); 
