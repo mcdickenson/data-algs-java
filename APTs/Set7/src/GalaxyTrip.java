@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 public class GalaxyTrip {
 	public int[] possibleValues(String[] dependencies){
@@ -38,12 +39,9 @@ public class GalaxyTrip {
  		   sizes[j] = s;
  		   j++;
  	   }
- 	   
-
- 	   
- 	   HashSet<Integer> sums = sumArray(sizes);
- 	   
- 	   
+ 	    
+ 	   TreeSet<Integer> sums = sumArray(sizes);
+ 	  
  	   int[] result = new int[sums.size()];
  	   int i=0;
  	   for(int s: sums){
@@ -55,12 +53,11 @@ public class GalaxyTrip {
  	   return result; 
     }
     
-	public HashSet<Integer> sumArray(int[] sizes){
-		HashSet<Integer> counts = new HashSet<Integer>();
+	public TreeSet<Integer> sumArray(int[] sizes){
+		TreeSet<Integer> counts = new TreeSet<Integer>();
 		
 		// loop through possible windows
 		for(int window=1; window<=sizes.length; window++){
-			
 			// loop through sizes
 			for(int i=0; i<sizes.length-window+1; i++){
 				int thisWindow = 0;
@@ -69,20 +66,18 @@ public class GalaxyTrip {
 				}
 				counts.add(thisWindow);
 			}
-			// add everything in that window size
-			
 		}
 		
 		return counts;
 	}
        
-	public static void main(String[] args){
-		GalaxyTrip gt = new GalaxyTrip();
-
-		String[] d1 = {"1 2", "0", "0", ""};
-		int[] test1 = {1, 3, 4};
-		int[] result1 = gt.possibleValues(d1);
-		if(test1.length==result1.length){ System.out.println("test 1 passes");}
-		else{System.out.println("test 1 fails");}
-	}
+//	public static void main(String[] args){
+//		GalaxyTrip gt = new GalaxyTrip();
+//
+//		String[] d1 = {"1 2", "0", "0", ""};
+//		int[] test1 = {1, 3, 4};
+//		int[] result1 = gt.possibleValues(d1);
+//		if(test1.length==result1.length){ System.out.println("test 1 passes");}
+//		else{System.out.println("test 1 fails");}
+//	}
 }
