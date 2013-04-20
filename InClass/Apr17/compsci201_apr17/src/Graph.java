@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 
 
@@ -19,7 +17,7 @@ public class Graph {
 
 	public void dijkstra(int start, int end){
 		// create an array of vertices for your graph
-		int[] vertices = myGraph[start]; 
+		GraphVertex[] vertices = new GraphVertex[myGraph.length];
 		
 		// create a priority queue that will hold all unvisited vertices
 		PriorityQueue<GraphVertex> unvisited = new PriorityQueue<GraphVertex>(); 
@@ -27,46 +25,56 @@ public class Graph {
 		// initialize all of your graph vertices set the distance to 
 		// 'start' to zero and the distance to all other vertices to infinity
 		// add the GraphVertices to your priority queue and array
-		ArrayList<GraphVertex> GraphVertices = new ArrayList<GraphVertex>(); 
-		for(int v: vertices){
-			GraphVertex newV = new GraphVertex(v);
-			GraphVertices.add(newV);
-			unvisited.add(newV); 
+		for(int i=0; i<myGraph.length; i++){
+			GraphVertex v = new GraphVertex(i);
+			if(i==start){
+				v.setDistance(0);
+			}
+			unvisited.add(v);
+			vertices[i] = v; 
 		}
 		
-		//TODO loop through you pq while it has vertices
-//		while(unvisited.size()>0)
-		
-			
-			//TODO get the unvisited vertex that is closest to 'start'
-			// if this is 'end' you are done!
-			
-			//TODO loop through the adjacent verticies
-			
-				//TODO if an adjacent vertex has not been visited (i.e. still in your priority queue)
-				
-					//calculate the distance to the adjacent vertex through the current vertex
+		// loop through unvisited while it has vertices
+		while(!unvisited.isEmpty()){
+			GraphVertex current = unvisited.poll(); //get the unvisited vertex that is closest to 'start'
+			int name = current.getName();
+			if(name==end){ break; } // if this is 'end' you are done!
+			for(int i=0; i<myGraph.length; i++){ // loop through the adjacent vertices
+				int distance = myGraph[name][i];
+				if(unvisited.contains(vertices[i])){ //if an adjacent vertex has not been visited 
+					if(distance>0){ // current and i are neighbors
+						//calculate the distance to the adjacent vertex through the current vertex
+						int curDist = vertices[i].myDistance;
+						int possibleDist = vertices[name].myDistance;
+						//update if this distance is shorter then the current distance to that vertex
+						if(possibleDist < curDist){
+							vertices[i].setDistance(possibleDist);
+							unvisited.remove(vertices[i]);
+							unvisited.add(vertices[i]);
+						}
+					}
+				}
+
+			}
+		}
 					
-					//update if this distance is shorter then the current distance to that vertex
-					//NOTE: any time you update a vertex you must remove and then add it back to 
-					// your priority queue
-					
-		//TODO print out the total distance from 'start' to 'end'
+		// print out the total distance from 'start' to 'end'
+		System.out.printf("The shortest distance from %d to %d is %d", start, end, vertices[end].myDistance);
 	}
 
 	public class GraphVertex implements Comparable<GraphVertex>{
 		// instance variables
 		int myName; 
-		double myDistance; 
+		int myDistance; 
 
 		// constructor should take the vertex name (an int) and set the distance to infinity
 		public GraphVertex(int name){
 			myName = name;
-			myDistance = Double.POSITIVE_INFINITY; 
+			myDistance = Integer.MAX_VALUE; 
 		}
 
 		// setter method for distance
-		public void setDistance(double dist){
+		public void setDistance(int dist){
 			myDistance = dist; 
 		}
 
@@ -76,8 +84,7 @@ public class Graph {
 		}
 
 		public int compareTo(GraphVertex arg0) {
-			Double diff = myDistance - arg0.myDistance;
-			return diff.intValue();
+			return myDistance - arg0.myDistance;
 		}
 
 	}
