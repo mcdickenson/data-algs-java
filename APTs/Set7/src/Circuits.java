@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 public class Circuits {
 	
@@ -16,18 +15,14 @@ public class Circuits {
 			}
 		}
 		
-//		int[] longestPaths = new int[connects.length];
-//		
-//		
-//		for(int i=0; i<connects.length; i++){
-//			ArrayList<Integer> visited = new ArrayList<Integer>();
-//			longestPaths[i] = longestFromMe(myGraph, i, 0, visited); 
-//		}
 		
-		ArrayList<Integer> visited = new ArrayList<Integer>();
-		return longestFromMe(myGraph, 0, 0, visited);
+		int[] longestPaths = new int[connects.length];
+		for(int i=0; i<connects.length; i++){
+			ArrayList<Integer> visited = new ArrayList<Integer>();
+			longestPaths[i] = longestFromMe(myGraph, i, 0, visited);
+		}
 		
-//		return rowMax(longestPaths);
+		return rowMax(longestPaths);
 	}
 	
 	public int longestFromMe(int[][] graph, int start, int pathLength, ArrayList<Integer> visited){
@@ -45,7 +40,10 @@ public class Circuits {
 				}
 				
 			}
-			return rowMax(maxPaths);
+			pathLength += rowMax(maxPaths);
+//			+row[maxCol(maxPaths)];
+			
+			return pathLength; 
 		}
 		
 		
@@ -70,13 +68,14 @@ public class Circuits {
 	}
 	
 	
-	public static void main(String[] args){
-		String[] dependencies = {"1 2", "2", ""};
-		String[] weights = {"5 3", "7", ""};
-		
-		Circuits c = new Circuits();
-		int result1 = c.howLong(dependencies, weights); 
-		System.out.printf("Expected 12, got %d", result1);
-	}
+//	public static void main(String[] args){
+//		String[] dependencies = {"1 2", "2", ""};
+//		String[] weights = {"5 3", "7", ""};
+//		
+//		Circuits c = new Circuits();
+//		int result1 = c.howLong(dependencies, weights); 
+//		System.out.printf("Expected 12, got %d", result1);
+//		
+//	}
 	
 }
