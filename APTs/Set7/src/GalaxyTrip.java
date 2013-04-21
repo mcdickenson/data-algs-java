@@ -18,31 +18,27 @@ public class GalaxyTrip {
 		// TODO: turn g into a list/map of sizes
  	   
  	   // map visited nodes to their parent (or -1)
- 	   HashMap<Integer, Integer> visited = new HashMap<Integer, Integer>();
- 	   HashMap<Integer, Integer> graphSizes = new HashMap<Integer, Integer>(); 
+ 	   HashMap<String, String> visited = new HashMap<String, String>();
+ 	   // map parents to the size of their graph
+ 	   HashMap<String, Integer> graphSizes = new HashMap<String, Integer>();
  	   
- 	   for(int current=0; current<dependencies.length; current++){
- 		   String nodesConnected = dependencies[current];
- 		   
- 		   // visit all connections and map this node to size of its graph
- 		   if(!visited.containsKey(current)){
- 			   int numConnections = 1;
- 			   
- 			   for(int j=0; j<nodesConnected.length(); j++){
- 				   String connection = nodesConnected.substring(j, j+1);
- 				   if(!connection.equals(" ")){
- 					   int node = Integer.parseInt(connection);
- 					   visited.put(node, current);
- 					   numConnections++;
- 				   }
- 			   }
- 			   graphSizes.put(current, numConnections);
- 		   }
- 	   }
+ 	  for(String k : g.keySet()){
+			List<String> neighbors = g.get(k);
+//			System.out.println(s);
+			if(!visited.containsKey(k)){
+				int numConnections = 1;
+				for(String n: neighbors){
+					visited.put(n, k);
+					numConnections++;
+				}
+				graphSizes.put(k, numConnections);
+			}
+
+		}
  	   
  	   int[] sizes = new int[graphSizes.keySet().size()];
  	   int j=0;
- 	   for(int key : graphSizes.keySet()){
+ 	   for(String key : graphSizes.keySet()){
  		   int s = graphSizes.get(key);
 // 		   System.out.println(s);
  		   sizes[j] = s;
@@ -73,7 +69,10 @@ public class GalaxyTrip {
 				String sv = "" + vertex;
 				vertex++;
 				List<String> list = new ArrayList<String>();	
-				if (s.equals("")) continue;           // no vertices, don't parse
+				if (s.equals("")){ // singleton
+					myGraph.put(sv, list);
+					continue;
+				}
 				String[] a = s.split(" ");
 
 				for (String nextv : a){
