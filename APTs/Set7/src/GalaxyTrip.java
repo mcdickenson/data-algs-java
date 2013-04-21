@@ -1,9 +1,4 @@
-import java.util.ArrayList;
-//import java.util.BitSet;
-//import java.util.BitSet.*;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeSet;
 
 public class GalaxyTrip {
@@ -71,13 +66,19 @@ public class GalaxyTrip {
 		return counts;
 	}
        
-//	public static void main(String[] args){
-//		GalaxyTrip gt = new GalaxyTrip();
-//
-//		String[] d1 = {"1 2", "0", "0", ""};
-//		int[] test1 = {1, 3, 4};
-//		int[] result1 = gt.possibleValues(d1);
-//		if(test1.length==result1.length){ System.out.println("test 1 passes");}
-//		else{System.out.println("test 1 fails");}
-//	}
+	public static void main(String[] args){
+		GalaxyTrip gt = new GalaxyTrip();
+
+		String[] d1 = {"1 2", "0", "0", ""};
+		int[] test1 = {1, 3, 4};
+		int[] result1 = gt.possibleValues(d1);
+		if(test1.length==result1.length){ System.out.println("test 1 passes");}
+		else{System.out.println("test 1 fails");}
+		
+		String[] d2 = {"7", "10 4", "4", "6 8", "2 1", "10 9", "3", "0", "11 3", "12 5", "1 5", "8", "9 13", "12"};
+		int[] test2 = {2, 4, 6, 8, 10, 12, 14};
+		int[] result2 = gt.possibleValues(d2);
+		if(test2.length==result2.length){ System.out.println("test 2 passes");}
+		else{System.out.println("test 2 fails");}
+	}
 }
