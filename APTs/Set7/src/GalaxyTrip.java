@@ -1,8 +1,21 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class GalaxyTrip {
 	public int[] possibleValues(String[] dependencies){
+		Graph graph = new Graph(dependencies);
+		TreeMap<String, List<String>> g = graph.myGraph; 
+		for(String k : g.keySet()){
+			System.out.print(k + " ");
+			List<String> s = g.get(k);
+			System.out.println(s);
+//			System.out.println(s.size());
+		}
+		
+		// TODO: turn g into a list/map of sizes
  	   
  	   // map visited nodes to their parent (or -1)
  	   HashMap<Integer, Integer> visited = new HashMap<Integer, Integer>();
@@ -31,6 +44,7 @@ public class GalaxyTrip {
  	   int j=0;
  	   for(int key : graphSizes.keySet()){
  		   int s = graphSizes.get(key);
+// 		   System.out.println(s);
  		   sizes[j] = s;
  		   j++;
  	   }
@@ -47,6 +61,30 @@ public class GalaxyTrip {
  	   
  	   return result; 
     }
+	
+	
+	public class Graph{	
+		TreeMap<String, List<String>> myGraph = new TreeMap<String, List<String>>();
+		
+		public Graph(String[] dependencies){
+			int vertex = 0;
+			for(String s : dependencies)
+			{
+				String sv = "" + vertex;
+				vertex++;
+				List<String> list = new ArrayList<String>();	
+				if (s.equals("")) continue;           // no vertices, don't parse
+				String[] a = s.split(" ");
+
+				for (String nextv : a){
+					list.add(nextv);
+				}
+
+				myGraph.put(sv, list);
+			}
+		}
+		
+	}
     
 	public TreeSet<Integer> sumArray(int[] sizes){
 		TreeSet<Integer> counts = new TreeSet<Integer>();
