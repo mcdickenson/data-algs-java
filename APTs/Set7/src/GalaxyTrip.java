@@ -65,12 +65,13 @@ public class GalaxyTrip {
 					sizes.put(n, 0);
 				}
 				else{
-					sizes.put(n, 1);
-					recursiveSum(n, g, sizes);
-//					sizes.put(n, 0);
-//					neighborCount += 1;
-					neighborCount += sizes.get(n);
-					sizes.put(n, 0);
+					
+					// do something to sizes
+					// add n to sizes
+					
+					// do something to neighborCount
+
+
 				}
 				
 			}
@@ -129,6 +130,11 @@ public class GalaxyTrip {
 //		String[] d1 = {"1 2", "0", "0", ""};
 //		int[] test1 = {1, 3, 4};
 //		int[] result1 = gt.possibleValues(d1);
+////		for(int r:result1){
+////			System.out.print(r);
+////			System.out.print(",");
+////		}
+////		System.out.println();
 //		if(test1.length==result1.length){ System.out.println("test 1 passes");}
 //		else{System.out.println("test 1 fails");}
 //		
@@ -137,5 +143,10 @@ public class GalaxyTrip {
 //		int[] result2 = gt.possibleValues(d2);
 //		if(test2.length==result2.length){ System.out.println("test 2 passes");}
 //		else{System.out.println("test 2 fails");}
+//		for(int r:result2){
+//			System.out.print(r);
+//			System.out.print(",");
+//		}
+//		System.out.println();
 //	}
 }
