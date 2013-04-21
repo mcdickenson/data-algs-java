@@ -12,8 +12,7 @@ public class GalaxyTrip {
 //			System.out.print(k+" ");
 //			System.out.println(g.get(k));
 //		}
-
-//		// turn g into a list/map of sizes 	   		
+   		
 		HashMap<String, Integer> graphSizes = sumSizes(g);
 
 		int[] sizes = new int[graphSizes.keySet().size()];
@@ -28,7 +27,7 @@ public class GalaxyTrip {
 
 		TreeSet<Integer> sums = sumArray(sizes);
 
-		int[] result = new int[sums.size()-1];
+		int[] result = new int[sums.size()];
 		int i=0;
 		for(int s: sums){
 			if(s>0){
@@ -47,6 +46,8 @@ public class GalaxyTrip {
 		
 		for(String key: g.keySet()){
 			graphSizes = recursiveSum(key, g, graphSizes);
+//			System.out.print("key "+key+" ");
+//			System.out.println(graphSizes.size());
 		}
 
 		return graphSizes;
@@ -60,20 +61,20 @@ public class GalaxyTrip {
 			int neighborCount = 1;
 			List<String> neighbors = g.get(k);
 			for(String n: neighbors){
+//				System.out.println(n);
 				if(sizes.containsKey(n)){
 					neighborCount += sizes.get(n);
 					sizes.put(n, 0);
 				}
 				else{
-					
-					// do something to sizes
+//					sizes.put(k, 0);
+//					sizes = recursiveSum(n, g, sizes);
 					// add n to sizes
-					
 					// do something to neighborCount
-
-
+//					sizes.put(n, 0);
+//					neighborCount += 1;
+//					neighborCount += g.get(n).size();
 				}
-				
 			}
 			sizes.put(k, neighborCount);
 			return sizes; 
@@ -117,7 +118,7 @@ public class GalaxyTrip {
 				for(int j=i; j<i+window; j++){
 					thisWindow += sizes[j];
 				}
-				counts.add(thisWindow);
+				if(thisWindow>0){ counts.add(thisWindow); }
 			}
 		}
 		
@@ -130,11 +131,11 @@ public class GalaxyTrip {
 //		String[] d1 = {"1 2", "0", "0", ""};
 //		int[] test1 = {1, 3, 4};
 //		int[] result1 = gt.possibleValues(d1);
-////		for(int r:result1){
-////			System.out.print(r);
-////			System.out.print(",");
-////		}
-////		System.out.println();
+//		for(int r:result1){
+//			System.out.print(r);
+//			System.out.print(",");
+//		}
+//		System.out.println();
 //		if(test1.length==result1.length){ System.out.println("test 1 passes");}
 //		else{System.out.println("test 1 fails");}
 //		
