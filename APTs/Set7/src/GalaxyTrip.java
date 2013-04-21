@@ -41,7 +41,6 @@ public class GalaxyTrip {
     }
 	
 	public HashMap<String, Integer> sumSizes(TreeMap<String, List<String>> g){
-//		HashMap<String, String> visited = new HashMap<String, String>();
 		HashMap<String, Integer> graphSizes = new HashMap<String, Integer>();
 		
 		for(String key: g.keySet()){
@@ -67,13 +66,6 @@ public class GalaxyTrip {
 					sizes.put(n, 0);
 				}
 				else{
-//					sizes.put(k, 0);
-//					sizes = recursiveSum(n, g, sizes);
-					// add n to sizes
-					// do something to neighborCount
-//					sizes.put(n, 0);
-//					neighborCount += 1;
-//					neighborCount += g.get(n).size();
 				}
 			}
 			sizes.put(k, neighborCount);
