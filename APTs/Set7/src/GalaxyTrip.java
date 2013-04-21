@@ -9,8 +9,8 @@ public class GalaxyTrip {
 		Graph graph = new Graph(dependencies);
 		TreeMap<String, List<String>> g = graph.myGraph; 
 //		for(String k: g.keySet()){
-////			System.out.print(k+" ");
-////			System.out.println(g.get(k));
+//			System.out.print(k+" ");
+//			System.out.println(g.get(k));
 //		}
 
 //		// turn g into a list/map of sizes 	   		
@@ -65,8 +65,12 @@ public class GalaxyTrip {
 					sizes.put(n, 0);
 				}
 				else{
+					sizes.put(n, 1);
+					recursiveSum(n, g, sizes);
+//					sizes.put(n, 0);
+//					neighborCount += 1;
+					neighborCount += sizes.get(n);
 					sizes.put(n, 0);
-					neighborCount += 1;
 				}
 				
 			}
