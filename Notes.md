@@ -1073,6 +1073,89 @@ Today's class will focus on practice problems:
 1. Write code for recursive backtracking in graphs
 2. Code up Dijkstra's algorithm 
 
+## Final exam review
 
+Things I need to review:
 
+- recurrence relations
+- Graphs & graph searches
+- Trees & tree traversals 
+- FloodFill-type algorithms 
+- sorting algorithms (merge, quick, radix)
+- Hash code (what it is, how to calculate your own, the benefits of using a HashSet: no duplicates, put and get in constant time)
+- - What's a poor hash function? maps different objects to same location (slow)--we want O(1) lookup. Worst case is O(N)
+- - TreeSet: put=O(log N), get=O(log N) (slower than HashSet, but nice because it's sorted)
+- review class notes, text book (has chapter questions), and recitations
+
+Things to know for the final:
+
+- May 3 (Friday), 7-10pm; shouldn't take full 3 hrs 
+- comprehensive over entire semester
+- 1st half multiple choice (eg what's the output of this code?)
+- 2nd half like previous midterms 
+- there will be a "cheat sheet" posted online soon 
+- no practice finals online--look at practice midterms instead (especially for graph and recurrence relation questions)
+- focus on assignments with an **analysis** portion
+
+Things to not worry about:
+
+- memoization 
+- runtimes for graph searches
+- Dijkstra's algorithm 
+- Hangman
+
+## Recurrence relations
+
+Main idea: how to find the Big-Oh notation of a recursive function
+
+Example 1: `BSTcontainsValue`
+
+1. start with your base case, T(1)=1 (virtually always)
+2. input of size N--constants sum to 1, be careful if you're calling other functions: your T notation only accounts for the *recursive* function, not others you might call (eg `size`, `length`); T(N)=1 + T(N/2) (if balanced) or T(N)=1 + T(N-1) (if not balanced)
+
+Notice that we could have had multiple recurrence calls, such as if we visited both left and right nodes.
+
+For the final, we won't have to solve these (the how to go from T() to O() part). We should be able to write it and look it up. (We'll get a table like the one on slide 10 from April 1.)
+
+Example 2: `height(TreeNode node)`
+(assume tree is balanced)
+
+1. base case: T(1)=1
+2. recursion: T(N)=1 + T(N/2) + T(N/2) = O(N)
+
+(Notice that if it were unbalanced T(N)=1+T(N-1), which also reduces to O(N). Logically this makes sense, because you have to visit every node in the tree to find the longest path.)
+
+## Graphs and Dijkstra's algorithm
+
+- **no need** to memorize Dijkstra's algorithm
+- how to do **DFS** and **BFS** given a drawing of a graph
+
+Breadth-first search (BFS):
+
+0. uses a queue
+1. add current vertex to queue
+2. while the queue is not empty:
+3. - remove first item in queue
+4. - put all adjacent nodes on queue unless they have already been visited
+
+Depth-first search (DFS):
+
+0. recursive
+1. visit a node
+2. recursively visit all of its neighbors
+
+Other graph things:
+
+If given code, be able to fill in areas specified by comments. The main difference between graphs and trees is that for a graph you visit neighbors instead of children. 
+
+### Run times of various data structures
+
+- Array: add=O(1), remove=O(n), get=O(1), searching=O(n) (unless sorted, then O(log N))
+- LinkedList: add=O(n), searching=O(n)
+- HashMap: get=O(1), put=O(1)
+- TreeSet: get=O(log N), put=O(log N)
+- BSTree: get=O(log N)
+- Heaps/priorityQueue: get=O(1), put=O(1), reheapify=O(log N), find=O(N) (if not min)
+
+Sorting algorithms: O(N log N), but sorting saves us time on other things
 

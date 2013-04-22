@@ -88,11 +88,12 @@ public class Graph {
 		}
 
 	}
-
+	
 	public static void main(String[] args){
 		String[] dependencies = {"1 2 3", "0 4 5", "0 6", "0 5", "1", "1 3", "2"};
 		String[] weights = {"3 6 2", "3 4 6", "6 4", "2 5", "4", "6 5", "4"};
 		Graph dijkstra = new Graph(dependencies, weights);
 		dijkstra.dijkstra(2, 5);
 	}
+
 }
