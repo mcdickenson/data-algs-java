@@ -1125,7 +1125,7 @@ Example 2: `height(TreeNode node)`
 
 (Notice that if it were unbalanced T(N)=1+T(N-1), which also reduces to O(N). Logically this makes sense, because you have to visit every node in the tree to find the longest path.)
 
-## Graphs and Dijkstra's algorithm
+## Graphs
 
 - **no need** to memorize Dijkstra's algorithm
 - how to do **DFS** and **BFS** given a drawing of a graph
@@ -1147,6 +1147,13 @@ Depth-first search (DFS):
 Other graph things:
 
 If given code, be able to fill in areas specified by comments. The main difference between graphs and trees is that for a graph you visit neighbors instead of children. 
+
+### Hash code
+
+1. Store arbitrary `int` called `hash` (7)
+2. For each significant variable of your object, compute a `var_code` (cast to an `int`, `null` should have a `var_code` of zero)
+3. Combine each `var_code` with `hash`: `hash = 31*hash+var_code`
+4. Make sure it's consistent across objects 
 
 ### Run times of various data structures
 
